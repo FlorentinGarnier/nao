@@ -1,0 +1,26 @@
+/**
+ * glyphicon inside text field
+ */
+
+/* absolute position */
+.gsquad-inner-glyph{
+    position: relative;
+}
+
+/* style glyph */
+.gsquad-inner-glyph .glyphicon{
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+/* align glyph */
+
+.gsquad-left-glyph .glyphicon{
+    left: 0px;
+}
+
+/* add padding */
+.gsquad-left-glyph input{
+    padding-left: 30px;
+}
