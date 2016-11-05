@@ -1,10 +1,11 @@
 {
-    "name": "aigie/nao",
+    "name": "gsquad/nao",
+    "description": "OC Projet 4 - Nos Amis les Oiseaux",
     "license": "proprietary",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "Gsquad\\": "src/Gsquad/"
         },
         "classmap": [
             "app/AppKernel.php",

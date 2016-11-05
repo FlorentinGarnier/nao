@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace Gsquad\AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
