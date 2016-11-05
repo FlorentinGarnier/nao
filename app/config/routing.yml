@@ -2,5 +2,11 @@ app:
     resource: "@GsquadCoreBundle/Controller/"
     type:     annotation
 
+mentions_legales:
+    path: /mentions-legales
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/mentions_legales.html.twig
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
