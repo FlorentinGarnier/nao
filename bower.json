@@ -1,0 +1,27 @@
+{
+  "name": "nos_amis_les_oiseaux",
+  "authors": [
+    "florentin garnier <garnier.florentin@gmail.com>",
+    "Aurore Gaucher",
+    "Léonard Perronet",
+    "Aurore Gras",
+    "Romain Gautier"
+  ],
+  "description": "Application for make bird observation with geolocalisation",
+  "main": "",
+  "license": "MIT",
+  "homepage": "web/app.php",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/",
+    "test",
+    "tests",
+    "web/assets"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery-ui": "^1.12.0"
+  }
+}
