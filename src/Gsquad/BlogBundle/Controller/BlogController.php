@@ -15,8 +15,11 @@ class BlogController extends Controller
         return $this->render('blog/index.html.twig');
     }
 
-    public function singleAnction()
+    /**
+     * @Route("blog/{}")//TODO à compléter
+     */
+    public function singleAction()
     {
-
+        return $this->render('blog/single.html.twig');
     }
 }

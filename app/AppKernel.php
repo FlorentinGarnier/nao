@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Gsquad\CoreBundle\GsquadCoreBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
             new Gsquad\BlogBundle\GsquadBlogBundle(),
+            new \Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
