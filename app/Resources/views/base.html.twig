@@ -25,7 +25,13 @@
     {% include 'navbar/index.html.twig' %}
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
 
 {% block footer %}
     {% include 'footer/index.html.twig' %}
