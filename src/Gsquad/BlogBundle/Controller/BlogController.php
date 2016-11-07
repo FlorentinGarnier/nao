@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class BlogController extends Controller
 {
     /**
-     * @Route("/blog")
+     * @Route("/", name="blog")
      */
     public function indexAction()
     {
@@ -16,7 +16,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("blog/{}")//TODO à compléter
+     * @Route("blog/{slug}")//TODO à compléter
      */
     public function singleAction()
     {
