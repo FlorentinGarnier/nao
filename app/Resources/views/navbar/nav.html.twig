@@ -1,8 +1,16 @@
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="#">Notre association</a></li>
+    <li>{% if is_granted("ROLE_ADMIN") %}
+            <a href="#">Éspace administrateur</a>
+        {% elseif is_granted("ROLE_CHERCHEUR") %}
+            <a href="#">Administrer les observations</a>
+        {% else %}
+            <a href="#">Notre association</a>
+        {% endif %}
+    </li>
     <li><a href="#">Blog</a></li>
     <li><a href="#">Foire aux questions</a></li>
-    <li>{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <li>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('fos_user_security_logout') }}">
                 {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
             </a>
