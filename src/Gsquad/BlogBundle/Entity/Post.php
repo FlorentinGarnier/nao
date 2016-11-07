@@ -71,6 +71,13 @@ class Post
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+
+    private $category;
+
     public function __construct()
     {
         $this->creationDate = new \DateTime();
@@ -262,5 +269,29 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \Gsquad\BlogBundle\Entity\Category $category
+     *
+     * @return Post
+     */
+    public function setCategory(\Gsquad\BlogBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Gsquad\BlogBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
