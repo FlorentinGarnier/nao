@@ -2,26 +2,22 @@
 
 namespace Gsquad\BlogBundle\Form\Type;
 
-use Gsquad\BlogBundle\Form\Type\CategoryType;
-use Gsquad\BlogBundle\Form\Type\TagType;
-use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PostType extends AbstractType
+class CategoryType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('title', TextType::class)
-            ->add('content', CKEditorType::class)
-            ->add('tags', TagType::class)
-            ->add('category', CategoryType::class)
+        $builder->add('name', ChoiceType::class, array(
+            'class' => 'Gsquad\BlogBundle\Entity\Category'
+        ))
         ;
     }
     
@@ -31,7 +27,7 @@ class PostType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Gsquad\BlogBundle\Entity\Post'
+            'data_class' => 'Gsquad\BlogBundle\Entity\Category'
         ));
     }
 
@@ -40,7 +36,7 @@ class PostType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'gsquad_blogbundle_post';
+        return 'gsquad_blogbundle_category';
     }
 
 

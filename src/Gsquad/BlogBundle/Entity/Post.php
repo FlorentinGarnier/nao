@@ -72,7 +72,7 @@ class Post
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
 
@@ -81,6 +81,8 @@ class Post
     public function __construct()
     {
         $this->creationDate = new \DateTime();
+        $this->author = 'moi'; //TODO Faire en sorte que l'utilisateur soit l'auteur
+        $this->slug = 'article-test'; //TODO voir avec le mark pour les liens
     }
 
     /**

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <ul>
+            {% for category in categories %}
+                <li><a href="" title="">{{ category.name }}</a></li>
+            {% endfor %}
+                <li><a href="" title="">Créer un nouveau post</a></li>
+        </ul>
+    </div>
+    <section>
+        {% for post in posts %}
+            <article>
+                <h1>{{ post.title }}</h1>
+                <div>{{ post.content }}</div>
+                Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
+            </article>
+        {% endfor %}
+    </section>
+
+{% endblock %}
