@@ -13,7 +13,13 @@ use Gsquad\BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * Class AdminBlogController
+ * @package Gsquad\BlogBundle\Controller
+ * @Security("has_role('ROLE_CHERCHEUR')")
+ */
 class AdminBlogController extends Controller
 {
     /**

@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav navbar-right">
     <li>{% if is_granted("ROLE_ADMIN") %}
-            <a href="#">Éspace administrateur</a>
+            <a href="#">Espace administrateur</a>
         {% elseif is_granted("ROLE_CHERCHEUR") %}
             <a href="#">Administrer les observations</a>
         {% else %}
@@ -12,7 +12,7 @@
     {% else %}
     <li><a href="{{ path('fos_user_registration_register') }}">Créer un compte</a></li>
     {% endif %}
-    <li><a href="#">Blog</a></li>
+    <li><a href="{{ path('blog') }}">Blog</a></li>
     <li>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('fos_user_security_logout') }}">
