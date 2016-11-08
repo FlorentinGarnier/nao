@@ -3,5 +3,18 @@
 
 
 {% block body %}
-    <h1>Page de recherche</h1>
+    <p>Quelle espèce d'oiseau recherchez vous ?</p>
+    <div>
+        <input type="text" id="myTextField" />
+    <div id="match"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>
+    <script>
+        var loader = "{{ asset('bundles/gsquadpiaf/image/loader.gif') }}"; //link to the animated loader-small.gif
+    </script>
 {% endblock %}
