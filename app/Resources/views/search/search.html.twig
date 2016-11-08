@@ -4,10 +4,30 @@
 
 {% block body %}
     <p>Quelle espèce d'oiseau recherchez vous ?</p>
-    <div>
-        <input type="text" id="myTextField" />
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_errors(form.name) }}
+    {{ form_label(form.name, "Espèce recherchée : ") }}
+    {{ form_widget(form.name) }}
     <div id="match"></div>
-    </div>
+
+    {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
+    {{ form_end(form) }}
+
+    {% if list_piafs %}
+        <div>
+            {% for piaf in list_piafs %}
+                <div>
+                    <p>{{ piaf.name }}</p>
+                    <p>{{ piaf.nameVern }}</p>
+                    <p>{{ piaf.ordre }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
 {% endblock %}
 
 {% block javascripts %}

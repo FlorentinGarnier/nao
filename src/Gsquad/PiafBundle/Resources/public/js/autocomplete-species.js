@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $("#myTextField").on('keyup', function() { // everytime keyup event
+    $("#form_name").on('keyup', function() { // everytime keyup event
         var input = $(this).val(); // We take the input value
         if ( input.length >= 2 ) { // Minimum characters = 2 (you can change)
             $('#match').html('<img src="' + window.loader + '" />'); // Loader icon apprears in the <div id="match"></div>
@@ -9,11 +9,11 @@ $(document).ready(function(){
                 url: "ajax/autocomplete/update/data", // call the php file ajax/tuto-autocomplete.php (check the routine we defined)
                 data: data, // Send dataFields var
                 dataType: 'json', // json method
-                timeout: 3000,
+                timeout: 5000,
                 success: function(response){ // If success
                     $('#match').html(response.speciesList); // Return data (UL list) and insert it in the <div id="match"></div>
                     $('#matchList li').on('click', function() { // When click on an element in the list
-                        $('#myTextField').val($(this).text()); // Update the field with the new element
+                        $('#form_name').val($(this).text()); // Update the field with the new element
                         $('#match').text(''); // Clear the <div id="match"></div>
                     });
                 },

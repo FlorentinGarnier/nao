@@ -5,8 +5,11 @@ namespace Gsquad\PiafBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Gsquad\PiafBundle\Entity\Piaf;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PiafController extends Controller
 {
@@ -15,8 +18,82 @@ class PiafController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $piaf = new Piaf();
+        $listPiafs = [];
+
+        $form = $this->createFormBuilder($piaf)
+            ->add('name', TextType::class)
+            ->add('search', SubmitType::class, array('label' => 'Lancer la recherche'))
+            ->getForm();
+
+        if($form->handleRequest($request)->isValid())
+        {
+            $name = $form["name"]->getData();
+            $listPiafs = [];
+
+            $em = $this->getDoctrine()->getManager();
+
+            $connection = $em->getConnection();
+
+
+            $results = $connection->fetchAll(
+                "SELECT * FROM taxref WHERE NOM_VERN = '".$name."'"
+            );
+
+            foreach ($results as $result) {
+                $habitat = $result['HABITAT'];
+
+                switch($habitat) {
+                    case 1:
+                        $habitat = "Marin";
+                        break;
+                    case 2:
+                        $habitat = "Eau douce";
+                        break;
+                    case 3:
+                        $habitat = "Terrestre";
+                        break;
+                    case 4:
+                        $habitat = "Marin & Eau douce";
+                        break;
+                    case 5:
+                        $habitat = "Marin & Terrestre";
+                        break;
+                    case 6:
+                        $habitat = "Eau saumâtre";
+                        break;
+                    case 7:
+                        $habitat = "Continental (Terrestre et/ou eau douce)";
+                        break;
+                    case 8:
+                        $habitat = "Continental (Terrestre et eau douce)";
+                        break;
+                    default:
+                        $habitat = "Inconnu";
+                }
+
+                $piaf = new Piaf();
+                $piaf->setName($result['NOM_VERN']);
+                $piaf->setFamily($result['FAMILLE']);
+                $piaf->setHabitat($habitat);
+                $piaf->setNameVernEng($result['NOM_VERN_ENG']);
+                $piaf->setNameVern($result['NOM_VERN']);
+                $piaf->setOrdre($result['ORDRE']);
+
+                $listPiafs[] = $piaf;
+            }
+
+            return $this->render('search/search.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'form' => $form->createView(),
+                'list_piafs' => $listPiafs,
+            ]);
+        }
+
         return $this->render('search/search.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'form' => $form->createView(),
+            'list_piafs' => $listPiafs,
         ]);
     }
 
@@ -36,7 +113,6 @@ class PiafController extends Controller
             'SELECT NOM_VERN FROM taxref'
         );
 
-        //$results = ['abricot','abri','abruti','boudin'];
         $temp = [];
 
         $speciesList = '<ul id="matchList">';
