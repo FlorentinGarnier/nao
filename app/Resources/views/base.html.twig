@@ -8,9 +8,9 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     {% block stylesheets %}
-    <!-- Bootstrap -->
-    <link href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     {% endblock %}
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,13 +25,23 @@
     {% include 'navbar/index.html.twig' %}
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-offset-10">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</div>
+        </div>
+    </div>
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
 
 {% block footer %}
     {% include 'footer/index.html.twig' %}
 {% endblock %}
 
-{% block javascripts %}<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    {% block javascripts %}<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('assets/jquery/dist/jquery.min.js') }}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('assets/bootstrap/dist/js/bootstrap.min.js') }}"></script>

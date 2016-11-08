@@ -6,7 +6,7 @@
  * Time: 18:40
  */
 
-namespace GsquadUserBundle\Entity;
+namespace Gsquad\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
