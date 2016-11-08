@@ -7,8 +7,8 @@
             <a href="#">Notre association</a>
         {% endif %}
     </li>
+    <li><a href="#">Saisir une observation</a></li>
     <li><a href="#">Blog</a></li>
-    <li><a href="#">Foire aux questions</a></li>
     <li>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('fos_user_security_logout') }}">
