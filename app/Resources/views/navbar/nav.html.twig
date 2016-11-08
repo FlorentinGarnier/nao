@@ -7,7 +7,11 @@
             <a href="#">Notre association</a>
         {% endif %}
     </li>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
     <li><a href="#">Saisir une observation</a></li>
+    {% else %}
+    <li><a href="{{ path('fos_user_registration_register') }}">Créer un compte</a></li>
+    {% endif %}
     <li><a href="#">Blog</a></li>
     <li>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
