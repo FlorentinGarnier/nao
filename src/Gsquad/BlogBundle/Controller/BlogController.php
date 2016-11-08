@@ -2,10 +2,8 @@
 
 namespace Gsquad\BlogBundle\Controller;
 
-use Gsquad\BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 class BlogController extends Controller
 {
