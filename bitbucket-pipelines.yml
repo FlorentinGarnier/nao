@@ -3,14 +3,15 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: phpmentors/php-app
+image: phpunit/phpunit:5.0.3
 
 pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - cp app/config/parameters.yml.dist app/config/parameters.yml
-          - composer install
-          - php bin/console doctrine:database:create --env=test
-          - php bin/console doctrine:schema:create --env=test
-          - php bin/console doctrine:fixtures:load -n --env=test
+#          - cp app/config/parameters.yml.dist app/config/parameters.yml
+#          - composer install
+#          - php bin/console doctrine:database:create --env=test
+#          - php bin/console doctrine:schema:create --env=test
+#          - php bin/console doctrine:fixtures:load -n --env=test
+           - echo "Dummy"
