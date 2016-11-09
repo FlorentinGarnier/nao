@@ -9,4 +9,8 @@ pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
+          - cp app/config/parameters.yml.dist app/config/parameters.yml
           - composer install
+          - php bin/console doctrine:database:create --env=test
+          - php bin/console doctrine:schema:create --env=test
+          - php bin/console doctrine:fixtures:load -n --env=test
