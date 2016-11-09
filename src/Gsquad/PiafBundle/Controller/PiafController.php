@@ -2,6 +2,7 @@
 
 namespace Gsquad\PiafBundle\Controller;
 
+use Gsquad\PiafBundle\Entity\Observation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Gsquad\PiafBundle\Entity\Piaf;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PiafController extends Controller
@@ -18,113 +20,161 @@ class PiafController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $piaf = new Piaf();
         $listPiafs = [];
 
-        $form = $this->createFormBuilder($piaf)
-            ->add('nameVern', TextType::class)
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('nameVern', TextType::class, array('required' => false))
+            ->add('departement', ChoiceType::class,
+                array('choices' => array(
+                    'Pas de préférence' => false,
+                    'Loire' => 'Loire',
+                    'Rhône' => 'Rhône',
+                    'Doubs' => 'Doubs',
+                )))
             ->add('search', SubmitType::class, array('label' => 'Lancer la recherche'))
             ->getForm();
+
 
         if($form->handleRequest($request)->isValid())
         {
             $name = $form["nameVern"]->getData();
+            $departement = $form["departement"]->getData();
             $listPiafs = [];
 
             $em = $this->getDoctrine()->getManager();
 
-            $connection = $em->getConnection();
+            if($departement) {
+                $listObservations = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('GsquadPiafBundle:Observation')
+                    ->findBy(
+                        array('departement' => $departement)
+                    );
 
-            $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
+                foreach ($listObservations as $observation) {
+                    $piafTemp = $observation->getPiaf();
 
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue("name", $name);
-            $stmt->execute();
-            $results = $stmt->fetchAll();
+                    if($name === null) {
+                        $posA = true;
+                        $posB = true;
+                    } else {
+                        $posA = strpos($this->removeAccents($piafTemp->getNameLatin()),($this->removeAccents($name)));
+                        $posB = strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name)));
+                    }
 
-            if(empty($results)) {
-                $results = $connection->fetchAll(
-                    'SELECT LB_NOM, NOM_VERN FROM taxref'
-                );
+                    if($posA !== false || $posB !== false) {
+                        if(!in_array($piafTemp, $listPiafs)) {
+                            $piafTemp->setNbObservations(1);
+                            $listPiafs[] = $piafTemp;
+                        } else {
+                            $key = array_search($piafTemp, $listPiafs);
+                            $listPiafs[$key]->setNbObservations($listPiafs[$key]->getNbObservations() + 1);
+                        }
+                    }
+                }
 
-                $temp = [];
+                usort($listPiafs, function ($a, $b)
+                {
+                    if ($a->getNbObservations() == $b->getNbObservations()) {
+                        return 0;
+                    }
+                    return ($a->getNbObservations() > $b->getNbObservations()) ? -1 : 1;
+                });
+            }
+            else {
+                $connection = $em->getConnection();
+
+                $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
+
+                $stmt = $connection->prepare($sql);
+                $stmt->bindValue("name", $name);
+                $stmt->execute();
+                $results = $stmt->fetchAll();
+
+                if(empty($results)) {
+                    $results = $connection->fetchAll(
+                        'SELECT LB_NOM, NOM_VERN FROM taxref'
+                    );
+
+                    $temp = [];
+
+                    foreach ($results as $result) {
+                        if(!in_array($result, $temp)) {
+                            $posA = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($name)));
+                            $posB = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($name)));
+
+                            if($posA !== false) {
+                                $temp[] = $result['NOM_VERN'];
+                            }
+                            if($posB !== false) {
+                                $temp[] = $result['LB_NOM'];
+                            }
+                        }
+                    }
+
+                    $results = [];
+
+                    if(!empty($temp)) {
+                        $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE ";
+
+                        for($i = 0; $i < count($temp); $i++) {
+                            $sql = $sql."NOM_VERN = :name".$i." OR LB_NOM = :name".$i;
+                            if($i != count($temp)-1) {
+                                $sql = $sql." OR ";
+                            }
+                        }
+
+                        $stmt = $connection->prepare($sql);
+                        for($i = 0; $i < count($temp); $i++) {
+                            $stmt->bindValue("name".$i, $temp[$i]);
+                        }
+                        $stmt->execute();
+                        $results = $stmt->fetchAll();
+                    }
+                }
 
                 foreach ($results as $result) {
-                    if(!in_array($result, $temp)) {
-                        $posA = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($name)));
-                        $posB = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($name)));
+                    $habitat = $result['HABITAT'];
 
-                        if($posA !== false) {
-                            $temp[] = $result['NOM_VERN'];
-                        }
-                        if($posB !== false) {
-                            $temp[] = $result['LB_NOM'];
-                        }
+                    switch($habitat) {
+                        case 1:
+                            $habitat = "Marin";
+                            break;
+                        case 2:
+                            $habitat = "Eau douce";
+                            break;
+                        case 3:
+                            $habitat = "Terrestre";
+                            break;
+                        case 4:
+                            $habitat = "Marin & Eau douce";
+                            break;
+                        case 5:
+                            $habitat = "Marin & Terrestre";
+                            break;
+                        case 6:
+                            $habitat = "Eau saumâtre";
+                            break;
+                        case 7:
+                            $habitat = "Continental (Terrestre et/ou eau douce)";
+                            break;
+                        case 8:
+                            $habitat = "Continental (Terrestre et eau douce)";
+                            break;
+                        default:
+                            $habitat = "Inconnu";
                     }
+
+                    $piaf = new Piaf();
+                    $piaf->setNameLatin($result['LB_NOM']);
+                    $piaf->setFamily($result['FAMILLE']);
+                    $piaf->setHabitat($habitat);
+                    $piaf->setNameVernEng($result['NOM_VERN_ENG']);
+                    $piaf->setNameVern($result['NOM_VERN']);
+                    $piaf->setOrdre($result['ORDRE']);
+
+                    $listPiafs[] = $piaf;
                 }
-
-                $results = [];
-
-                if(!empty($temp)) {
-                    $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE ";
-
-                    for($i = 0; $i < count($temp); $i++) {
-                        $sql = $sql."NOM_VERN = :name".$i." OR LB_NOM = :name".$i;
-                        if($i != count($temp)-1) {
-                            $sql = $sql." OR ";
-                        }
-                    }
-
-                    $stmt = $connection->prepare($sql);
-                    for($i = 0; $i < count($temp); $i++) {
-                        $stmt->bindValue("name".$i, $temp[$i]);
-                    }
-                    $stmt->execute();
-                    $results = $stmt->fetchAll();
-                }
-            }
-
-            foreach ($results as $result) {
-                $habitat = $result['HABITAT'];
-
-                switch($habitat) {
-                    case 1:
-                        $habitat = "Marin";
-                        break;
-                    case 2:
-                        $habitat = "Eau douce";
-                        break;
-                    case 3:
-                        $habitat = "Terrestre";
-                        break;
-                    case 4:
-                        $habitat = "Marin & Eau douce";
-                        break;
-                    case 5:
-                        $habitat = "Marin & Terrestre";
-                        break;
-                    case 6:
-                        $habitat = "Eau saumâtre";
-                        break;
-                    case 7:
-                        $habitat = "Continental (Terrestre et/ou eau douce)";
-                        break;
-                    case 8:
-                        $habitat = "Continental (Terrestre et eau douce)";
-                        break;
-                    default:
-                        $habitat = "Inconnu";
-                }
-
-                $piaf = new Piaf();
-                $piaf->setNameLatin($result['LB_NOM']);
-                $piaf->setFamily($result['FAMILLE']);
-                $piaf->setHabitat($habitat);
-                $piaf->setNameVernEng($result['NOM_VERN_ENG']);
-                $piaf->setNameVern($result['NOM_VERN']);
-                $piaf->setOrdre($result['ORDRE']);
-
-                $listPiafs[] = $piaf;
             }
 
             return $this->render('search/search.html.twig', [

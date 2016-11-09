@@ -224,28 +224,5 @@ class Piaf
     {
         return $this->habitat;
     }
-
-    /**
-     * Set nbObservations
-     *
-     * @param integer $nbObservations
-     *
-     * @return Piaf
-     */
-    public function setNbObservations($nbObservations)
-    {
-        $this->nbObservations = $nbObservations;
-
-        return $this;
-    }
-
-    /**
-     * Get nbObservations
-     *
-     * @return integer
-     */
-    public function getNbObservations()
-    {
-        return $this->nbObservations;
-    }
 }
+

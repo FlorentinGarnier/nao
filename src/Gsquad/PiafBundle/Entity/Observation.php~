@@ -23,44 +23,45 @@ class Observation
     private $id;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="lat", type="float")
+     * @ORM\Column(name="latitude", type="float", nullable=true)
      */
-    private $lat;
+    private $latitude;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="long", type="float")
+     * @ORM\Column(name="longitude", type="float", nullable=true)
      */
-    private $long;
+    private $longitude;
 
     /**
-     * @var string
-     *
+     * @ORM\Column(name="departement", type="string", length=255)
+     */
+    private $departement;
+
+    /**
      * @ORM\Column(name="city", type="string", length=255)
      */
     private $city;
 
     /**
-     * @var boolean
-     *
      * @ORM\Column(name="valid", type="boolean")
      */
     private $valid;
 
     /**
-     *
-     * @ORM\Column(name="createdAt", type="date")
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
-     *
-     * @ORM\Column(name="updatedAt", type="date")
+     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Piaf", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $piaf;
 
 
     /**
@@ -69,7 +70,7 @@ class Observation
     public function __construct()
     {
         $this->valid = false;
-        $this->createdAt = new DateTime();
+        //$this->createdAt = new DateTime();
     }
 
     /**
@@ -107,123 +108,146 @@ class Observation
     }
 
     /**
-     * Set family
+     * Set long
      *
-     * @param string $family
+     * @param float $long
      *
-     * @return Piaf
+     * @return Observation
      */
-    public function setFamily($family)
+    public function setLong($long)
     {
-        $this->family = $family;
+        $this->long = $long;
 
         return $this;
     }
 
     /**
-     * Get family
+     * Get long
      *
-     * @return string
+     * @return float
      */
-    public function getFamily()
+    public function getLong()
     {
-        return $this->family;
+        return $this->long;
     }
 
     /**
-     * Set name
+     * Set city
      *
-     * @param string $name
+     * @param string $city
      *
-     * @return Piaf
+     * @return Observation
      */
-    public function setName($name)
+    public function setCity($city)
     {
-        $this->name = $name;
+        $this->city = $city;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get city
      *
      * @return string
      */
-    public function getName()
+    public function getCity()
     {
-        return $this->name;
+        return $this->city;
     }
 
     /**
-     * Set nameVern
+     * Set valid
      *
-     * @param string $nameVern
+     * @param boolean $valid
      *
-     * @return Piaf
+     * @return Observation
      */
-    public function setNameVern($nameVern)
+    public function setValid($valid)
     {
-        $this->nameVern = $nameVern;
+        $this->valid = $valid;
 
         return $this;
     }
 
     /**
-     * Get nameVern
+     * Get valid
      *
-     * @return string
+     * @return boolean
      */
-    public function getNameVern()
+    public function getValid()
     {
-        return $this->nameVern;
+        return $this->valid;
     }
 
     /**
-     * Set nameVernEng
+     * Set createdAt
      *
-     * @param string $nameVernEng
+     * @param \DateTime $createdAt
      *
-     * @return Piaf
+     * @return Observation
      */
-    public function setNameVernEng($nameVernEng)
+    public function setCreatedAt($createdAt)
     {
-        $this->nameVernEng = $nameVernEng;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get nameVernEng
+     * Get createdAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getNameVernEng()
+    public function getCreatedAt()
     {
-        return $this->nameVernEng;
+        return $this->createdAt;
     }
 
     /**
-     * Set habitat
+     * Set updatedAt
      *
-     * @param string $habitat
+     * @param \DateTime $updatedAt
      *
-     * @return Piaf
+     * @return Observation
      */
-    public function setHabitat($habitat)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->habitat = $habitat;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get habitat
+     * Get updatedAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getHabitat()
+    public function getUpdatedAt()
     {
-        return $this->habitat;
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set piaf
+     *
+     * @param \Gsquad\PiafBundle\Entity\Piaf $piaf
+     *
+     * @return Observation
+     */
+    public function setPiaf(\Gsquad\PiafBundle\Entity\Piaf $piaf = null)
+    {
+        $this->piaf = $piaf;
+
+        return $this;
+    }
+
+    /**
+     * Get piaf
+     *
+     * @return \Gsquad\PiafBundle\Entity\Piaf
+     */
+    public function getPiaf()
+    {
+        return $this->piaf;
     }
 }
-

@@ -13,6 +13,10 @@
     {{ form_widget(form.nameVern) }}
     <div id="match"></div>
 
+    {{ form_errors(form.departement) }}
+    {{ form_label(form.departement, "Département : ") }}
+    {{ form_widget(form.departement) }}
+
     {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
     {{ form_end(form) }}
 
@@ -27,6 +31,7 @@
                     <p>{{ piaf.nameVernEng }}</p>
                     <p>{{ piaf.nameLatin }}</p>
                     <p>{{ piaf.habitat }}</p>
+                    <p>{{ piaf.nbObservations }} observations faites à cet endroit</p>
                 </div>
             {% endfor %}
         </div>
