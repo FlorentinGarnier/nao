@@ -38,9 +38,9 @@ class Piaf
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="nameLatin", type="string", length=255)
      */
-    private $name;
+    private $nameLatin;
 
     /**
      * @var string
@@ -123,27 +123,27 @@ class Piaf
     }
 
     /**
-     * Set name
+     * Set nameLatin
      *
-     * @param string $name
+     * @param string $nameLatin
      *
      * @return Piaf
      */
-    public function setName($name)
+    public function setNameLatin($nameLatin)
     {
-        $this->name = $name;
+        $this->nameLatin = $nameLatin;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get nameLatin
      *
      * @return string
      */
-    public function getName()
+    public function getNameLatin()
     {
-        return $this->name;
+        return $this->nameLatin;
     }
 
     /**

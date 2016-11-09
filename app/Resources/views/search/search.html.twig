@@ -8,9 +8,9 @@
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
-    {{ form_errors(form.name) }}
-    {{ form_label(form.name, "Espèce recherchée : ") }}
-    {{ form_widget(form.name) }}
+    {{ form_errors(form.nameVern) }}
+    {{ form_label(form.nameVern, "Espèce recherchée : ") }}
+    {{ form_widget(form.nameVern) }}
     <div id="match"></div>
 
     {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
@@ -19,13 +19,19 @@
     {% if list_piafs %}
         <div>
             {% for piaf in list_piafs %}
+                <hr/>
                 <div>
-                    <p>{{ piaf.name }}</p>
-                    <p>{{ piaf.nameVern }}</p>
                     <p>{{ piaf.ordre }}</p>
+                    <p>{{ piaf.family }}</p>
+                    <p>{{ piaf.nameVern }}</p>
+                    <p>{{ piaf.nameVernEng }}</p>
+                    <p>{{ piaf.nameLatin }}</p>
+                    <p>{{ piaf.habitat }}</p>
                 </div>
             {% endfor %}
         </div>
+    {% else %}
+        <p>Aucun résultat</p>
     {% endif %}
 
 {% endblock %}

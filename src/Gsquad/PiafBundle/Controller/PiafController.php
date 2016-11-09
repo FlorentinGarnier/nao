@@ -22,23 +22,67 @@ class PiafController extends Controller
         $listPiafs = [];
 
         $form = $this->createFormBuilder($piaf)
-            ->add('name', TextType::class)
+            ->add('nameVern', TextType::class)
             ->add('search', SubmitType::class, array('label' => 'Lancer la recherche'))
             ->getForm();
 
         if($form->handleRequest($request)->isValid())
         {
-            $name = $form["name"]->getData();
+            $name = $form["nameVern"]->getData();
             $listPiafs = [];
 
             $em = $this->getDoctrine()->getManager();
 
             $connection = $em->getConnection();
 
+            $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
 
-            $results = $connection->fetchAll(
-                "SELECT * FROM taxref WHERE NOM_VERN = '".$name."'"
-            );
+            $stmt = $connection->prepare($sql);
+            $stmt->bindValue("name", $name);
+            $stmt->execute();
+            $results = $stmt->fetchAll();
+
+            if(empty($results)) {
+                $results = $connection->fetchAll(
+                    'SELECT LB_NOM, NOM_VERN FROM taxref'
+                );
+
+                $temp = [];
+
+                foreach ($results as $result) {
+                    if(!in_array($result, $temp)) {
+                        $posA = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($name)));
+                        $posB = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($name)));
+
+                        if($posA !== false) {
+                            $temp[] = $result['NOM_VERN'];
+                        }
+                        if($posB !== false) {
+                            $temp[] = $result['LB_NOM'];
+                        }
+                    }
+                }
+
+                $results = [];
+
+                if(!empty($temp)) {
+                    $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE ";
+
+                    for($i = 0; $i < count($temp); $i++) {
+                        $sql = $sql."NOM_VERN = :name".$i." OR LB_NOM = :name".$i;
+                        if($i != count($temp)-1) {
+                            $sql = $sql." OR ";
+                        }
+                    }
+
+                    $stmt = $connection->prepare($sql);
+                    for($i = 0; $i < count($temp); $i++) {
+                        $stmt->bindValue("name".$i, $temp[$i]);
+                    }
+                    $stmt->execute();
+                    $results = $stmt->fetchAll();
+                }
+            }
 
             foreach ($results as $result) {
                 $habitat = $result['HABITAT'];
@@ -73,7 +117,7 @@ class PiafController extends Controller
                 }
 
                 $piaf = new Piaf();
-                $piaf->setName($result['NOM_VERN']);
+                $piaf->setNameLatin($result['LB_NOM']);
                 $piaf->setFamily($result['FAMILLE']);
                 $piaf->setHabitat($habitat);
                 $piaf->setNameVernEng($result['NOM_VERN_ENG']);
@@ -98,7 +142,7 @@ class PiafController extends Controller
     }
 
     /**
-     * @Route("/ajax/autocomplete/update/data", name="ajax_autocomplete_countries")
+     * @Route("/ajax/autocomplete/update/data", name="ajax_autocomplete")
      */
     public function updateDataAction(Request $request)
     {
