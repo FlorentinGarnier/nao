@@ -18,23 +18,31 @@ class BlogController extends Controller
             ->getRepository('GsquadBlogBundle:Post')
             ->findAll();
 
-        $listCategories = $em
-            ->getRepository('GsquadBlogBundle:Category')
-            ->findAll();
+
 
         return $this->render('blog/index.html.twig', array(
-            'categories' =>$listCategories,
             'posts' => $listPosts
         ));
     }
 
     /**
-     * @Route("/{slug}")//TODO à compléter
+     * @Route("/{slug}", name="single_post")//TODO à compléter
      */
     public function singleAction()
     {
         return $this->render('blog/single.html.twig');
     }
 
+    public function navigationBlogAction()
+    {
+        $em = $this->getDoctrine()->getManager();
 
+        $listCategories = $em
+            ->getRepository('GsquadBlogBundle:Category')
+            ->findAll();
+
+        return $this->render('blog/navigation_blog.html.twig', array(
+            'categories' =>$listCategories,
+        ));
+    }
 }

@@ -10,4 +10,7 @@ namespace Gsquad\BlogBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    //TODO Récupérer les posts en ordre chronologique décroissant
+    //TODO Récupérer commentaires associés à l'article
+    //TODO Mettre en place une pagination
 }

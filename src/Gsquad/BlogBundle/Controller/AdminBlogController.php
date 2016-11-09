@@ -18,9 +18,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Class AdminBlogController
  * @package Gsquad\BlogBundle\Controller
- * @Security("has_role('ROLE_CHERCHEUR')")
+ * @Security("has_role('ROLE_CHERCHEUR') and has_role('ROLE_ADMIN')") //TODO Revoir la sécurité en fonction des rôles
  */
-class AdminBlogController extends Controller
+class AdminBlogController extends BlogController
 {
     /**
      * @Route("/add", name ="add")

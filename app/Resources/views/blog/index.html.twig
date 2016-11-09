@@ -1,22 +1,27 @@
+{# app/Resources/views/blog/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div>
-        <ul>
-            {% for category in categories %}
-                <li><a href="" title="">{{ category.name }}</a></li>
+    {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
+
+    {% block section %}
+        <section>
+            {% for post in posts %}
+                <article>
+                    <h1>{{ post.title }}</h1>
+                    <div>{{ post.content }}</div>
+                    <div class="row">
+                        Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
+                        <a href="{{ path('single_post', {'slug': post.slug}) }}" title="">Lire la suite</a>
+                    </div>
+                    <div>
+                        Dernier commentaire
+                        <!-- Dernier commentaire avec content, date, auteur-->
+                    </div>
+                </article>
             {% endfor %}
-                <li><a href="" title="">Créer un nouveau post</a></li>
-        </ul>
-    </div>
-    <section>
-        {% for post in posts %}
-            <article>
-                <h1>{{ post.title }}</h1>
-                <div>{{ post.content }}</div>
-                Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
-            </article>
-        {% endfor %}
-    </section>
+        </section>
+    {% endblock %}
 
 {% endblock %}
