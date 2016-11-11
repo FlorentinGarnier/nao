@@ -9,7 +9,7 @@ security:
         ROLE_ADHERENT:          ROLE_MEMBRE
         ROLE_ADMIN:             ROLE_REDACTEUR
         ROLE_REDACTEUR:         ROLE_CONTRIBUTEUR
-        ROLE_CONTRIBUTEUR:      ROLE_USER
+        ROLE_CONTRIBUTEUR:      ROLE_UTILISATEUR
 
 
     providers:
