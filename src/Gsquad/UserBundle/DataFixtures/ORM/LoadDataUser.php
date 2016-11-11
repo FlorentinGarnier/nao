@@ -30,7 +30,7 @@ class LoadDataUser implements FixtureInterface, ContainerAwareInterface
 
         //liste des rôles
         $users = [
-            'superadmin',
+            'super_admin',
             'admin',
             'chercheur',
             'adherent',
