@@ -22,6 +22,81 @@ class Piaf
     private $id;
 
     /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="regne", type="string", nullable=true)
+     */
+    private $regne;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="phylum", type="string", nullable=true)
+     */
+    private $phylum;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="classe", type="string", nullable=false)
+     */
+    private $classe;
+
+    /**
+     * Numéro unique TAXREF
+     * @var int
+     *
+     * @ORM\Column(name="cdNom", type="integer", nullable=false)
+     */
+    private $cdNom;
+
+    /**
+     *
+     * @var int
+     *
+     * @ORM\Column(name="cdTaxSUp", type="integer", nullable=false)
+     */
+    private $cdTaxSup;
+
+    /**
+     *
+     * @var int
+     *
+     * @ORM\Column(name="cdRef", type="string", nullable=true)
+     */
+    private $cdRef;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="regne", type="string", nullable=true)
+     */
+    private $rang;
+    private $lbNom;
+    private $lbAuteur;
+    private $nomComplet;
+    private $nomValide;
+    private $fr;
+    private $gf;
+    private $mar;
+    private $gua;
+    private $sm;
+    private $sb;
+    private $spm;
+    private $may;
+    private $epa;
+    private $reu;
+    private $taaf;
+    private $nc;
+    private $wf;
+    private $pf;
+    private $cli;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="ordre", type="string", length=255)
@@ -69,6 +144,8 @@ class Piaf
      * @ORM\Column(name="observations", type="integer", nullable=true)
      */
     private $nbObservations;
+
+
 
     /**
      * Constructor
@@ -255,5 +332,37 @@ class Piaf
     public function getNbObservations()
     {
         return $this->nbObservations;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCdNom()
+    {
+        return $this->cdNom;
+    }
+
+    /**
+     * @param int $cdNom
+     */
+    public function setCdNom($cdNom)
+    {
+        $this->cdNom = $cdNom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegne()
+    {
+        return $this->regne;
+    }
+
+    /**
+     * @param string $regne
+     */
+    public function setRegne($regne)
+    {
+        $this->regne = $regne;
     }
 }
