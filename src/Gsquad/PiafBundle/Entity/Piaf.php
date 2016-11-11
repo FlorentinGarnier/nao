@@ -70,6 +70,14 @@ class Piaf
      */
     private $nbObservations;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->nbObservations = 0;
+    }
+
 
     /**
      * Get id

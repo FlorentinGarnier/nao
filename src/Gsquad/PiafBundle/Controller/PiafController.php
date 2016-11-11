@@ -4,6 +4,7 @@ namespace Gsquad\PiafBundle\Controller;
 
 use Gsquad\PiafBundle\Entity\Observation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,17 +22,35 @@ class PiafController extends Controller
     public function indexAction(Request $request)
     {
         $listPiafs = [];
+        $choiceEspece = [];
+        $choiceEspece['Pas d\'espèce précise'] = false;
+
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $listEspeces = $connection->fetchAll(
+            'SELECT NOM_VERN FROM taxref'
+        );
+
+        foreach($listEspeces as $espece) {
+            if($espece['NOM_VERN'] != null) {
+                $choiceEspece[$espece['NOM_VERN']] = $espece['NOM_VERN'];
+            }
+        }
+
+        asort($choiceEspece);
+
+        $service = $this->container->get('gsquad_piaf.get_departements');
+
+        $depts = $service->getDepartementsArray();
 
         $data = array();
         $form = $this->createFormBuilder($data)
             ->add('nameVern', TextType::class, array('required' => false))
+            ->add('espece', ChoiceType::class,
+                array('choices' => $choiceEspece
+                ))
             ->add('departement', ChoiceType::class,
-                array('choices' => array(
-                    'Pas de préférence' => false,
-                    'Loire' => 'Loire',
-                    'Rhône' => 'Rhône',
-                    'Doubs' => 'Doubs',
-                )))
+                array('choices' => $depts))
             ->add('search', SubmitType::class, array('label' => 'Lancer la recherche'))
             ->getForm();
 
@@ -40,9 +59,8 @@ class PiafController extends Controller
         {
             $name = $form["nameVern"]->getData();
             $departement = $form["departement"]->getData();
+            $espece = $form["espece"]->getData();
             $listPiafs = [];
-
-            $em = $this->getDoctrine()->getManager();
 
             if($departement) {
                 $listObservations = $this->get('doctrine.orm.entity_manager')
@@ -54,10 +72,19 @@ class PiafController extends Controller
                 foreach ($listObservations as $observation) {
                     $piafTemp = $observation->getPiaf();
 
-                    if($name === null) {
-                        $posA = true;
-                        $posB = true;
-                    } else {
+                    $posA = true;
+                    $posB = true;
+
+                    if($espece) {
+                        if($piafTemp->getNameVern() === $espece) {
+                            $posA = true;
+                        } else {
+                            $posA = false;
+                        }
+                        $posB = false;
+                    }
+
+                    if($name !== null && !$espece) {
                         $posA = strpos($this->removeAccents($piafTemp->getNameLatin()),($this->removeAccents($name)));
                         $posB = strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name)));
                     }
@@ -82,14 +109,22 @@ class PiafController extends Controller
                 });
             }
             else {
-                $connection = $em->getConnection();
+                if($espece) {
+                    $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
 
-                $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
+                    $stmt = $connection->prepare($sql);
+                    $stmt->bindValue("name", $espece);
+                    $stmt->execute();
+                    $results = $stmt->fetchAll();
+                }
+                else {
+                    $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
 
-                $stmt = $connection->prepare($sql);
-                $stmt->bindValue("name", $name);
-                $stmt->execute();
-                $results = $stmt->fetchAll();
+                    $stmt = $connection->prepare($sql);
+                    $stmt->bindValue("name", $name);
+                    $stmt->execute();
+                    $results = $stmt->fetchAll();
+                }
 
                 if(empty($results)) {
                     $results = $connection->fetchAll(
@@ -100,8 +135,14 @@ class PiafController extends Controller
 
                     foreach ($results as $result) {
                         if(!in_array($result, $temp)) {
-                            $posA = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($name)));
-                            $posB = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($name)));
+
+                            if($name === null) {
+                                $posA = true;
+                                $posB = true;
+                            } else {
+                                $posA = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($name)));
+                                $posB = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($name)));
+                            }
 
                             if($posA !== false) {
                                 $temp[] = $result['NOM_VERN'];
@@ -122,6 +163,11 @@ class PiafController extends Controller
                             if($i != count($temp)-1) {
                                 $sql = $sql." OR ";
                             }
+                            /*
+                            else {
+                                $sql = $sql." LIMIT 0,15";
+                            }
+                            */
                         }
 
                         $stmt = $connection->prepare($sql);
@@ -191,6 +237,28 @@ class PiafController extends Controller
         ]);
     }
 
+
+
+    public function listAction(Request $request)
+    {
+        $em    = $this->get('doctrine.orm.entity_manager');
+        $dql   = "SELECT a FROM AcmeMainBundle:Article a";
+        $query = $em->createQuery($dql);
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+
+        // parameters to template
+        return $this->render('AcmeMainBundle:Article:list.html.twig', array('pagination' => $pagination));
+    }
+
+
+
+
     /**
      * @Route("/ajax/autocomplete/update/data", name="ajax_autocomplete")
      */
@@ -202,9 +270,8 @@ class PiafController extends Controller
 
         $connection = $em->getConnection();
 
-
         $results = $connection->fetchAll(
-            'SELECT NOM_VERN FROM taxref'
+            'SELECT LB_NOM, NOM_VERN FROM taxref'
         );
 
         $temp = [];
@@ -213,9 +280,14 @@ class PiafController extends Controller
         foreach ($results as $result) {
             if(!in_array($result, $temp)) {
                 $temp[] = $result;
-                $pos = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($data)));
+                $posA = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($data)));
+                $posB = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($data)));
 
-                if($pos !== false) {
+                if($posA !== false) {
+                    $matchStringBold = preg_replace('/('.$data.')/i', '<strong>$1</strong>', $result['LB_NOM']); // Replace text field input by bold one
+                    $speciesList .= '<li id="'.$result['LB_NOM'].'">'.$matchStringBold.'</li>'; // Create the matching list - we put maching name in the ID too
+                }
+                if($posB !== false) {
                     $matchStringBold = preg_replace('/('.$data.')/i', '<strong>$1</strong>', $result['NOM_VERN']); // Replace text field input by bold one
                     $speciesList .= '<li id="'.$result['NOM_VERN'].'">'.$matchStringBold.'</li>'; // Create the matching list - we put maching name in the ID too
                 }

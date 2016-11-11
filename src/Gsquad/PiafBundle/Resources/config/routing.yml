@@ -1,0 +1,3 @@
+gsquad_piaf_homepage:
+    path:     /
+    defaults: { _controller: GsquadPiafBundle:Default:index }

@@ -1,17 +1,30 @@
 {% extends 'base.html.twig' %}
 
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
+    <div id="loading">
+        <img id="loading-image" src="{{ asset('bundles/gsquadpiaf/image/loader.gif') }}" alt="Chargement..." />
+    </div>
+
     <p>Quelle espèce d'oiseau recherchez vous ?</p>
 
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
     {{ form_errors(form.nameVern) }}
-    {{ form_label(form.nameVern, "Espèce recherchée : ") }}
+    {{ form_label(form.nameVern, "Terme recherché : ") }}
     {{ form_widget(form.nameVern) }}
     <div id="match"></div>
+
+    {{ form_errors(form.espece) }}
+    {{ form_label(form.espece, "Espèce : ") }}
+    {{ form_widget(form.espece) }}
+
+    <br/>
 
     {{ form_errors(form.departement) }}
     {{ form_label(form.departement, "Département : ") }}
@@ -20,23 +33,44 @@
     {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
     {{ form_end(form) }}
 
+{#
     {% if list_piafs %}
         <div>
             {% for piaf in list_piafs %}
                 <hr/>
                 <div>
-                    <p>{{ piaf.ordre }}</p>
-                    <p>{{ piaf.family }}</p>
-                    <p>{{ piaf.nameVern }}</p>
-                    <p>{{ piaf.nameVernEng }}</p>
-                    <p>{{ piaf.nameLatin }}</p>
-                    <p>{{ piaf.habitat }}</p>
-                    <p>{{ piaf.nbObservations }} observations faites à cet endroit</p>
+                    {% if piaf.ordre %}
+                        <p>Ordre : {{ piaf.ordre }}</p>
+                    {% endif %}
+                    {% if piaf.family %}
+                        <p>Famille : {{ piaf.family }}</p>
+                    {% endif %}
+                    {% if piaf.nameVern %}
+                        <p>Nom vulgaire : {{ piaf.nameVern }}</p>
+                    {% endif %}
+                    {% if piaf.nameVernEng %}
+                        <p>Nom vulgaire anglais : {{ piaf.nameVernEng }}</p>
+                    {% endif %}
+                    {% if piaf.nameLatin %}
+                        <p>Nom scientifique : {{ piaf.nameLatin }}</p>
+                    {% endif %}
+                    {% if piaf.habitat %}
+                        <p>Habitat : {{ piaf.habitat }}</p>
+                    {% endif %}
+                    {% if piaf.nbObservations %}
+                        <p>{{ piaf.nbObservations }} observation(s) faite(s) à cet endroit</p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
     {% else %}
         <p>Aucun résultat</p>
+    {% endif %}
+#}
+
+    {% if list_piafs %}
+        <div id="data-container"></div>
+        <div id="pagination-container"></div>
     {% endif %}
 
 {% endblock %}
@@ -45,6 +79,24 @@
     {{ parent() }}
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>
+    <script>
+        var datas = [];
+        var i = 0;
+        {% for piaf in list_piafs %}
+        datas[i] = [
+                '{{ piaf.ordre }}',
+                '{{ piaf.family }}',
+                '{{ piaf.nameVern }}',
+                '{{ piaf.nameVernEng }}',
+                '{{ piaf.nameLatin }}',
+                '{{ piaf.habitat }}',
+                '{{ piaf.nbObservations }}'
+        ];
+        i++;
+        {% endfor %}
+    </script>
+    <script src="{{ asset('bundles/gsquadpiaf/js/pagination.min.js') }}"></script>
+    <script src="{{ asset('bundles/gsquadpiaf/js/paginate-result.js') }}"></script>
     <script>
         var loader = "{{ asset('bundles/gsquadpiaf/image/loader.gif') }}"; //link to the animated loader-small.gif
     </script>
