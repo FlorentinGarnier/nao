@@ -58,6 +58,12 @@ class Observation
     private $updatedAt;
 
     /**
+     * @ORM\Column(name="imgUrl", type="string", length=255, nullable=true)
+     */
+    private $imgUrl;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="Piaf", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -81,20 +87,6 @@ class Observation
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set city
-     *
-     * @param string $city
-     *
-     * @return Observation
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
     }
 
     /**
@@ -177,6 +169,44 @@ class Observation
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return Observation
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get imgUrl
+     *
+     * @return string
+     */
+    public function getImgUrl()
+    {
+        return $this->imgUrl;
+    }
+
+    /**
+     * Set imgUrl
+     *
+     * @param string $imgUrl
+     *
+     * @return Observation
+     */
+    public function setImgUrl($imgUrl)
+    {
+        $this->imgUrl = $imgUrl;
+
+        return $this;
     }
 
     /**
