@@ -11,7 +11,7 @@ class BlogController extends Controller
     /**
      * @Route("/", name="blog")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -19,10 +19,15 @@ class BlogController extends Controller
             ->getRepository('GsquadBlogBundle:Post')
             ->findAll();
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $listPosts,
+            $request->query->getInt('page', 1)
+        );
 
 
         return $this->render('blog/index.html.twig', array(
-            'posts' => $listPosts
+            'pagination' => $pagination
         ));
     }
 
