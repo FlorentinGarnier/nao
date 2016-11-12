@@ -25,19 +25,24 @@ class PiafController extends Controller
         $choiceEspece = [];
         $choiceEspece['Pas d\'espèce précise'] = false;
 
+        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
         $em = $this->getDoctrine()->getManager();
         $connection = $em->getConnection();
-        $listEspeces = $connection->fetchAll(
-            'SELECT NOM_VERN FROM taxref'
-        );
+        //$listEspeces = $connection->fetchAll(
+        //    'SELECT NOM_VERN FROM taxref'
+        //);
+
+        //On récupère tous les enregistrements de fetchAllNomVern
+        $listEspeces = $piafRepository->fetchAllNomVern();
 
         foreach($listEspeces as $espece) {
-            if($espece['NOM_VERN'] != null) {
-                $choiceEspece[$espece['NOM_VERN']] = $espece['NOM_VERN'];
+            if($espece['nameVern'] != null) {
+                $choiceEspece[$espece['nameVern']] = $espece['nameVern'];
             }
         }
 
-        asort($choiceEspece);
+        //Les résultats sont trié dans la methode fetchAllNomVern
+        //asort($choiceEspece);
 
         $service = $this->container->get('gsquad_piaf.get_departements');
 
@@ -110,51 +115,58 @@ class PiafController extends Controller
             }
             else {
                 if($espece) {
-                    $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
-
-                    $stmt = $connection->prepare($sql);
-                    $stmt->bindValue("name", $espece);
-                    $stmt->execute();
-                    $results = $stmt->fetchAll();
+//                    $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
+//
+//                    $stmt = $connection->prepare($sql);
+//                    $stmt->bindValue("name", $espece);
+//                    $stmt->execute();
+//                    $results = $stmt->fetchAll();
+                    $results = $piafRepository->findBy(['nameVern' => $espece]);
                 }
                 else {
-                    $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
+//                    $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
+//
+//                    $stmt = $connection->prepare($sql);
+//                    $stmt->bindValue("name", $name);
+//                    $stmt->execute();
+//                    $results = $stmt->fetchAll();
 
-                    $stmt = $connection->prepare($sql);
-                    $stmt->bindValue("name", $name);
-                    $stmt->execute();
-                    $results = $stmt->fetchAll();
+                    $results = $piafRepository->findBy(['nameVern' => $name]);
                 }
-
+                dump($results);
                 if(empty($results)) {
-                    $results = $connection->fetchAll(
-                        'SELECT LB_NOM, NOM_VERN FROM taxref'
-                    );
+//                    $results = $connection->fetchAll(
+//                        'SELECT LB_NOM, NOM_VERN FROM taxref'
+//                    );
+
+                    $results = $piafRepository->fetchAllNomVernLbNom();
 
                     $temp = [];
 
                     foreach ($results as $result) {
+
                         if(!in_array($result, $temp)) {
 
                             if($name === null) {
                                 $posA = true;
                                 $posB = true;
                             } else {
-                                $posA = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($name)));
-                                $posB = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($name)));
+                                $posA = strpos($this->removeAccents($result['nameVern']),($this->removeAccents($name)));
+                                $posB = strpos($this->removeAccents($result['lbNom']),($this->removeAccents($name)));
                             }
 
                             if($posA !== false) {
-                                $temp[] = $result['NOM_VERN'];
+                                $temp[] = $result['nameVern'];
                             }
                             if($posB !== false) {
-                                $temp[] = $result['LB_NOM'];
+                                $temp[] = $result['lbNom'];
                             }
                         }
                     }
 
                     $results = [];
 
+                    //TODO améliorer la requete en passant par le repo
                     if(!empty($temp)) {
                         $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE ";
 
@@ -180,7 +192,7 @@ class PiafController extends Controller
                 }
 
                 foreach ($results as $result) {
-                    $habitat = $result['HABITAT'];
+                    $habitat = $result->getHabitat();
 
                     switch($habitat) {
                         case 1:
@@ -211,6 +223,7 @@ class PiafController extends Controller
                             $habitat = "Inconnu";
                     }
 
+                    //TODO A améliorer, je pense qu'on peut voir une autre approche
                     $piaf = new Piaf();
                     $piaf->setNameLatin($result['LB_NOM']);
                     $piaf->setFamily($result['FAMILLE']);
@@ -239,6 +252,7 @@ class PiafController extends Controller
 
 
 
+    //TODO à voir aussi
     public function listAction(Request $request)
     {
         $em    = $this->get('doctrine.orm.entity_manager');
@@ -264,15 +278,19 @@ class PiafController extends Controller
      */
     public function updateDataAction(Request $request)
     {
+        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
         $data = $request->get('input');
 
-        $em = $this->getDoctrine()->getManager();
+//        $em = $this->getDoctrine()->getManager();
 
-        $connection = $em->getConnection();
+//        $connection = $em->getConnection();
 
-        $results = $connection->fetchAll(
-            'SELECT LB_NOM, NOM_VERN FROM taxref'
-        );
+//        $results = $connection->fetchAll(
+//            'SELECT LB_NOM, NOM_VERN FROM taxref'
+//        );
+
+        $results = $piafRepository->fetchAllNomVernLbNom();
+
 
         $temp = [];
 
@@ -280,16 +298,17 @@ class PiafController extends Controller
         foreach ($results as $result) {
             if(!in_array($result, $temp)) {
                 $temp[] = $result;
-                $posA = strpos($this->removeAccents($result['LB_NOM']),($this->removeAccents($data)));
-                $posB = strpos($this->removeAccents($result['NOM_VERN']),($this->removeAccents($data)));
+                dump($result);
+                $posA = strpos($this->removeAccents($result['lbNom']),($this->removeAccents($data)));
+                $posB = strpos($this->removeAccents($result['nameVern']),($this->removeAccents($data)));
 
                 if($posA !== false) {
-                    $matchStringBold = preg_replace('/('.$data.')/i', '<strong>$1</strong>', $result['LB_NOM']); // Replace text field input by bold one
-                    $speciesList .= '<li id="'.$result['LB_NOM'].'">'.$matchStringBold.'</li>'; // Create the matching list - we put maching name in the ID too
+                    $matchStringBold = preg_replace('/('.$data.')/i', '<strong>$1</strong>', $result['lbNom']); // Replace text field input by bold one
+                    $speciesList .= '<li id="'.$result['nameVern'].'">'.$matchStringBold.'</li>'; // Create the matching list - we put maching name in the ID too
                 }
                 if($posB !== false) {
-                    $matchStringBold = preg_replace('/('.$data.')/i', '<strong>$1</strong>', $result['NOM_VERN']); // Replace text field input by bold one
-                    $speciesList .= '<li id="'.$result['NOM_VERN'].'">'.$matchStringBold.'</li>'; // Create the matching list - we put maching name in the ID too
+                    $matchStringBold = preg_replace('/('.$data.')/i', '<strong>$1</strong>', $result['nameVern']); // Replace text field input by bold one
+                    $speciesList .= '<li id="'.$result['nameVern'].'">'.$matchStringBold.'</li>'; // Create the matching list - we put maching name in the ID too
                 }
             }
         }
