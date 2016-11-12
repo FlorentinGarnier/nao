@@ -3,5 +3,16 @@
 {% extends 'blog/index.html.twig' %}
 
 {% block section %}
-<h1>Ceci est ma single</h1>
+    <article>
+        <h1>{{ post.title }}</h1>
+        <div>{{ post.content|raw }}</div>
+        <div class="row">
+            Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
+        </div>
+    </article>
+    <aside>
+        {% for comment in comments %}
+            {{ comment.content }}
+        {% endfor %}
+    </aside>
 {% endblock %}

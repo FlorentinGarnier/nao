@@ -4,6 +4,7 @@ namespace Gsquad\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gsquad\BlogBundle\Entity\Category;
 use Gsquad\BlogBundle\Entity\Tag;
 
 /**
@@ -75,14 +76,35 @@ class Post
      * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-
     private $category;
+
+    /**
+     * @var string
+     *
+     * @ORM\OneToOne(targetEntity="Gsquad\BlogBundle\Entity\Image", cascade={"persist"})
+     */
+    private $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=255)
+     */
+    private $status;
+
+    /*
+     * @ORM\OneToMany(targetEntity="Gsquad\BlogBundle\Entity\Comment", mappedBy="post")
+     */
+    private $comments;
 
     public function __construct()
     {
         $this->creationDate = new \DateTime();
         $this->author = 'moi'; //TODO Faire en sorte que l'utilisateur soit l'auteur
         $this->slug = 'article-test'; //TODO voir avec le mark pour les liens
+        $this->status = 'en attente'; //TODO à adapter aussi
+        $this->tags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -276,11 +298,11 @@ class Post
     /**
      * Set category
      *
-     * @param \Gsquad\BlogBundle\Entity\Category $category
+     * @param Category $category
      *
      * @return Post
      */
-    public function setCategory(\Gsquad\BlogBundle\Entity\Category $category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
 
@@ -290,10 +312,74 @@ class Post
     /**
      * Get category
      *
-     * @return \Gsquad\BlogBundle\Entity\Category
+     * @return Category
      */
     public function getCategory()
     {
         return $this->category;
     }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Post
+     */
+    public function setImage(Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set status
+     *
+     * @param $status
+     *
+     * @return Post
+     */
+    public function setStatus($status)
+    {
+        return $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        $comment->setPost($this);
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
 }

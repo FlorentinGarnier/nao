@@ -2,10 +2,29 @@
 
 {% extends 'blog/index.html.twig' %}
 
-{% block body %}
+
+{% block section %}
+
     {{ form_start(form) }}
-    {{ form_row(form.category) }}
-    <a href="#" id="add_category" class="btn btn-default">Ajouter une catégorie</a>
+        <div class="row">
+            <div>
+                {{ form_label(form.title) }}<br/>
+                {{ form_widget(form.title) }}
+            </div>
+            <div>
+                {{ form_label(form.category) }}<br/>
+                {{ form_widget(form.category) }}
+            </div>
+        </div>
+        <!--<div class="row">
+
+        </div>-->
+        <div class="row">
+            {{ form_row(form.content) }}
+        </div>
+        <!--<div class="row">
+
+        </div>-->
     {{ form_end(form) }}
 {% endblock %}
 

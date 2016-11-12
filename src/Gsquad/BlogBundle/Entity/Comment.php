@@ -50,7 +50,7 @@ class Comment
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $post;
