@@ -1,9 +1,9 @@
-<div>
-    <ul>
+<div class="row">
+    <ul class="list-inline text-center">
         {% for category in categories %}
             <li><a href="" title="">{{ category.name }}</a></li>
         {% endfor %}
         <li><a href="{{ path('add') }}" title="">Créer un nouveau post</a></li>
     </ul>
-    <input type="text" placeholder="Recherche dans cette catégorie">
+    <!--<input type="text" placeholder="Recherche dans cette catégorie">-->
 </div>

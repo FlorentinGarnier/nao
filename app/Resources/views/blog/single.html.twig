@@ -3,10 +3,10 @@
 {% extends 'blog/index.html.twig' %}
 
 {% block section %}
-    <article>
+    <article class="post-block">
         <h1>{{ post.title }}</h1>
         <div>{{ post.content|raw }}</div>
-        <div class="row">
+        <div class="pull-right">
             Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
         </div>
     </article>

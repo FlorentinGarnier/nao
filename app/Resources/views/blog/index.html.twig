@@ -2,36 +2,35 @@
 
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/gsquadblog/css/blog.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-    {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
+    <div class="container-fluid">
+        {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
 
-    {% block section %}
+        {% block section %}
         <section>
-            <div class="count">
-                {{ pagination.getTotalItemCount }}
-            </div>
-            <table>
-                <tr>
-                    {# sorting of properties based on query components #}
-                    <th>{{ knp_pagination_sortable(pagination, 'Id', 'a.id') }}</th>
-                    <th{% if pagination.isSorted('a.Title') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Title', 'a.title') }}</th>
-                    <th>{{ knp_pagination_sortable(pagination, 'Release', ['a.date', 'a.time']) }}</th>
-                </tr>
+            {% for article in posts %}
+                <article class="row post-block">
+                    <h1>{{ article.title }}</h1>
+                    <p>{{ article.content|striptags|slice(0, 500) ~ '...' }}</p>
+                    <span>Le {{ article.creationDate | date('d/m/Y') }} par {{ article.author }}</span>
+                    <span class="pull-right"><a href="{{ article.slug }}" class="btn btn-default">Lire la suite</a></span>
+                    <div class="last-comment">
 
-                {# table body #}
-                {% for article in pagination %}
-                    <tr {% if loop.index is odd %}class="color"{% endif %}>
-                        <td>{{ article.id }}</td>
-                        <td>{{ article.title }}</td>
-                        <td>{{ article.creationDate | date('Y-m-d') }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+                    </div>
+                </article>
+
+            {% endfor %}
+
             {# display navigation #}
-            <div class="navigation">
-                {{ knp_pagination_render(pagination) }}
-            </div>
+            {% include 'blog/pagination.html.twig' %}
         </section>
+    </div>
+
     {% endblock %}
 
 {% endblock %}

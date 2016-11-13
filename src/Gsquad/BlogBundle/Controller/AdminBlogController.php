@@ -22,6 +22,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class AdminBlogController extends BlogController
 {
+    public function adminIndexAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listPosts = $em
+            ->getRepository('GsquadBlogBundle:Post')
+            ->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $listPosts,
+            $request->query->getInt('page', 1)
+        );
+
+
+        return $this->render('blog/admin/index.html.twig', array(
+            'pagination' => $pagination
+        ));
+    }
+
     /**
      * @Route("/add", name ="add")
      */
@@ -33,6 +53,9 @@ class AdminBlogController extends BlogController
         $form = $this->get('form.factory')->create($formType, $newPost);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $slug = $this->get('gsquad_blog.slugger')->slugify($newPost->getTitle());
+            $newPost->setSlug($slug);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($newPost);
             $em->flush();
@@ -41,14 +64,37 @@ class AdminBlogController extends BlogController
             return $this->redirectToRoute('blog');
         }
 
-        return $this->render('blog/add.html.twig', array(
+        return $this->render('blog/admin/add.html.twig', array(
             'form' => $form->createView(),
         ));
     }
 
-    public function editAction()
+    /**
+     * @Route("/edit", name ="edit")
+     */
+    public function editAction(Request $request, $slug)
     {
+        $formType = 'Gsquad\BlogBundle\Form\Type\PostType';
+        $entity = 'Gsquad\BlogBundle\Entity\Post';
+        $post = $this
+            ->getDoctrine()
+            ->getRepository($entity)
+            ->find($slug);
 
+        $form = $this->get('form.factory')->create($formType, $post);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('info', 'Element bien modifié.');
+
+            return $this->redirectToRoute('admin');
+        }
+
+        return $this->render('blog/add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     public function deleteAction()

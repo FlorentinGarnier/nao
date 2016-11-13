@@ -21,8 +21,7 @@ class AppKernel extends Kernel
             new \Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Gsquad\AdminBundle\GsquadAdminBundle(),
             new Gsquad\PiafBundle\GsquadPiafBundle(),
-            new Gsquad\UserBundle\GsquadUserBundle(),
-            new \Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
+            new Gsquad\UserBundle\GsquadUserBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -9,30 +9,34 @@ use Symfony\Component\HttpFoundation\Request;
 class BlogController extends Controller
 {
     /**
-     * @Route("/", name="blog")
+     * @Route("/{page}", name="blog", requirements={"page": "\d+"})
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $page = 1)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $listPosts = $em
+        $posts_count = $this->getDoctrine()
             ->getRepository('GsquadBlogBundle:Post')
-            ->findAll();
+            ->countPublishedTotal();
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $listPosts,
-            $request->query->getInt('page', 1)
+        dump($posts_count);
+
+        $pagination = array(
+            'page' => $page,
+            'route' => 'blog',
+            'pages_count' => ceil($posts_count / 5),
+            'route_params' => array()
         );
 
+        $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
+            ->getAllPosts($page);
 
         return $this->render('blog/index.html.twig', array(
+            'posts' => $posts,
             'pagination' => $pagination
         ));
     }
 
     /**
-     * @Route("/{slug}", name="single_post")//TODO à compléter
+     * @Route("/{slug}", name="single_post")
      */
     public function singleAction(Request $request)
     {

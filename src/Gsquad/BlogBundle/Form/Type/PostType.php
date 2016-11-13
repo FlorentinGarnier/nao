@@ -24,6 +24,7 @@ class PostType extends AbstractType
                 'label' => 'Titre de l\'article'
             ))
             ->add('content', CKEditorType::class, array(
+                'config' => array('toolbar' => 'standard'),
                 'label' => 'Votre article'
             ))
             /*->add('tags', TagType::class, array(
