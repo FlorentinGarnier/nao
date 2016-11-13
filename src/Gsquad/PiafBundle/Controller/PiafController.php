@@ -90,7 +90,7 @@ class PiafController extends Controller
                     }
 
                     if($name !== null && !$espece) {
-                        $posA = strpos($this->removeAccents($piafTemp->getNameLatin()),($this->removeAccents($name)));
+                        $posA = strpos($this->removeAccents($piafTemp->getLbNom()),($this->removeAccents($name)));
                         $posB = strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name)));
                     }
 
@@ -112,6 +112,10 @@ class PiafController extends Controller
                     }
                     return ($a->getNbObservations() > $b->getNbObservations()) ? -1 : 1;
                 });
+
+                $service = $this->container->get('gsquad_piaf.set_habitat');
+
+                $listPiafs = $service->setHabitats($listPiafs);
             }
             else {
                 if($espece) {
@@ -133,7 +137,7 @@ class PiafController extends Controller
 
                     $results = $piafRepository->findBy(['nameVern' => $name]);
                 }
-                dump($results);
+
                 if(empty($results)) {
 //                    $results = $connection->fetchAll(
 //                        'SELECT LB_NOM, NOM_VERN FROM taxref'
@@ -146,7 +150,6 @@ class PiafController extends Controller
                     foreach ($results as $result) {
 
                         if(!in_array($result, $temp)) {
-
                             if($name === null) {
                                 $posA = true;
                                 $posB = true;
@@ -164,9 +167,10 @@ class PiafController extends Controller
                         }
                     }
 
-                    $results = [];
+                    $results = $piafRepository->findBy(array('nameVern' => $temp));
 
-                    //TODO améliorer la requete en passant par le repo
+                    /*
+                    //Requetes SQL outdated
                     if(!empty($temp)) {
                         $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE ";
 
@@ -175,11 +179,9 @@ class PiafController extends Controller
                             if($i != count($temp)-1) {
                                 $sql = $sql." OR ";
                             }
-                            /*
                             else {
                                 $sql = $sql." LIMIT 0,15";
                             }
-                            */
                         }
 
                         $stmt = $connection->prepare($sql);
@@ -188,52 +190,14 @@ class PiafController extends Controller
                         }
                         $stmt->execute();
                         $results = $stmt->fetchAll();
-                    }
+
+                        var_dump($results);
+                    }*/
                 }
 
-                foreach ($results as $result) {
-                    $habitat = $result->getHabitat();
+                $service = $this->container->get('gsquad_piaf.set_habitat');
 
-                    switch($habitat) {
-                        case 1:
-                            $habitat = "Marin";
-                            break;
-                        case 2:
-                            $habitat = "Eau douce";
-                            break;
-                        case 3:
-                            $habitat = "Terrestre";
-                            break;
-                        case 4:
-                            $habitat = "Marin & Eau douce";
-                            break;
-                        case 5:
-                            $habitat = "Marin & Terrestre";
-                            break;
-                        case 6:
-                            $habitat = "Eau saumâtre";
-                            break;
-                        case 7:
-                            $habitat = "Continental (Terrestre et/ou eau douce)";
-                            break;
-                        case 8:
-                            $habitat = "Continental (Terrestre et eau douce)";
-                            break;
-                        default:
-                            $habitat = "Inconnu";
-                    }
-
-                    //TODO A améliorer, je pense qu'on peut voir une autre approche
-                    $piaf = new Piaf();
-                    $piaf->setNameLatin($result['LB_NOM']);
-                    $piaf->setFamily($result['FAMILLE']);
-                    $piaf->setHabitat($habitat);
-                    $piaf->setNameVernEng($result['NOM_VERN_ENG']);
-                    $piaf->setNameVern($result['NOM_VERN']);
-                    $piaf->setOrdre($result['ORDRE']);
-
-                    $listPiafs[] = $piaf;
-                }
+                $listPiafs = $service->setHabitats($results);
             }
 
             return $this->render('search/search.html.twig', [
@@ -249,29 +213,6 @@ class PiafController extends Controller
             'list_piafs' => $listPiafs,
         ]);
     }
-
-
-
-    //TODO à voir aussi
-    public function listAction(Request $request)
-    {
-        $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT a FROM AcmeMainBundle:Article a";
-        $query = $em->createQuery($dql);
-
-        $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            10/*limit per page*/
-        );
-
-        // parameters to template
-        return $this->render('AcmeMainBundle:Article:list.html.twig', array('pagination' => $pagination));
-    }
-
-
-
 
     /**
      * @Route("/ajax/autocomplete/update/data", name="ajax_autocomplete")

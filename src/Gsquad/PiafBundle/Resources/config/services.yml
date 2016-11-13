@@ -1,3 +1,6 @@
 services:
     gsquad_piaf.get_departements:
         class: Gsquad\PiafBundle\Service\GsquadGetDepartements
+
+    gsquad_piaf.set_habitat:
+        class: Gsquad\PiafBundle\Service\GsquadSetHabitat

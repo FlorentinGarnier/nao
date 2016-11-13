@@ -13,7 +13,7 @@ $(document).ready(function(){
                     url: "ajax/autocomplete/update/data", // call the php file ajax/tuto-autocomplete.php (check the routine we defined)
                     data: data, // Send dataFields var
                     dataType: 'json', // json method
-                    timeout: 3000,
+                    timeout: 5000,
                     success: function(response){ // If success
                         $('#match').html(response.speciesList); // Return data (UL list) and insert it in the <div id="match"></div>
                         $('#matchList li').on('click', function() { // When click on an element in the list
@@ -21,7 +21,8 @@ $(document).ready(function(){
                             $('#match').text(''); // Clear the <div id="match"></div>
                         });
                     },
-                    error: function() { // if error
+                    error: function(err) { // if error
+                        console.log(err);
                         $('#match').text('Problem!');
                     }
                 });
