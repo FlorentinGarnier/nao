@@ -12,6 +12,7 @@ use Gsquad\BlogBundle\Entity\Tag;
  *
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="Gsquad\BlogBundle\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Post
 {
@@ -92,8 +93,9 @@ class Post
      */
     private $status;
 
-    /*
-     * @ORM\OneToMany(targetEntity="Gsquad\BlogBundle\Entity\Comment", mappedBy="post")
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"persist"})
+     * @ORM\OrderBy({"creationDate" = "DESC"})
      */
     private $comments;
 
@@ -194,10 +196,12 @@ class Post
      * @param \DateTime $updateDate
      *
      * @return Post
+     *
+     * @ORM\PreUpdate
      */
-    public function setUpdateDate($updateDate)
+    public function setUpdateDate()
     {
-        $this->updateDate = $updateDate;
+        $this->updateDate = new \DateTime();
 
         return $this;
     }

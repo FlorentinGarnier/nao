@@ -13,15 +13,23 @@
 
         {% block section %}
         <section>
-            {% for article in posts %}
+            {% for post in posts %}
                 <article class="row post-block">
-                    <h1>{{ article.title }}</h1>
-                    <p>{{ article.content|striptags|slice(0, 500) ~ '...' }}</p>
-                    <span>Le {{ article.creationDate | date('d/m/Y') }} par {{ article.author }}</span>
-                    <span class="pull-right"><a href="{{ article.slug }}" class="btn btn-default">Lire la suite</a></span>
-                    <div class="last-comment">
+                    <h1>{{ post.title }}</h1>
+                    <p>{{ post.content|striptags|slice(0, 500) ~ '...' }}</p>
+                    <span>Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}</span>
+                    <span class="pull-right"><a href="{{ path('single_post', {'slug': post.slug}) }}" class="btn btn-default">Lire la suite</a></span>
+                    {% set lastComment = post.comments|first %}
+                        {% if lastComment %}
+                            <div class="comments">
+                                Dernier commentaire
+                                <div class="last-comment">
+                                    <p>{{ lastComment.content }}</p>
+                                    <span class="pull-right">Le {{ lastComment.creationDate | date('d/m/Y') }} par {{ lastComment.author }}</span>
+                                </div>
+                            </div>
 
-                    </div>
+                        {% endif %}
                 </article>
 
             {% endfor %}

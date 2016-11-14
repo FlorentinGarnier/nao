@@ -27,9 +27,9 @@ class PostType extends AbstractType
                 'config' => array('toolbar' => 'standard'),
                 'label' => 'Votre article'
             ))
-            /*->add('tags', TagType::class, array(
+            ->add('tags', TagType::class, array(
                 'label' => 'Tags associés'
-            ))*/
+            ))
             ->add('category', EntityType::class, array(
                 'class' => 'Gsquad\BlogBundle\Entity\Category',
                 'choice_label' => 'name',

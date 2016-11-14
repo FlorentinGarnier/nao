@@ -50,14 +50,14 @@ class Comment
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Post", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
      */
     private $post;
 
     public function __construct()
     {
         $this->creationDate = new \DateTime();
+        $this->author = 'Auteur test';
     }
 
     /**

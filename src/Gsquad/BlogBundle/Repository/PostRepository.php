@@ -2,6 +2,7 @@
 
 namespace Gsquad\BlogBundle\Repository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -12,20 +13,44 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class PostRepository extends EntityRepository
 {
-    //TODO Récupérer les posts en ordre chronologique décroissant
     //TODO Récupérer commentaires associés à l'article
-    //TODO Mettre en place une pagination
     //TODO Récupérer par catégorie
     public function getAllPosts($currentPage = 1)
     {
-        $query = $this->createQueryBuilder('p')
+        /*$query = $this->_em->createQuery(
+            'SELECT p FROM GsquadBogBundle:Post p'
+        )*/
+        $query = $this->createQueryBuilder('p');
+
+        $query
+            ->select('p')
+            ->leftJoin('p.comments', 'c')
+              ->addSelect('c')
             ->orderBy('p.creationDate', 'DESC')
             ->getQuery();
-        dump($query);
+
 
         $paginator = $this->paginate($query, $currentPage);
 
         return $paginator;
+    }
+
+    public function getPostsByCategory($category, $currentPage = 1)
+    {
+        $query = $this->createQueryBuilder('p');
+
+        $query
+            ->select('p')
+            ->where('category = :category')
+                ->setParameter('category', $category)
+            ->orderBy('p.creationDate', 'DESC')
+            ->getQuery();
+
+
+
+        return $query
+            ->getQuery()
+            ->getResult();
     }
 
     public function paginate($dql, $page = 1, $limit = 5)
@@ -34,7 +59,8 @@ class PostRepository extends EntityRepository
 
         $paginator->getQuery()
             ->setFirstResult($limit * ($page -1))
-            ->setMaxResults($limit);
+            ->setMaxResults($limit)
+        ;
 
         return $paginator;
     }
@@ -51,4 +77,20 @@ class PostRepository extends EntityRepository
             ->getSingleScalarResult()
             ;
     }
+
+    public function countPublishedTotalByCategory($category)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.status = :status')
+                ->setParameter('status', 'published')
+            ->andWhere('p.category = :category')
+                ->setParameter('category', $category)
+            ->select('COUNT(p)')
+        ;
+
+        return $qb->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
 }
