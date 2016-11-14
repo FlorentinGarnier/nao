@@ -33,8 +33,11 @@ class AdminBlogController extends BlogController
             ->getRepository('GsquadBlogBundle:Post')
             ->findAll();
 
+        $form = $this->get('form.factory')->create();
+
         return $this->render('blog/admin/index.html.twig', array(
-            'listPosts' => $listPosts
+            'listPosts' => $listPosts,
+            'form' => $form->createView()
         ));
     }
 
@@ -91,8 +94,19 @@ class AdminBlogController extends BlogController
         ));
     }
 
-    public function deleteAction()
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function deleteAction(Request $request, Post $post)
     {
+        if ($request->isMethod('POST')) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($post);
+            $em->flush();
 
+            $this->addFlash('info', "L'élément a bien été supprimé.");
+            dump('supprimé');
+        }
+        return $this->redirectToRoute('admin-index');
     }
 }

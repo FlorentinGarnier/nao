@@ -28,7 +28,13 @@
                         <td>{{ post.creationDate | date('d/m/Y') }}</td>
                         <td>{{ post.status }}</td>
                         <td><a href="{{ path('edit', {'id': post.id}) }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        <td><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td class="btn-delete">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <form action="{{ path('delete', {'id': post.id}) }}" method="post">
+                                <input type="submit" value=""/>
+                                {{ form_rest(form) }}
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
