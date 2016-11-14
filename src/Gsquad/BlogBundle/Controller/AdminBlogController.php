@@ -22,7 +22,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class AdminBlogController extends BlogController
 {
-    public function adminIndexAction(Request $request)
+    /**
+     * @Route("/admin", name="admin-index")
+     */
+    public function adminIndexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -30,15 +33,8 @@ class AdminBlogController extends BlogController
             ->getRepository('GsquadBlogBundle:Post')
             ->findAll();
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $listPosts,
-            $request->query->getInt('page', 1)
-        );
-
-
         return $this->render('blog/admin/index.html.twig', array(
-            'pagination' => $pagination
+            'listPosts' => $listPosts
         ));
     }
 
@@ -47,6 +43,8 @@ class AdminBlogController extends BlogController
      */
     public function addAction(Request $request)
     {
+        $user = $this->getUser();
+
         $formType = 'Gsquad\BlogBundle\Form\Type\PostType';
         $newPost = new Post();
 
@@ -55,6 +53,7 @@ class AdminBlogController extends BlogController
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $slug = $this->get('gsquad_blog.slugger')->slugify($newPost->getTitle());
             $newPost->setSlug($slug);
+            $newPost->setAuthor($user->getUsername());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($newPost);
@@ -70,16 +69,11 @@ class AdminBlogController extends BlogController
     }
 
     /**
-     * @Route("/edit", name ="edit")
+     * @Route("/edit/{id}", name ="edit")
      */
-    public function editAction(Request $request, $slug)
+    public function editAction(Request $request, Post $post)
     {
         $formType = 'Gsquad\BlogBundle\Form\Type\PostType';
-        $entity = 'Gsquad\BlogBundle\Entity\Post';
-        $post = $this
-            ->getDoctrine()
-            ->getRepository($entity)
-            ->find($slug);
 
         $form = $this->get('form.factory')->create($formType, $post);
 
@@ -89,10 +83,10 @@ class AdminBlogController extends BlogController
 
             $this->addFlash('info', 'Element bien modifié.');
 
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin-index');
         }
 
-        return $this->render('blog/add.html.twig', array(
+        return $this->render('blog/admin/add.html.twig', array(
             'form' => $form->createView(),
         ));
     }

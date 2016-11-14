@@ -102,7 +102,6 @@ class Post
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->author = 'moi'; //TODO Faire en sorte que l'utilisateur soit l'auteur
         $this->status = 'en attente'; //TODO à adapter aussi
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();

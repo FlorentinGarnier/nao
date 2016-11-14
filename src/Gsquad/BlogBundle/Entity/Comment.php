@@ -57,7 +57,6 @@ class Comment
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->author = 'Auteur test';
     }
 
     /**

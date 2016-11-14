@@ -2,10 +2,14 @@
 
 namespace Gsquad\BlogBundle\Controller;
 
+use Gsquad\BlogBundle\Entity\Category;
 use Gsquad\BlogBundle\Entity\Comment;
+use Gsquad\BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 class BlogController extends Controller
 {
@@ -36,20 +40,13 @@ class BlogController extends Controller
 
     /**
      * @Route("/{slug}", name="single_post")
+     * @ParamConverter("post", class="GsquadBlogBundle:Post")
      */
-    public function singleAction(Request $request)
+    public function singleAction(Post $post, Request $request)
     {
-        $slug = $request->get('slug');
+        $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
-        $post = $em
-            ->getRepository('GsquadBlogBundle:Post')
-            ->findOneBy(array(
-                'slug' => $slug));
-
-        if (!$post) {
-            throw $this->createNotFoundException('Aucun article correspondant.');
-        }
 
         $comments = $em
             ->getRepository('GsquadBlogBundle:Comment')
@@ -59,7 +56,9 @@ class BlogController extends Controller
         $newComment = new Comment();
 
         $form = $this->get('form.factory')->create($formType, $newComment);
+
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $newComment->setAuthor($user->getUsername());
             $post->addComment($newComment);
 
             $em = $this->getDoctrine()->getManager();
@@ -68,11 +67,10 @@ class BlogController extends Controller
 
             $this->addFlash('info', 'L\'article a été ajouté !');
             return $this->redirectToRoute('single_post', array(
-                'slug' => $slug
+                'slug' => $post->getSlug()
             ));
         }
 
-        dump($post, $comments);
         return $this->render('blog/single.html.twig', array(
             'post' => $post,
             'comments' => $comments,
@@ -81,22 +79,29 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/{category}", name="category")
+     * @Route("/{slug}", name="category")
+     * @Route("/{slug}/{page}", name="category")
+     * @ParamConverter("category", class="GsquadBlogBundle:Category")
      */
-    public function categoryAction(Request $request, $page = 1)
+    public function categoryAction(Category $category, $page = 1)
     {
-        $category = $request->get('category');
-        dump($category);
-
         $posts_count = $this->getDoctrine()
             ->getRepository('GsquadBlogBundle:Post')
-            ->countPublishedTotalByCategory($category);
+            ->countPublishedTotalByCategory($category->getId());
+
+        $pagination = array(
+            'page' => $page,
+            'route' => 'blog',
+            'pages_count' => ceil($posts_count / 5),
+            'route_params' => array()
+        );
 
         $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
-            ->getPostsByCategory($category, $page);
+            ->getPostsByCategory($category->getId(), $page);
 
-        return $this->render('blog/index.html.twig', array(
+        return $this->render('blog/category.html.twig', array(
             'posts' => $posts,
+            'pagination' => $pagination
         ));
     }
 

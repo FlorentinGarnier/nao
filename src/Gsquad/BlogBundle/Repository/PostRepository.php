@@ -1,8 +1,8 @@
 <?php
 
 namespace Gsquad\BlogBundle\Repository;
+
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -13,13 +13,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class PostRepository extends EntityRepository
 {
-    //TODO Récupérer commentaires associés à l'article
-    //TODO Récupérer par catégorie
     public function getAllPosts($currentPage = 1)
     {
-        /*$query = $this->_em->createQuery(
-            'SELECT p FROM GsquadBogBundle:Post p'
-        )*/
         $query = $this->createQueryBuilder('p');
 
         $query
@@ -41,16 +36,16 @@ class PostRepository extends EntityRepository
 
         $query
             ->select('p')
-            ->where('category = :category')
+            ->where('p.category = :category')
                 ->setParameter('category', $category)
+            ->leftJoin('p.comments', 'c')
+                ->addSelect('c')
             ->orderBy('p.creationDate', 'DESC')
             ->getQuery();
 
+        $paginator = $this->paginate($query, $currentPage);
 
-
-        return $query
-            ->getQuery()
-            ->getResult();
+        return $paginator;
     }
 
     public function paginate($dql, $page = 1, $limit = 5)
