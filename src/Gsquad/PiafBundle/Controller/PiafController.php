@@ -26,8 +26,8 @@ class PiafController extends Controller
         $choiceEspece['Pas d\'espèce précise'] = false;
 
         $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-        $em = $this->getDoctrine()->getManager();
-        $connection = $em->getConnection();
+        //$em = $this->getDoctrine()->getManager();
+        //$connection = $em->getConnection();
         //$listEspeces = $connection->fetchAll(
         //    'SELECT NOM_VERN FROM taxref'
         //);
@@ -219,19 +219,25 @@ class PiafController extends Controller
      */
     public function updateDataAction(Request $request)
     {
-        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+        $session = $request->getSession();
         $data = $request->get('input');
 
-//        $em = $this->getDoctrine()->getManager();
+        if($session->has('results')) {
+            $results = $session->get('results');
+        } else {
+            $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+//          $em = $this->getDoctrine()->getManager();
 
-//        $connection = $em->getConnection();
+//          $connection = $em->getConnection();
 
-//        $results = $connection->fetchAll(
-//            'SELECT LB_NOM, NOM_VERN FROM taxref'
+//          $results = $connection->fetchAll(
+//              'SELECT LB_NOM, NOM_VERN FROM taxref'
 //        );
 
-        $results = $piafRepository->fetchAllNomVernLbNom();
+            $results = $piafRepository->fetchAllNomVernLbNom();
 
+            $session->set('results', $results);
+        }
 
         $temp = [];
 
