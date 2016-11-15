@@ -19,10 +19,9 @@ parameters:
     secret:            ThisTokenIsSecret
 
     #OAuth
-
-    facebook_id: 1305291159533263
-        facebook_secret: ~
-        google_id: ~
-        google_secret: ~
-        twitter_id: ~
-        twitter_secret: ~
+    facebook_id: ~
+    facebook_secret: ~
+    google_id: ~
+    google_secret: ~
+    twitter_id: ~
+    twitter_secret: ~
