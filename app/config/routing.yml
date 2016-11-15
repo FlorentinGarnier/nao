@@ -2,5 +2,9 @@ app:
     resource: "@GsquadCoreBundle/Controller/"
     type:     annotation
 
+app_search:
+    resource: "@GsquadPiafBundle/Controller"
+    type:     annotation
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
