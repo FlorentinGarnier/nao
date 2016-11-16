@@ -20,13 +20,13 @@ class FOSUBUserProvider extends BaseClass
         $setter_id = $setter.'Id';
         $setter_token = $setter.'AccessToken';
         //we "disconnect" previously connected users
-        if (null !== $previousUser = $this->userManager->findUserBy(array($property => $email))) {
+        if (null !== $previousUser = $this->userManager->findUserBy(['emailCanonical' => $email])) {
             $previousUser->$setter_id(null);
             $previousUser->$setter_token(null);
             $this->userManager->updateUser($previousUser);
         }
         //we connect current user
-        $user->$setter_id($username);
+        $user->$setter_id($email);
         $user->$setter_token($response->getAccessToken());
         $this->userManager->updateUser($user);
     }
@@ -37,11 +37,10 @@ class FOSUBUserProvider extends BaseClass
     {
         $email = $response->getEmail();
         $userName = $response->getNickname();
-        $id = $response->getUsername();
+        //$id = $response->getUsername();
 
 
-        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $id));
-        dump($user);
+        $user = $this->userManager->findUserBy(['emailCanonical' => $email]);
         //when the user is registrating
         if (null === $user) {
             $service = $response->getResourceOwner()->getName();

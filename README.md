@@ -19,3 +19,8 @@ Init project with composer
 
 `php bin/console doctrine:fixtures:load`
 
+##Authentification
+
+You must create application on Facebook and Google API 
+Twitter is not yet implemented
+
