@@ -16,10 +16,10 @@ $(document).ready(function(){
 
     function simpleTemplating(data) {
         var html = '<hr/>';
-        html += '<div>';
+        html += '<div id="fiches-area">';
 
         $.each(data, function(index, item){
-            html += '<hr/>';
+            html += '<div class="fiche">';
             html += '<p>Ordre : ' + data[index][0] +'</p>';
             html += '<p>Famille : ' + data[index][1] +'</p>';
             html += '<p>Nom vulgaire : ' + data[index][2] +'</p>';
@@ -29,6 +29,7 @@ $(document).ready(function(){
             if(data[index][6] > 0) {
                 html += '<p>' + data[index][6] +' observation(s) faite(s) à cet endroit</p>';
             }
+            html += '</div>';
         });
 
         html += '</div>';

@@ -2,15 +2,14 @@
 
 namespace Gsquad\PiafBundle\Controller;
 
-use Gsquad\PiafBundle\Entity\Observation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Gsquad\PiafBundle\Entity\Piaf;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -26,11 +25,6 @@ class PiafController extends Controller
         $choiceEspece['Pas d\'espèce précise'] = false;
 
         $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-        //$em = $this->getDoctrine()->getManager();
-        //$connection = $em->getConnection();
-        //$listEspeces = $connection->fetchAll(
-        //    'SELECT NOM_VERN FROM taxref'
-        //);
 
         //On récupère tous les enregistrements de fetchAllNomVern
         $listEspeces = $piafRepository->fetchAllNomVern();
@@ -59,12 +53,36 @@ class PiafController extends Controller
             ->add('search', SubmitType::class, array('label' => 'Lancer la recherche'))
             ->getForm();
 
+        if($this->getUser()) {
+            if(
+                in_array('ROLE_CHERCHEUR', $this->getUser()->getRoles()) ||
+                in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ||
+                in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles())
+            ){
+                $form
+                    ->add('latitude', NumberType::class, array('required' => false))
+                    ->add('longitude', NumberType::class, array('required' => false));
+            }
+        }
 
-        if($form->handleRequest($request)->isValid())
+        if($form->handleRequest($request)->isValid() || isset($_POST["espece"]))
         {
-            $name = $form["nameVern"]->getData();
-            $departement = $form["departement"]->getData();
-            $espece = $form["espece"]->getData();
+            if(isset($_POST["espece"])) {
+                if($_POST["espece"] == '') {
+                    $name = null;
+                }
+                else {
+                    $name = $_POST["espece"];
+                }
+                $departement = false;
+                $espece = false;
+            }
+            else {
+                $name = $form["nameVern"]->getData();
+                $departement = $form["departement"]->getData();
+                $espece = $form["espece"]->getData();
+            }
+
             $listPiafs = [];
 
             if($departement) {
@@ -119,30 +137,13 @@ class PiafController extends Controller
             }
             else {
                 if($espece) {
-//                    $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
-//
-//                    $stmt = $connection->prepare($sql);
-//                    $stmt->bindValue("name", $espece);
-//                    $stmt->execute();
-//                    $results = $stmt->fetchAll();
                     $results = $piafRepository->findBy(['nameVern' => $espece]);
                 }
                 else {
-//                    $sql = "SELECT LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE NOM_VERN = :name";
-//
-//                    $stmt = $connection->prepare($sql);
-//                    $stmt->bindValue("name", $name);
-//                    $stmt->execute();
-//                    $results = $stmt->fetchAll();
-
                     $results = $piafRepository->findBy(['nameVern' => $name]);
                 }
 
                 if(empty($results)) {
-//                    $results = $connection->fetchAll(
-//                        'SELECT LB_NOM, NOM_VERN FROM taxref'
-//                    );
-
                     $results = $piafRepository->fetchAllNomVernLbNom();
 
                     $temp = [];
@@ -168,31 +169,6 @@ class PiafController extends Controller
                     }
 
                     $results = $piafRepository->findBy(array('nameVern' => $temp));
-
-                    /*
-                    //Requetes SQL outdated
-                    if(!empty($temp)) {
-                        $sql = "SELECT ID, LB_NOM, NOM_VERN, NOM_VERN_ENG, HABITAT, ORDRE, FAMILLE FROM taxref WHERE ";
-
-                        for($i = 0; $i < count($temp); $i++) {
-                            $sql = $sql."NOM_VERN = :name".$i." OR LB_NOM = :name".$i;
-                            if($i != count($temp)-1) {
-                                $sql = $sql." OR ";
-                            }
-                            else {
-                                $sql = $sql." LIMIT 0,15";
-                            }
-                        }
-
-                        $stmt = $connection->prepare($sql);
-                        for($i = 0; $i < count($temp); $i++) {
-                            $stmt->bindValue("name".$i, $temp[$i]);
-                        }
-                        $stmt->execute();
-                        $results = $stmt->fetchAll();
-
-                        var_dump($results);
-                    }*/
                 }
 
                 $service = $this->container->get('gsquad_piaf.set_habitat');
@@ -226,14 +202,6 @@ class PiafController extends Controller
             $results = $session->get('results');
         } else {
             $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-//          $em = $this->getDoctrine()->getManager();
-
-//          $connection = $em->getConnection();
-
-//          $results = $connection->fetchAll(
-//              'SELECT LB_NOM, NOM_VERN FROM taxref'
-//        );
-
             $results = $piafRepository->fetchAllNomVernLbNom();
 
             $session->set('results', $results);
