@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PostType extends AbstractType
 {
@@ -35,7 +36,11 @@ class PostType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Dans quelle catégorie souhaitez-vous ajouter votre article ?'
             ))
-            /*->add('image', ImageType::class)*/
+            ->add('imageFile', VichImageType::class, array(
+                'required'      => false,
+                'allow_delete'  => true,
+                'download_link' => true,
+            ))
             ->add('submit', SubmitType::class, array(
                 'label' => 'Publier l\'article'
             ))
