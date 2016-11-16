@@ -237,4 +237,179 @@ class PiafController extends Controller
     private function removeAccents($string) {
         return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8'))), ' '));
     }
+
+    /**
+     * @Route("/observations", name="observations")
+     */
+    public function pageOiseauAction(Request $request)
+    {
+        $listPiafs = [];
+        $choiceEspece = [];
+        $choiceEspece['Pas d\'espèce précise'] = false;
+
+        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+
+        //On récupère tous les enregistrements de fetchAllNomVern
+        $listEspeces = $piafRepository->fetchAllNomVern();
+
+        foreach($listEspeces as $espece) {
+            if($espece['nameVern'] != null) {
+                $choiceEspece[$espece['nameVern']] = $espece['nameVern'];
+            }
+        }
+
+        //Les résultats sont trié dans la methode fetchAllNomVern
+        //asort($choiceEspece);
+
+        $service = $this->container->get('gsquad_piaf.get_departements');
+
+        $depts = $service->getDepartementsArray();
+
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('nameVern', TextType::class, array('required' => false))
+            ->add('espece', ChoiceType::class,
+                array('choices' => $choiceEspece
+                ))
+            ->add('departement', ChoiceType::class,
+                array('choices' => $depts))
+            ->add('search', SubmitType::class, array('label' => 'Lancer la recherche'))
+            ->getForm();
+
+        if($this->getUser()) {
+            if(
+                in_array('ROLE_CHERCHEUR', $this->getUser()->getRoles()) ||
+                in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ||
+                in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles())
+            ){
+                $form
+                    ->add('latitude', NumberType::class, array('required' => false))
+                    ->add('longitude', NumberType::class, array('required' => false));
+            }
+        }
+
+        if($form->handleRequest($request)->isValid() || isset($_POST["espece"]))
+        {
+            if(isset($_POST["espece"])) {
+                if($_POST["espece"] == '') {
+                    $name = null;
+                }
+                else {
+                    $name = $_POST["espece"];
+                }
+                $departement = false;
+                $espece = false;
+            }
+            else {
+                $name = $form["nameVern"]->getData();
+                $departement = $form["departement"]->getData();
+                $espece = $form["espece"]->getData();
+            }
+
+            $listPiafs = [];
+
+            if($departement) {
+                $listObservations = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('GsquadPiafBundle:Observation')
+                    ->findBy(
+                        array('departement' => $departement)
+                    );
+
+                foreach ($listObservations as $observation) {
+                    $piafTemp = $observation->getPiaf();
+
+                    $posA = true;
+                    $posB = true;
+
+                    if($espece) {
+                        if($piafTemp->getNameVern() === $espece) {
+                            $posA = true;
+                        } else {
+                            $posA = false;
+                        }
+                        $posB = false;
+                    }
+
+                    if($name !== null && !$espece) {
+                        $posA = strpos($this->removeAccents($piafTemp->getLbNom()),($this->removeAccents($name)));
+                        $posB = strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name)));
+                    }
+
+                    if($posA !== false || $posB !== false) {
+                        if(!in_array($piafTemp, $listPiafs)) {
+                            $piafTemp->setNbObservations(1);
+                            $listPiafs[] = $piafTemp;
+                        } else {
+                            $key = array_search($piafTemp, $listPiafs);
+                            $listPiafs[$key]->setNbObservations($listPiafs[$key]->getNbObservations() + 1);
+                        }
+                    }
+                }
+
+                usort($listPiafs, function ($a, $b)
+                {
+                    if ($a->getNbObservations() == $b->getNbObservations()) {
+                        return 0;
+                    }
+                    return ($a->getNbObservations() > $b->getNbObservations()) ? -1 : 1;
+                });
+
+                $service = $this->container->get('gsquad_piaf.set_habitat');
+
+                $listPiafs = $service->setHabitats($listPiafs);
+            }
+            else {
+                if($espece) {
+                    $results = $piafRepository->findBy(['nameVern' => $espece]);
+                }
+                else {
+                    $results = $piafRepository->findBy(['nameVern' => $name]);
+                }
+
+                if(empty($results)) {
+                    $results = $piafRepository->fetchAllNomVernLbNom();
+
+                    $temp = [];
+
+                    foreach ($results as $result) {
+
+                        if(!in_array($result, $temp)) {
+                            if($name === null) {
+                                $posA = true;
+                                $posB = true;
+                            } else {
+                                $posA = strpos($this->removeAccents($result['nameVern']),($this->removeAccents($name)));
+                                $posB = strpos($this->removeAccents($result['lbNom']),($this->removeAccents($name)));
+                            }
+
+                            if($posA !== false) {
+                                $temp[] = $result['nameVern'];
+                            }
+                            if($posB !== false) {
+                                $temp[] = $result['lbNom'];
+                            }
+                        }
+                    }
+
+                    $results = $piafRepository->findBy(array('nameVern' => $temp));
+                }
+
+                $service = $this->container->get('gsquad_piaf.set_habitat');
+
+                $listPiafs = $service->setHabitats($results);
+            }
+
+            return $this->render('search/search.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'form' => $form->createView(),
+                'list_piafs' => $listPiafs,
+            ]);
+        }
+
+        return $this->render('search/search.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'form' => $form->createView(),
+            'list_piafs' => $listPiafs,
+        ]);
+    }
 }

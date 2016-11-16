@@ -48,6 +48,16 @@ class Observation
     private $valid;
 
     /**
+     * @ORM\Column(name="observateur", type="string", length=255, nullable=true)
+     */
+    private $observateur;
+
+    /**
+     * @ORM\Column(name="dateObservation", type="datetime", nullable=true)
+     */
+    private $dateObservation;
+
+    /**
      * @ORM\Column(name="createdAt", type="datetime")
      */
     private $createdAt;
@@ -58,10 +68,9 @@ class Observation
     private $updatedAt;
 
     /**
-     * @ORM\Column(name="imgUrl", type="string", length=255, nullable=true)
+     * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
      */
-    private $imgUrl;
-
+    private $photo;
 
     /**
      * @ORM\ManyToOne(targetEntity="Piaf", cascade={"persist"})
@@ -234,6 +243,54 @@ class Observation
     }
 
     /**
+     * Set observateur
+     *
+     * @param string $observateur
+     *
+     * @return Observation
+     */
+    public function setObservateur($observateur)
+    {
+        $this->observateur = $observateur;
+
+        return $this;
+    }
+
+    /**
+     * Get observateur
+     *
+     * @return string
+     */
+    public function getObservateur()
+    {
+        return $this->observateur;
+    }
+
+    /**
+     * Set dateObservation
+     *
+     * @param \DateTime $dateObservation
+     *
+     * @return Observation
+     */
+    public function setDateObservation($dateObservation)
+    {
+        $this->dateObservation = $dateObservation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateObservation
+     *
+     * @return \DateTime
+     */
+    public function getDateObservation()
+    {
+        return $this->dateObservation;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -303,5 +360,29 @@ class Observation
     public function getPiaf()
     {
         return $this->piaf;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param \Gsquad\PiafBundle\Entity\Photo $photo
+     *
+     * @return Observation
+     */
+    public function setPhoto(\Gsquad\PiafBundle\Entity\Photo $photo)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return \Gsquad\PiafBundle\Entity\Photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
     }
 }
