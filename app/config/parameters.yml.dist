@@ -17,3 +17,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsSecret
+
+    #OAuth
+    facebook_app_id: ~
+    facebook_app_secret: ~
+    google_app_id: ~
+    google_app_secret: ~
+    twitter_app_id: ~
+    twitter_app_secret: ~

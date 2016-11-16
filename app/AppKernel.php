@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Gsquad\AdminBundle\GsquadAdminBundle(),
             new Gsquad\UserBundle\GsquadUserBundle(),
             new Gsquad\PiafBundle\GsquadPiafBundle(),
+            new \HWI\Bundle\OAuthBundle\HWIOAuthBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
