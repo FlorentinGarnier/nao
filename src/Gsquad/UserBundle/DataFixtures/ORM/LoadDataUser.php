@@ -13,11 +13,21 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class LoadDataUser implements FixtureInterface, ContainerAwareInterface
 {
     private $container;
+
+    const ROLES = [
+        'super_admin',
+        'admin',
+        'chercheur',
+        'adherent',
+        'membre',
+        'utilisateur'
+    ];
 
     public function setContainer(ContainerInterface $container = null)
     {
@@ -29,24 +39,20 @@ class LoadDataUser implements FixtureInterface, ContainerAwareInterface
         $userManager = $this->container->get('fos_user.user_manager');
 
         //liste des rôles
-        $users = [
-            'super_admin',
-            'admin',
-            'chercheur',
-            'adherent',
-            'membre',
-            'utilisateur'
-        ];
+
 
         //Hydratation des Roles
-        foreach ($users as $item) {
+        foreach ( self::ROLES as $role) {
 
             $user = $userManager->createUser();
-            $user->setUsername($item);
-            $user->setEmail($item . '@' . $item . '.fr');
-            $user->setPlainPassword($item);
+            $user->setFirstName($role);
+            $user->setLastName($role);
+            $user->setUsername($role);
+            $user->setBirthday(new \DateTime('NOW'));
+            $user->setEmail($role . '@' . $role . '.fr');
+            $user->setPlainPassword($role);
             $user->setEnabled(true);
-            $user->setRoles(['ROLE_' . strtoupper($item)]);
+            $user->setRoles(['ROLE_' . strtoupper($role)]);
 
             $userManager->updateUser($user, true);
         }

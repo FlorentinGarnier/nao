@@ -10,6 +10,7 @@ namespace Gsquad\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class User
@@ -26,14 +27,52 @@ class User extends BaseUser
      */
     protected $id;
 
-    /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
-    protected $facebook_id;
-    /** @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true) */
-    protected $facebook_access_token;
-    /** @ORM\Column(name="google_id", type="string", length=255, nullable=true) */
-    protected $google_id;
-    /** @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) */
-    protected $google_access_token;
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=50)
+     */
+    protected $firstName;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=50)
+     */
+    protected $lastName;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(type="date")
+     */
+    protected $birthday;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=125)
+     */
+    protected $adress1;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=125)
+     */
+    protected $adress2;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=125)
+     */
+    protected $zipCode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $facebookID;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $googleID;
+
 
     /**
      * Set facebookId
@@ -129,5 +168,149 @@ class User extends BaseUser
     public function getGoogleAccessToken()
     {
         return $this->google_access_token;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param \DateTime $birthday
+     *
+     * @return User
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return \DateTime
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set adress1
+     *
+     * @param string $adress1
+     *
+     * @return User
+     */
+    public function setAdress1($adress1)
+    {
+        $this->adress1 = $adress1;
+
+        return $this;
+    }
+
+    /**
+     * Get adress1
+     *
+     * @return string
+     */
+    public function getAdress1()
+    {
+        return $this->adress1;
+    }
+
+    /**
+     * Set adress2
+     *
+     * @param string $adress2
+     *
+     * @return User
+     */
+    public function setAdress2($adress2)
+    {
+        $this->adress2 = $adress2;
+
+        return $this;
+    }
+
+    /**
+     * Get adress2
+     *
+     * @return string
+     */
+    public function getAdress2()
+    {
+        return $this->adress2;
+    }
+
+    /**
+     * Set zipCode
+     *
+     * @param string $zipCode
+     *
+     * @return User
+     */
+    public function setZipCode($zipCode)
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipCode
+     *
+     * @return string
+     */
+    public function getZipCode()
+    {
+        return $this->zipCode;
     }
 }

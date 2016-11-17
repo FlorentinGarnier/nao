@@ -16,11 +16,11 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Gsquad\CoreBundle\GsquadCoreBundle(),
-            new \FOS\UserBundle\FOSUserBundle(),
             new Gsquad\AdminBundle\GsquadAdminBundle(),
             new Gsquad\UserBundle\GsquadUserBundle(),
             new Gsquad\PiafBundle\GsquadPiafBundle(),
-            new \HWI\Bundle\OAuthBundle\HWIOAuthBundle()
+            new \HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new \FOS\UserBundle\FOSUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
