@@ -31,4 +31,43 @@ class PiafRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function fetchAllNomVernLbNomObservedPiaf(){
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('p.nameVern', 'p.lbNom')
+            ->where('p.nbObservations > :observations')
+            ->setParameter('observations', 0)
+            ->orderBy('p.nbObservations', 'ASC')
+            ->getQuery();
+        ;
+
+        return $query->getResult();
+    }
+
+    public function findAllObservedPiaf() {
+        $query = $this->createQueryBuilder('p')
+            ->where('p.nbObservations > :observations')
+            ->setParameter('observations', 0)
+            ->orderBy('p.nbObservations', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findObservedPiafBy($espece) {
+        $term1 = $espece;
+        $term2 = $espece . " ";
+
+        $query = $this->createQueryBuilder('p')
+            ->where('p.nbObservations > :observations')
+            ->andWhere("p.nameVern = :term1 OR p.nameVern = :term2")
+            ->setParameter('observations', 0)
+            ->setParameter('term1', $term1)
+            ->setParameter('term2', $term2)
+            ->orderBy('p.nbObservations', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

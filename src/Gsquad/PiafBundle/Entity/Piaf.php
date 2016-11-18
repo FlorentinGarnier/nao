@@ -279,7 +279,7 @@ class Piaf
     private $nbObservations;
 
     /**
-     * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Photo")
      */
     private $photo;
 

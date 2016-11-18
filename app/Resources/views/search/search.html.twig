@@ -77,10 +77,18 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        var imgUrl;
         var datas = [];
         var i = 0;
         {% for piaf in list_piafs %}
-        datas[i] = [
+            imgUrl = '';
+
+            {% if piaf.photo %}
+                imgUrl = '{{ piaf.getPhoto.imgUrl }}';
+            {% endif %}
+
+            datas[i] = [
+                imgUrl,
                 '{{ piaf.ordre }}',
                 '{{ piaf.family }}',
                 '{{ piaf.nameVern }}',
@@ -88,8 +96,8 @@
                 '{{ piaf.lbNom }}',
                 '{{ piaf.habitat }}',
                 '{{ piaf.nbObservations }}'
-        ];
-        i++;
+            ];
+            i++;
         {% endfor %}
     </script>
     <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>

@@ -348,6 +348,7 @@ class Observation
     public function setPiaf(\Gsquad\PiafBundle\Entity\Piaf $piaf = null)
     {
         $this->piaf = $piaf;
+        $piaf->setNbObservations($piaf->getNbObservations() + 1);
 
         return $this;
     }

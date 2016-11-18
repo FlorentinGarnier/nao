@@ -20,14 +20,15 @@ $(document).ready(function(){
 
         $.each(data, function(index, item){
             html += '<div class="fiche">';
-            html += '<p>Ordre : ' + data[index][0] +'</p>';
-            html += '<p>Famille : ' + data[index][1] +'</p>';
-            html += '<p>Nom vulgaire : ' + data[index][2] +'</p>';
-            html += '<p>Nom vulgaire anglais : ' + data[index][3] +'</p>';
-            html += '<p>Nom scientifique : ' + data[index][4] +'</p>';
-            html += '<p>Habitat : ' + data[index][5] +'</p>';
-            if(data[index][6] > 0) {
-                html += '<p>' + data[index][6] +' observation(s) faite(s) à cet endroit</p>';
+            html += '<p>Image source : ' + data[index][0] +'</p>';
+            html += '<p>Ordre : ' + data[index][1] +'</p>';
+            html += '<p>Famille : ' + data[index][2] +'</p>';
+            html += '<p>Nom vulgaire : ' + data[index][3] +'</p>';
+            html += '<p>Nom vulgaire anglais : ' + data[index][4] +'</p>';
+            html += '<p>Nom scientifique : ' + data[index][5] +'</p>';
+            html += '<p>Habitat : ' + data[index][6] +'</p>';
+            if(data[index][7] > 0) {
+                html += '<p>' + data[index][7] +' observation(s) faite(s) à cet endroit</p>';
             }
             html += '</div>';
         });
