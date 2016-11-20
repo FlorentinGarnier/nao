@@ -5,7 +5,6 @@ namespace Gsquad\BlogBundle\Form\Type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagType extends AbstractType
 {
@@ -22,16 +21,6 @@ class TagType extends AbstractType
         ))
         ;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
-    /*public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Gsquad\BlogBundle\Entity\Tag'
-        ));
-    }*/
 
     /**
      * {@inheritdoc}

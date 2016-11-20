@@ -19,7 +19,11 @@
             {% endfor %}
             <div>
                 Voir tous les commentaires
-                <button>Ajouter un commentaire</button>
+                {% if is_granted('ROLE_UTILISATEUR') %}
+                    <button>Ajouter un commentaire</button>
+                {% else %}
+                    <p>Vous devez être connecté pour ajouter un commentaire.</p>
+                {% endif %}
             </div>
             <div id="comment-form">
                 {{ form_start(form) }}

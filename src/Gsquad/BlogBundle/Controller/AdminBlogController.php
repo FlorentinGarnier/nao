@@ -10,7 +10,6 @@ namespace Gsquad\BlogBundle\Controller;
 
 
 use Gsquad\BlogBundle\Entity\Post;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
