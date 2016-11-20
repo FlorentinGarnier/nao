@@ -430,4 +430,8 @@ class Post
         return $this->comments;
     }
 
+    public function getWebPath()
+    {
+        return 'images/'.$this->imageName;
+    }
 }

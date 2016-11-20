@@ -5,10 +5,18 @@
 {% block section %}
     <article class="post-block col-xs-12">
         <h1>{{ post.title }}</h1>
-        <div>{{ post.content|raw }}</div>
-        <p class="author">
-            Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
-        </p>
+        <div class="row">
+            <div class="col-xs-12">
+                {% if post.imageName %}
+                    <img src="{{ asset(post.webPath) }}" alt="{{ post.imageName }}" width="250px" class="pull-left img-post"/>
+                {% endif %}
+                <div class="post-content">{{ post.content|raw }}</div>
+                <p class="author">
+                    Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
+                </p>
+            </div>
+        </div>
+
         <div class="comments">
             {% for comment in comments %}
                 <div class="comment">

@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfeb88e2-6245-4be4-9083-c28682501f8a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/var/cache/.gitkeep" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/blog/admin/add.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/blog/admin/add.html.twig" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/blog/index.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/blog/index.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/blog/navigation_blog.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/blog/navigation_blog.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/AdminBlogController.php" afterPath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/AdminBlogController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/BlogController.php" afterPath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/BlogController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Comment.php" afterPath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Comment.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/blog/single.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/blog/single.html.twig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php" afterPath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/PostType.php" afterPath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/PostType.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Resources/public/css/blog.css" afterPath="$PROJECT_DIR$/src/Gsquad/BlogBundle/Resources/public/css/blog.css" />
     </list>
     <ignored path="NAO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,8 +40,41 @@
       <file leaf-file-name="PostType.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/PostType.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-56">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="335">
+              <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+              <folding>
+                <element signature="e#47#87#0#PHP" expanded="false" />
+                <marker date="1479663491857" expanded="true" signature="649:1721" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="22" column="135" selection-start-line="22" selection-start-column="135" selection-end-line="22" selection-end-column="135" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="single.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/single.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="blog.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Resources/public/css/blog.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -51,9 +85,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="e#47#96#0#PHP" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,66 +93,10 @@
       <file leaf-file-name="Post.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-670">
-              <caret line="11" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state relative-caret-position="627">
+              <caret line="434" column="0" selection-start-line="434" selection-start-column="0" selection-end-line="434" selection-end-column="0" />
               <folding>
                 <element signature="e#44#76#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BlogController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/BlogController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-              <folding>
-                <element signature="e#1288#2469#0#PHP" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="navigation_blog.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/navigation_blog.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/index.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="574">
-              <caret line="43" column="53" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PostRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Repository/PostRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding>
-                <element signature="e#48#82#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AdminBlogController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/AdminBlogController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-              <folding>
-                <element signature="e#131#165#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -139,8 +115,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/GsquadPiafBundle.php" />
-        <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/Controller/PiafBundleController.php" />
         <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/Form/Type/PiafType.php" />
         <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/Repository/ObservationRepository.php" />
         <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/Resources/public/js/autocomplete.js" />
@@ -169,8 +143,6 @@
         <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/Controller/PiafController.php" />
         <option value="$PROJECT_DIR$/src/Gsquad/PiafBundle/Resources/public/js/autocomplete-species.js" />
         <option value="$PROJECT_DIR$/app/config/parameters.yml" />
-        <option value="$PROJECT_DIR$/app/Resources/views/blog/single.html.twig" />
-        <option value="$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php" />
         <option value="$PROJECT_DIR$/app/config/config.yml" />
         <option value="$PROJECT_DIR$/app/Resources/views/blog/admin/index.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/blog/category.html.twig" />
@@ -188,7 +160,12 @@
         <option value="$PROJECT_DIR$/app/Resources/views/blog/navigation_blog.html.twig" />
         <option value="$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/BlogController.php" />
         <option value="$PROJECT_DIR$/src/Gsquad/BlogBundle/Repository/PostRepository.php" />
+        <option value="$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/PostType.php" />
+        <option value="$PROJECT_DIR$/app/Resources/views/blog/admin/add.html.twig" />
+        <option value="$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php" />
         <option value="$PROJECT_DIR$/app/Resources/views/blog/index.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/blog/single.html.twig" />
+        <option value="$PROJECT_DIR$/src/Gsquad/BlogBundle/Resources/public/css/blog.css" />
       </list>
     </option>
   </component>
@@ -248,6 +225,52 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="var" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -668,6 +691,36 @@
               <option name="myItemId" value="Resources" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NAO" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -754,12 +807,12 @@
       <option name="presentableId" value="Default" />
       <updated>1478510171709</updated>
       <workItem from="1479645810328" duration="365000" />
-      <workItem from="1479647038396" duration="7431000" />
+      <workItem from="1479647038396" duration="14032000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7796000" />
+    <option name="totallyTimeSpent" value="14397000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1604" height="876" extended-state="0" />
@@ -801,13 +854,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Gsquad/PiafBundle/Resources/public/js/paginate-result.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -965,14 +1011,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/admin/add.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-410">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/admin/index.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
@@ -993,22 +1031,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/single.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/Form/fields.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1117,30 +1139,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/PostType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-56">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/TagType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#47#96#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Controller/AdminBlogController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
           <folding>
-            <element signature="e#131#165#0#PHP" expanded="true" />
+            <element signature="e#131#165#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1161,30 +1165,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-670">
-          <caret line="11" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#76#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/navigation_blog.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Repository/PostRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
-            <element signature="e#48#82#0#PHP" expanded="true" />
+            <element signature="e#48#82#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1199,10 +1185,79 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/navigation_blog.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/TagType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/admin/add.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Form/Type/PostType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+          <folding>
+            <element signature="e#47#87#0#PHP" expanded="false" />
+            <marker date="1479663491857" expanded="true" signature="649:1721" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/Form/fields.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Entity/Post.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="434" column="0" selection-start-line="434" selection-start-column="0" selection-end-line="434" selection-end-column="0" />
+          <folding>
+            <element signature="e#44#76#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/index.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="574">
-          <caret line="43" column="53" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
+        <state relative-caret-position="280">
+          <caret line="22" column="135" selection-start-line="22" selection-start-column="135" selection-end-line="22" selection-end-column="135" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/blog/single.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gsquad/BlogBundle/Resources/public/css/blog.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
           <folding />
         </state>
       </provider>

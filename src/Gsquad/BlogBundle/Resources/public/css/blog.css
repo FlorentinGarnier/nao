@@ -1,6 +1,7 @@
 .post-block {
     padding: 15px;
     background-color: #2e9ad0;
+    margin-bottom: 10px;
 }
 
 .post-block > form > div.row {
@@ -16,6 +17,7 @@
 .comments {
     padding: 10px 0px;
     margin-top: 10px;
+    margin-left: 5%;
 }
 .comment {
     padding: 5px;
@@ -28,6 +30,11 @@
 
 .author {
     text-align: right;
+}
+
+.img-post {
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .btn-delete {

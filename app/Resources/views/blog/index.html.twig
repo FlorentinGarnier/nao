@@ -19,6 +19,9 @@
                     {% for post in posts %}
                         <article class="col-xs-12 post-block">
                             <h1>{{ post.title }}</h1>
+                            {% if post.imageName %}
+                                <img src="{{ asset(post.webPath) }}" alt="{{ post.imageName }}" width="200px" class="pull-left img-post"/>
+                            {% endif %}
                             <p class="post-content">{{ post.content|striptags|slice(0, 500) ~ '...' }}</p>
                             <span>Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}</span>
                             <span class="pull-right"><a href="{{ path('single_post', {'slug': post.slug}) }}"
