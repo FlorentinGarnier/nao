@@ -80,8 +80,8 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="category")
-     * @Route("/{slug}/{page}", name="category")
+     * @Route("/categorie/slug}", name="category")
+     * @Route("/categorie/{slug}/{page}", name="category")
      * @ParamConverter("category", class="GsquadBlogBundle:Category")
      */
     public function categoryAction(Category $category, $page = 1)

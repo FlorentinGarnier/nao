@@ -36,13 +36,6 @@ class Comment
     private $creationDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updateDate", type="datetime", nullable=true)
-     */
-    private $updateDate;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=255)
@@ -115,30 +108,6 @@ class Comment
     public function getCreationDate()
     {
         return $this->creationDate;
-    }
-
-    /**
-     * Set updateDate
-     *
-     * @param \DateTime $updateDate
-     *
-     * @return Comment
-     */
-    public function setUpdateDate($updateDate)
-    {
-        $this->updateDate = $updateDate;
-
-        return $this;
-    }
-
-    /**
-     * Get updateDate
-     *
-     * @return \DateTime
-     */
-    public function getUpdateDate()
-    {
-        return $this->updateDate;
     }
 
     /**

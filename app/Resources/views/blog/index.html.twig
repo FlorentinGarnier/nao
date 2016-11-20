@@ -15,31 +15,36 @@
 
         <section class="row">
             {% block section %}
-
-                {% for post in posts %}
-                    <article class="col-xs-12 post-block">
-                        <h1>{{ post.title }}</h1>
-                        <p class="post-content">{{ post.content|striptags|slice(0, 500) ~ '...' }}</p>
-                        <span>Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}</span>
-                        <span class="pull-right"><a href="{{ path('single_post', {'slug': post.slug}) }}"
-                                                    class="btn btn-default">Lire la suite</a></span>
-                        {% set lastComment = post.comments|first %}
-                        {% if lastComment %}
-                            <div class="comments">
-                                Dernier commentaire
-                                <div class="comment">
-                                    <p>{{ lastComment.content }}</p>
-                                    <p class="author">Le {{ lastComment.creationDate | date('d/m/Y') }}
-                                        par {{ lastComment.author }}</p>
+                {% if posts.count is not sameas(0) %}
+                    {% for post in posts %}
+                        <article class="col-xs-12 post-block">
+                            <h1>{{ post.title }}</h1>
+                            <p class="post-content">{{ post.content|striptags|slice(0, 500) ~ '...' }}</p>
+                            <span>Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}</span>
+                            <span class="pull-right"><a href="{{ path('single_post', {'slug': post.slug}) }}"
+                                                        class="btn btn-default">Lire la suite</a></span>
+                            {% set lastComment = post.comments|first %}
+                            {% if lastComment %}
+                                <div class="comments">
+                                    Dernier commentaire
+                                    <div class="comment">
+                                        <p>{{ lastComment.content }}</p>
+                                        <p class="author">Le {{ lastComment.creationDate | date('d/m/Y') }}
+                                            par {{ lastComment.author }}</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                        {% endif %}
-                    </article>
+                            {% endif %}
+                        </article>
 
-                {% endfor %}
-                {# display navigation #}
-                {% include 'blog/pagination.html.twig' %}
+                    {% endfor %}
+                    {# display navigation #}
+                    {% include 'blog/pagination.html.twig' %}
+                {% else %}
+                    <div class="jumbotron text-center">
+                        Il n'y a pas encore d'article !
+                    </div>
+                {% endif %}
             {% endblock %}
         </section>
     </div>
