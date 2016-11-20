@@ -12,7 +12,7 @@
     {% else %}
     <li><a href="{{ path('fos_user_registration_register') }}">Créer un compte</a></li>
     {% endif %}
-    <li><a href="#">Blog</a></li>
+    <li><a href="{{ path('blog') }}">Blog</a></li>
     <li>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <a href="{{ path('fos_user_security_logout') }}">

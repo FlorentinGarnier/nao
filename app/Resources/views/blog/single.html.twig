@@ -1,0 +1,31 @@
+{# app/Resources/views/blog/single.html.twig #}
+
+{% extends 'blog/index.html.twig' %}
+
+{% block section %}
+    <article class="post-block col-xs-12">
+        <h1>{{ post.title }}</h1>
+        <div>{{ post.content|raw }}</div>
+        <p class="author">
+            Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
+        </p>
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>{{ comment.content }}</p>
+                    <p class="author">Le {{ comment.creationDate | date('d/m/Y') }} par {{ comment.author }}</p>
+                    <hr>
+                </div>
+            {% endfor %}
+            <div>
+                Voir tous les commentaires
+                <button>Ajouter un commentaire</button>
+            </div>
+            <div id="comment-form">
+                {{ form_start(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </article>
+
+{% endblock %}

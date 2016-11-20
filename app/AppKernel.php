@@ -17,9 +17,12 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Gsquad\CoreBundle\GsquadCoreBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
+            new Gsquad\BlogBundle\GsquadBlogBundle(),
+            new \Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Gsquad\AdminBundle\GsquadAdminBundle(),
-            new Gsquad\UserBundle\GsquadUserBundle(),
             new Gsquad\PiafBundle\GsquadPiafBundle(),
+            new Gsquad\UserBundle\GsquadUserBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
             new \HWI\Bundle\OAuthBundle\HWIOAuthBundle()
         ];
 
