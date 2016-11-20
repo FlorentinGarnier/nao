@@ -1,15 +1,33 @@
 .post-block {
-    margin: 10px;
-    padding: 10px;
+    padding: 15px;
     background-color: #2e9ad0;
+}
+
+.post-block > form > div.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-content {
+    text-align: justify;
 }
 
 .comments {
     padding: 10px 0px;
+    margin-top: 10px;
 }
-.lastComment {
+.comment {
     padding: 5px;
     background-color: white;
+}
+
+#comment-form {
+    visibility: hidden;
+}
+
+.author {
+    text-align: right;
 }
 
 .btn-delete {

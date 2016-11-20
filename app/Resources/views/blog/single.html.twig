@@ -3,19 +3,29 @@
 {% extends 'blog/index.html.twig' %}
 
 {% block section %}
-    <article class="post-block">
+    <article class="post-block col-xs-12">
         <h1>{{ post.title }}</h1>
         <div>{{ post.content|raw }}</div>
-        <span class="pull-right">
+        <p class="author">
             Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}
-        </span>
+        </p>
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>{{ comment.content }}</p>
+                    <p class="author">Le {{ comment.creationDate | date('d/m/Y') }} par {{ comment.author }}</p>
+                    <hr>
+                </div>
+            {% endfor %}
+            <div>
+                Voir tous les commentaires
+                <button>Ajouter un commentaire</button>
+            </div>
+            <div id="comment-form">
+                {{ form_start(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
     </article>
-    <aside class="comments">
-        {% for comment in comments %}
-            <p>{{ comment.content }}</p>
-            <span class="pull-right">Le {{ comment.creationDate | date('d/m/Y') }} par {{ comment.author }}</span>
-        {% endfor %}
-        {{ form_start(form) }}
-        {{ form_end(form) }}
-    </aside>
+
 {% endblock %}

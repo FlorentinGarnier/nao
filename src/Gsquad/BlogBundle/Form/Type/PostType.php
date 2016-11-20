@@ -2,7 +2,6 @@
 
 namespace Gsquad\BlogBundle\Form\Type;
 
-use Gsquad\BlogBundle\Form\Type\CategoryType;
 use Gsquad\BlogBundle\Form\Type\TagType;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,6 +36,7 @@ class PostType extends AbstractType
                 'label' => 'Dans quelle catégorie souhaitez-vous ajouter votre article ?'
             ))
             ->add('imageFile', VichImageType::class, array(
+                'label' => 'Associer une image',
                 'required'      => false,
                 'allow_delete'  => true,
                 'download_link' => true,
