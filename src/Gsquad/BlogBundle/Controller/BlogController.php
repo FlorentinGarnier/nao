@@ -57,6 +57,7 @@ class BlogController extends Controller
 
         $form = $this->get('form.factory')->create($formType, $newComment);
 
+        //TODO Limiter commentaires aux connectés
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $newComment->setAuthor($user->getUsername());
             $post->addComment($newComment);

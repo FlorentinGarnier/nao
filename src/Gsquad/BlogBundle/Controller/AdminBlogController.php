@@ -18,12 +18,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Class AdminBlogController
  * @package Gsquad\BlogBundle\Controller
- * @Security("has_role('ROLE_CHERCHEUR') and has_role('ROLE_ADMIN')") //TODO Revoir la sécurité en fonction des rôles
  */
 class AdminBlogController extends BlogController
 {
     /**
      * @Route("/admin", name="admin-index")
+     * @Security("has_role('ROLE_ADMIN')
      */
     public function adminIndexAction()
     {
@@ -43,6 +43,7 @@ class AdminBlogController extends BlogController
 
     /**
      * @Route("/add", name ="add")
+     * @Security("has_role('ROLE_CONTRIBUTEUR')
      */
     public function addAction(Request $request)
     {
@@ -73,6 +74,7 @@ class AdminBlogController extends BlogController
 
     /**
      * @Route("/edit/{id}", name ="edit")
+     * @Security("has_role('ROLE_REDACTEUR')
      */
     public function editAction(Request $request, Post $post)
     {
@@ -96,6 +98,7 @@ class AdminBlogController extends BlogController
 
     /**
      * @Route("/delete/{id}", name="delete")
+     * @Security("has_role('ROLE_ADMIN')
      */
     public function deleteAction(Request $request, Post $post)
     {
