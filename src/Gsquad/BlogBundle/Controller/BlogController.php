@@ -44,29 +44,22 @@ class BlogController extends Controller
      */
     public function singleAction(Post $post, Request $request)
     {
-        $user = $this->getUser();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $comments = $em
-            ->getRepository('GsquadBlogBundle:Comment')
-            ->findAll();
+        $user = $this->getUser()->getUsername();
 
         $formType = 'Gsquad\BlogBundle\Form\Type\CommentType';
         $newComment = new Comment();
 
         $form = $this->get('form.factory')->create($formType, $newComment);
 
-        //TODO Limiter commentaires aux connectés
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $newComment->setAuthor($user->getUsername());
+            $newComment->setAuthor($user);
             $post->addComment($newComment);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($newComment);
             $em->flush();
 
-            $this->addFlash('info', 'L\'article a été ajouté !');
+            $this->addFlash('info', 'Le commentaire a été ajouté !');
             return $this->redirectToRoute('single_post', array(
                 'slug' => $post->getSlug()
             ));
@@ -74,7 +67,6 @@ class BlogController extends Controller
 
         return $this->render('blog/single.html.twig', array(
             'post' => $post,
-            'comments' => $comments,
             'form' => $form->createView()
         ));
     }

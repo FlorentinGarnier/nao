@@ -58,6 +58,12 @@ class AdminBlogController extends BlogController
             $newPost->setSlug($slug);
             $newPost->setAuthor($user->getUsername());
 
+            if($form->get('submit')->isClicked()) {
+                $newPost->setStatus('en attente');
+            } elseif ($form->get('publish')->isClicked()) {
+                $newPost->setStatus('publié');
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($newPost);
             $em->flush();
@@ -82,6 +88,12 @@ class AdminBlogController extends BlogController
         $form = $this->get('form.factory')->create($formType, $post);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            if($form->get('submit')->isClicked()) {
+                $post->setStatus('en attente');
+            } elseif ($form->get('publish')->isClicked()) {
+                $post->setStatus('publié');
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 

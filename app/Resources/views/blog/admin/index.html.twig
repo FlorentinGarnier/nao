@@ -27,7 +27,10 @@
                         <td>{{ post.comments | length }}</td>
                         <td>{{ post.creationDate | date('d/m/Y') }}</td>
                         <td>{{ post.status }}</td>
+                        {% if is_granted('ROLE_REDACTEUR') %}
                         <td><a href="{{ path('edit', {'id': post.id}) }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
                         <td class="btn-delete">
                             <i class="glyphicon glyphicon-trash"></i>
                             <form action="{{ path('delete', {'id': post.id}) }}" method="post">
@@ -35,6 +38,7 @@
                                 {{ form_rest(form) }}
                             </form>
                         </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

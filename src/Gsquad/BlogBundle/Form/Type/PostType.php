@@ -41,8 +41,11 @@ class PostType extends AbstractType
                 'allow_delete'  => true,
                 'download_link' => true,
             ))
-            ->add('submit', SubmitType::class, array(
+            ->add('publish', SubmitType::class, array(
                 'label' => 'Publier l\'article'
+            ))
+            ->add('submit', SubmitType::class, array(
+                'label' => 'Soumettre l\'article'
             ))
         ;
     }

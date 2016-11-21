@@ -1,3 +1,15 @@
+.bg-white {
+    background-color: white;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
 .post-block {
     padding: 15px;
     background-color: #2e9ad0;
@@ -14,20 +26,6 @@
     text-align: justify;
 }
 
-.comments {
-    padding: 10px 0px;
-    margin-top: 10px;
-    margin-left: 5%;
-}
-.comment {
-    padding: 5px;
-    background-color: white;
-}
-
-#comment-form {
-    visibility: hidden;
-}
-
 .author {
     text-align: right;
 }
@@ -37,6 +35,22 @@
     margin-bottom: 10px;
 }
 
+/* Commentaires */
+.comments {
+    padding: 10px 0px;
+    margin-top: 10px;
+    margin-left: 5%;
+}
+.comment {
+    padding: 5px;
+}
+
+#comment-form {
+    margin-left: 5%;
+    width: 67%;
+}
+
+/* Admin blog */
 .btn-delete {
     position: relative;
 }

@@ -33,6 +33,9 @@
             </div>
             <div class="col-xs-6 text-center">
                 {{ form_row(form.submit) }}
+                {% if is_granted('ROLE_REDACTEUR') %}
+                {{ form_row(form.publish) }}
+                {% endif %}
             </div>
         </div>
 

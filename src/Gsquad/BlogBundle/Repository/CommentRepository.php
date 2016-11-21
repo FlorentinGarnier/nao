@@ -11,21 +11,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
-    public function getLastCommentWithPost($post)
-    {
-        dump($post);
-        $qb = $this->createQueryBuilder('c')
-            ->orderBy('c.creationDate', 'DESC')
-            ->setMaxResults(1)
-        ;
 
-        // Puis on ne retourne que $limit résultats
-        //$qb->setMaxResults($limit);
-
-        // Enfin, on retourne le résultat
-        return $qb
-            ->getQuery()
-            ->getResult()
-            ;
-    }
 }

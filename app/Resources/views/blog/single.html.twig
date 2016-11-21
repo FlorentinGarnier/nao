@@ -17,23 +17,25 @@
             </div>
         </div>
 
-        <div class="comments">
-            {% for comment in comments %}
-                <div class="comment">
-                    <p>{{ comment.content }}</p>
-                    <p class="author">Le {{ comment.creationDate | date('d/m/Y') }} par {{ comment.author }}</p>
-                    <hr>
-                </div>
-            {% endfor %}
-            <div>
-                Voir tous les commentaires
+        <div class="comments bg-white">
+            {% if post.comments %}
+                {% for comment in post.comments %}
+                    <div class="comment">
+                        <p>{{ comment.content }}</p>
+                        <p class="author">Le {{ comment.creationDate | date('d/m/Y') }} par {{ comment.author }}</p>
+                        <hr/>
+                    </div>
+                {% endfor %}
+            <div class="text-center">
+                <!--<div>Voir tous les commentaires</div>-->
+            {% endif %}
                 {% if is_granted('ROLE_UTILISATEUR') %}
-                    <button>Ajouter un commentaire</button>
+                    <button id="addComment">Ajouter un commentaire</button>
                 {% else %}
                     <p>Vous devez être connecté pour ajouter un commentaire.</p>
                 {% endif %}
             </div>
-            <div id="comment-form">
+            <div id="comment-form" class="hide">
                 {{ form_start(form) }}
                 {{ form_end(form) }}
             </div>

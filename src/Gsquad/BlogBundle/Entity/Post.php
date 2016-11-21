@@ -17,7 +17,7 @@ use Gsquad\BlogBundle\Entity\Tag;
  * @ORM\Entity(repositoryClass="Gsquad\BlogBundle\Repository\PostRepository")
  * @ORM\HasLifecycleCallbacks()
  *
- *  @Vich\Uploadable
+ * @Vich\Uploadable
  */
 class Post
 {
@@ -84,14 +84,14 @@ class Post
      */
     private $category;
 
-    /** @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName")
+    /** @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName", nullable=true)
     *
     * @var File
     */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
@@ -120,7 +120,6 @@ class Post
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->status = 'en attente'; //TODO à adapter aussi
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }

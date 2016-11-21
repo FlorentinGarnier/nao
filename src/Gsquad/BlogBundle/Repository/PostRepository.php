@@ -19,6 +19,8 @@ class PostRepository extends EntityRepository
 
         $query
             ->select('p')
+                ->where('p.status = :status')
+                ->setParameter('status', 'publié')
             ->leftJoin('p.comments', 'c')
               ->addSelect('c')
             ->orderBy('p.creationDate', 'DESC')
@@ -38,6 +40,8 @@ class PostRepository extends EntityRepository
             ->select('p')
             ->where('p.category = :category')
                 ->setParameter('category', $category)
+            ->andWhere('p.status = :status')
+                ->setParameter('status', 'publié')
             ->leftJoin('p.comments', 'c')
                 ->addSelect('c')
             ->orderBy('p.creationDate', 'DESC')
