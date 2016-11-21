@@ -70,4 +70,27 @@ class PiafRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function fetchAllWith($attr) {
+        $query = $this->createQueryBuilder('p');
+
+        $query = $query
+            ->where("p.nameVern = :term OR p.lbNom = :term")
+            ->setParameter('term', $attr[0]);
+
+
+        if(count($attr) > 1) {
+            for($i = 1; $i < count($attr); $i++) {
+                $query
+                    ->orWhere('p.nameVern = :term'.$i.' OR p.lbNom = :term'.$i)
+                    ->setParameter('term'.$i, $attr[$i]);
+            }
+        }
+
+        $query = $query
+            ->orderBy('p.nbObservations', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

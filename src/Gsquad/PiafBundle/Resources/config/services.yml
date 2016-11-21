@@ -4,3 +4,6 @@ services:
 
     gsquad_piaf.set_habitat:
         class: Gsquad\PiafBundle\Service\GsquadSetHabitat
+
+    gsquad_piaf.modifier_coordonnees:
+        class: Gsquad\PiafBundle\Service\GsquadChangeCoordinates

@@ -22,6 +22,8 @@ class PiafController extends Controller
     {
         $listPiafsObserves = [];
         $choiceEspece = [];
+        $latitudes = [];
+        $longitudes = [];
         $choiceEspece['Pas d\'espèce précise'] = false;
 
         $observationRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Observation');
@@ -82,8 +84,7 @@ class PiafController extends Controller
             $listPiafsObserves = [];
 
             if($departement) {
-                $listObservations = $this->get('doctrine.orm.entity_manager')
-                    ->getRepository('GsquadPiafBundle:Observation')
+                $listObservations = $observationRepository
                     ->findBy(
                         array('departement' => $departement)
                     );
@@ -91,11 +92,31 @@ class PiafController extends Controller
                 foreach ($listObservations as $observation) {
                     $piafTemp = $observation->getPiaf();
 
+                    if($espece) {
+                        if($observation->getLatitude() && $observation->getLongitude() && ($piafTemp->getNameVern() === $espece || $piafTemp->getNameVern() === $espece." ")) {
+                            $latitudes[] = $observation->getLatitude();
+                            $longitudes[] = $observation->getLongitude();
+                        }
+                    }
+                    else {
+                        if($observation->getLatitude()
+                            && $observation->getLongitude()
+                            && (
+                                $name == null
+                                ||strpos($this->removeAccents($piafTemp->getLbNom()),($this->removeAccents($name)))
+                                || strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name)))
+                            )
+                        ) {
+                            $latitudes[] = $observation->getLatitude();
+                            $longitudes[] = $observation->getLongitude();
+                        }
+                    }
+
                     $posA = true;
                     $posB = true;
 
                     if($espece) {
-                        if($piafTemp->getNameVern() === $espece) {
+                        if($piafTemp->getNameVern() === $espece || $piafTemp->getNameVern() === $espece." ") {
                             $posA = true;
                         } else {
                             $posA = false;
@@ -134,20 +155,69 @@ class PiafController extends Controller
             else {
                 $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
 
+                $listObservations = $observationRepository
+                    ->findAll();
+
                 if($espece) {
+                    foreach ($listObservations as $observation) {
+                        $piafTemp = $observation->getPiaf();
+
+                        if(
+                            $observation->getLatitude() &&
+                            $observation->getLongitude() &&
+                            ($piafTemp->getNameVern() === $espece || $piafTemp->getNameVern() === $espece." ")
+                        ) {
+                            $latitudes[] = $observation->getLatitude();
+                            $longitudes[] = $observation->getLongitude();
+                        }
+                    }
                     $results = $piafRepository->findObservedPiafBy($espece);
                 }
                 else {
+                    foreach ($listObservations as $observation) {
+                        $piafTemp = $observation->getPiaf();
+
+                        if(
+                            $observation->getLatitude() &&
+                            $observation->getLongitude() &&
+                            ($piafTemp->getNameVern() === $name || $piafTemp->getNameVern() === $name." ")
+                        ) {
+                            $latitudes[] = $observation->getLatitude();
+                            $longitudes[] = $observation->getLongitude();
+                        }
+                    }
                     $results = $piafRepository->findObservedPiafBy($name);
                 }
 
                 if(empty($results)) {
                     $results = $piafRepository->findAllObservedPiaf();
+                    $listObservations = $observationRepository->findAll();
 
+                    //On recupere les coordonnees d'observations correspondant a la saisie
+                    foreach ($listObservations as $observation) {
+                        if($name === null) {
+                            if(
+                                $observation->getLatitude() &&
+                                $observation->getLongitude()
+                            ) {
+                                $latitudes[] = $observation->getLatitude();
+                                $longitudes[] = $observation->getLongitude();
+                            }
+                        } else {
+                            $posA = strpos($this->removeAccents($observation->getPiaf()->getNameVern()),($this->removeAccents($name)));
+                            $posB = strpos($this->removeAccents($observation->getPiaf()->getLbNom()),($this->removeAccents($name)));
+
+                            if(($posA !== false || $posB !== false) && ($observation->getLatitude() && $observation->getLongitude())) {
+                                $latitudes[] = $observation->getLatitude();
+                                $longitudes[] = $observation->getLongitude();
+                            }
+                        }
+                    }
+
+                    //On recupere les attributs des piafs correspondant a la saisie
                     $temp = [];
 
                     foreach ($results as $result) {
-
                         if(!in_array($result, $temp)) {
                             if($name === null) {
                                 $posA = true;
@@ -166,7 +236,12 @@ class PiafController extends Controller
                         }
                     }
 
-                    $results = $piafRepository->findBy(array('nameVern' => $temp));
+                    if(count($temp) > 0) {
+                        $results = $piafRepository->fetchAllWith($temp);
+                    }
+                    else {
+                        $results = [];
+                    }
                 }
 
                 $service = $this->container->get('gsquad_piaf.set_habitat');
@@ -174,10 +249,29 @@ class PiafController extends Controller
                 $listPiafsObserves = $service->setHabitats($results);
             }
 
+            //Modification des coordonnees si besoin
+            if($this->getUser() == null
+                || in_array('ROLE_UTILISATEUR', $this->getUser()->getRoles())
+                || in_array('ROLE_MEMBRE', $this->getUser()->getRoles())
+            ) {
+                $service = $this->container->get('gsquad_piaf.modifier_coordonnees');
+
+                $latitudes = $service->changeLatitudes($latitudes);
+                $longitudes = $service->changeLongitudes($longitudes);
+            }
+            elseif(in_array('ROLE_ADHERENT', $this->getUser()->getRoles())) {
+                $service = $this->container->get('gsquad_piaf.modifier_coordonnees');
+
+                $latitudes = $service->changeLatitudesAdherent($latitudes);
+                $longitudes = $service->changeLongitudesAdherent($longitudes);
+            }
+
             return $this->render('search/search.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'form' => $form->createView(),
                 'list_piafs' => $listPiafsObserves,
+                'latitudes' => $latitudes,
+                'longitudes' => $longitudes,
             ]);
         }
 
@@ -185,6 +279,8 @@ class PiafController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'form' => $form->createView(),
             'list_piafs' => $listPiafsObserves,
+            'latitudes' => $latitudes,
+            'longitudes' => $longitudes,
         ]);
     }
 
