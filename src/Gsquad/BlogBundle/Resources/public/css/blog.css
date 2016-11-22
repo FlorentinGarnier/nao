@@ -1,0 +1,70 @@
+.bg-white {
+    background-color: white;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.post-block {
+    padding: 15px;
+    background-color: #2e9ad0;
+    margin-bottom: 10px;
+}
+
+.post-content {
+    text-align: justify;
+}
+
+.author {
+    text-align: right;
+}
+
+.img-post {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Commentaires */
+.comments {
+    padding: 10px 0px;
+    margin-top: 10px;
+    margin-left: 5%;
+}
+.comment {
+    padding: 5px;
+}
+
+#comment-form {
+    margin-left: 5%;
+    width: 67%;
+}
+
+/* Admin blog */
+.btn-delete {
+    position: relative;
+}
+
+.btn-delete > i {
+    padding-top: 10px;
+    position: absolute;
+}
+
+.btn-delete > form {
+    position: absolute;
+    opacity: 0;
+}
+
+.post-block > form > div.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#tags .checkbox {
+    display: inline;
+}
