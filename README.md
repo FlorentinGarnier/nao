@@ -8,6 +8,7 @@ A Symfony project created on October 16, 2016, 9:48 am.
 Init project with composer
 
 `composer install`
+`bower install`
 
 ###Download and import last TAXREF class AVES
 
