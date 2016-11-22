@@ -4,6 +4,7 @@
 namespace Gsquad\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -26,6 +27,17 @@ class RegistrationType extends AbstractType
             ->add('lastName', TextType::class,
                 [
                     'label' => 'form.last_name',
+                    'translation_domain' => 'FOSUserBundle',
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank()
+                    ]
+                ]
+            )
+            ->add(
+                'birthday', DateType::class,
+                [
+                    'label' => 'form.birthday',
                     'translation_domain' => 'FOSUserBundle',
                     'required' => true,
                     'constraints' => [

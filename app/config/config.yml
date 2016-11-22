@@ -88,8 +88,8 @@ hwi_oauth:
         username_iterations: 30
         properties:
             # these properties will be used/redefined later in the custom FOSUBUserProvider service.
-            facebook: facebookId
-            google: googleId
+            facebook: facebookID
+            google: googleID
     resource_owners:
         facebook:
             type:                facebook

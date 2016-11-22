@@ -40,7 +40,7 @@ class User extends BaseUser
     protected $lastName;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      * @ORM\Column(type="date")
      */
     protected $birthday;
@@ -53,7 +53,7 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=125)
+     * @ORM\Column(type="string", length=125, nullable=true)
      */
     protected $adress2;
 
@@ -73,102 +73,6 @@ class User extends BaseUser
      */
     protected $googleID;
 
-
-    /**
-     * Set facebookId
-     *
-     * @param string $facebookId
-     *
-     * @return User
-     */
-    public function setFacebookId($facebookId)
-    {
-        $this->facebook_id = $facebookId;
-
-        return $this;
-    }
-
-    /**
-     * Get facebookId
-     *
-     * @return string
-     */
-    public function getFacebookId()
-    {
-        return $this->facebook_id;
-    }
-
-    /**
-     * Set facebookAccessToken
-     *
-     * @param string $facebookAccessToken
-     *
-     * @return User
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebook_access_token = $facebookAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get facebookAccessToken
-     *
-     * @return string
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebook_access_token;
-    }
-
-    /**
-     * Set googleId
-     *
-     * @param string $googleId
-     *
-     * @return User
-     */
-    public function setGoogleId($googleId)
-    {
-        $this->google_id = $googleId;
-
-        return $this;
-    }
-
-    /**
-     * Get googleId
-     *
-     * @return string
-     */
-    public function getGoogleId()
-    {
-        return $this->google_id;
-    }
-
-    /**
-     * Set googleAccessToken
-     *
-     * @param string $googleAccessToken
-     *
-     * @return User
-     */
-    public function setGoogleAccessToken($googleAccessToken)
-    {
-        $this->google_access_token = $googleAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get googleAccessToken
-     *
-     * @return string
-     */
-    public function getGoogleAccessToken()
-    {
-        return $this->google_access_token;
-    }
 
     /**
      * Set firstName
@@ -312,5 +216,53 @@ class User extends BaseUser
     public function getZipCode()
     {
         return $this->zipCode;
+    }
+
+    /**
+     * Set facebookID
+     *
+     * @param string $facebookID
+     *
+     * @return User
+     */
+    public function setFacebookID($facebookID)
+    {
+        $this->facebookID = $facebookID;
+
+        return $this;
+    }
+
+    /**
+     * Get facebookID
+     *
+     * @return string
+     */
+    public function getFacebookID()
+    {
+        return $this->facebookID;
+    }
+
+    /**
+     * Set googleID
+     *
+     * @param string $googleID
+     *
+     * @return User
+     */
+    public function setGoogleID($googleID)
+    {
+        $this->googleID = $googleID;
+
+        return $this;
+    }
+
+    /**
+     * Get googleID
+     *
+     * @return string
+     */
+    public function getGoogleID()
+    {
+        return $this->googleID;
     }
 }

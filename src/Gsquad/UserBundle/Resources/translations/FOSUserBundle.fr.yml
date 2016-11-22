@@ -85,3 +85,4 @@ form:
     adress1: 'Adresse 1'
     adress2: 'Adresse 2'
     zip_code: 'Code postal'
+    birthday: 'Date de naissance'

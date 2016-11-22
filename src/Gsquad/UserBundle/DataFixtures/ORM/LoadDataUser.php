@@ -13,7 +13,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class LoadDataUser implements FixtureInterface, ContainerAwareInterface
@@ -53,6 +52,8 @@ class LoadDataUser implements FixtureInterface, ContainerAwareInterface
             $user->setPlainPassword($role);
             $user->setEnabled(true);
             $user->setRoles(['ROLE_' . strtoupper($role)]);
+            $user->setAdress1('fgdfg');
+            $user->setZipCode('63570');
 
             $userManager->updateUser($user, true);
         }
