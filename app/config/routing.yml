@@ -1,3 +1,8 @@
+gsquad_blog:
+    resource: "@GsquadBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /blog
+
 app:
     resource: "@GsquadCoreBundle/Controller/"
     type:     annotation

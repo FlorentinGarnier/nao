@@ -1,0 +1,59 @@
+{# app/Resources/views/blog/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('bundles/gsquadblog/css/blog.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/gsquadblog/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
+
+        <section class="row">
+            {% block section %}
+                {% if posts.count is not sameas(0) %}
+                    {% for post in posts %}
+                        <article class="col-xs-12 post-block">
+                            <h1>{{ post.title }}</h1>
+                            {% if post.imageName %}
+                                <img src="{{ asset(post.webPath) }}" alt="{{ post.imageName }}" width="200px" class="pull-left img-post"/>
+                            {% endif %}
+                            <p class="post-content">{{ post.content|striptags|slice(0, 500) ~ '...' }}</p>
+                            <span>Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}</span>
+                            <span class="pull-right"><a href="{{ path('single_post', {'slug': post.slug}) }}"
+                                                        class="btn btn-default">Lire la suite</a></span>
+                            {% set lastComment = post.comments|first %}
+                            {% if lastComment %}
+                                <div class="comments">
+                                    Dernier commentaire
+                                    <div class="comment bg-white">
+                                        <p>{{ lastComment.content }}</p>
+                                        <p class="author">Le {{ lastComment.creationDate | date('d/m/Y') }}
+                                            par {{ lastComment.author }}</p>
+                                    </div>
+                                </div>
+
+                            {% endif %}
+                        </article>
+
+                    {% endfor %}
+                    {# display navigation #}
+                    {% include 'blog/pagination.html.twig' %}
+                {% else %}
+                    <div class="jumbotron text-center">
+                        Il n'y a pas encore d'article !
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/gsquadblog/js/blog.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{# app/Resources/views/blog/admin/index.html.twig #}
+
+{% extends 'blog/index.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Articles</h1>
+        <a href="{{ path('add') }}">Ajouter un article</a>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Catégorie</th>
+                    <th>Commentaires</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th colspan="2"></th>
+                <tr>
+            </thead>
+            <tbody>
+                {% for post in listPosts %}
+                    <tr>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.author }}</td>
+                        <td>{{ post.category.name }}</td>
+                        <td>{{ post.comments | length }}</td>
+                        <td>{{ post.creationDate | date('d/m/Y') }}</td>
+                        <td>{{ post.status }}</td>
+                        {% if is_granted('ROLE_REDACTEUR') %}
+                        <td><a href="{{ path('edit', {'id': post.id}) }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <td class="btn-delete">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <form action="{{ path('delete', {'id': post.id}) }}" method="post">
+                                <input type="submit" value=""/>
+                                {{ form_rest(form) }}
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
