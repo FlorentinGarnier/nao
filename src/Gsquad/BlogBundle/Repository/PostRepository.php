@@ -46,9 +46,9 @@ class PostRepository extends EntityRepository
                 ->addSelect('c')
             ->orderBy('p.creationDate', 'DESC')
             ->getQuery();
-
+        dump($query);
         $paginator = $this->paginate($query, $currentPage);
-
+        dump($paginator);
         return $paginator;
     }
 
@@ -68,7 +68,7 @@ class PostRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->where('p.status = :status')
-            ->setParameter('status', 'published')
+            ->setParameter('status', 'publié')
             ->select('COUNT(p)')
         ;
 
@@ -81,7 +81,7 @@ class PostRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->where('p.status = :status')
-                ->setParameter('status', 'published')
+                ->setParameter('status', 'publié')
             ->andWhere('p.category = :category')
                 ->setParameter('category', $category)
             ->select('COUNT(p)')

@@ -16,12 +16,6 @@
     margin-bottom: 10px;
 }
 
-.post-block > form > div.row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
 .post-content {
     text-align: justify;
 }
@@ -63,4 +57,14 @@
 .btn-delete > form {
     position: absolute;
     opacity: 0;
+}
+
+.post-block > form > div.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#tags .checkbox {
+    display: inline;
 }

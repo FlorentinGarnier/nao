@@ -6,6 +6,7 @@ use Gsquad\BlogBundle\Form\Type\TagType;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,8 +28,10 @@ class PostType extends AbstractType
                 'config' => array('toolbar' => 'standard'),
                 'label' => 'Votre article'
             ))
-            /*->add('tags', TagType::class, array(
-                'label' => 'Tags associés'
+            /*->add('tags', CollectionType::class, array(
+                'entry_type' => TagType::class,
+                'label' => 'Tags associés',
+                'allow_add' => true
             ))*/
             ->add('category', EntityType::class, array(
                 'class' => 'Gsquad\BlogBundle\Entity\Category',

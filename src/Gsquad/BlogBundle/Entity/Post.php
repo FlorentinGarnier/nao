@@ -72,11 +72,11 @@ class Post
      */
     private $slug;
 
-    /**
+    /*/**
      * @ORM\ManyToMany(targetEntity="Gsquad\BlogBundle\Entity\Tag", cascade={"persist"})
      * @ORM\JoinTable(name="post_tag")
      */
-    private $tags;
+    /*private $tags;*/
 
     /**
      * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"})
@@ -84,14 +84,14 @@ class Post
      */
     private $category;
 
-    /** @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName", nullable=true)
+    /** @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName")
     *
     * @var File
     */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      *
      * @var string
      */
@@ -120,8 +120,9 @@ class Post
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->tags = new ArrayCollection();
+        //$this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -280,39 +281,39 @@ class Post
         return $this->slug;
     }
 
-    /**
+    /*/**
      * Add tag
      *
      * @param Tag $tag
      *
      * @return Post
      */
-    public function addTag(Tag $tag)
+    /*public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
 
         return $this;
-    }
+    }*/
 
-    /**
+    /*/**
      * Remove tag
      *
      * @param Tag $tag
      */
-    public function removeTag(Tag $tag)
+    /*public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
-    }
+    }*/
 
-    /**
+    /*/**
      * Get tags
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getTags()
+    /*public function getTags()
     {
         return $this->tags;
-    }
+    }*/
 
     /**
      * Set category

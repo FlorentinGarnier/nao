@@ -15,12 +15,15 @@
                 {{ form_widget(form.category) }}
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                {#{{ form_label(form.tags) }} #}
-                {#{{ form_widget(form.tags) }}#}
+        <!--<div class="row">
+            <div class="col-xs-12 text-center">
+                {# {{ form_label(form.tags) }} #}
+                <div id="tags">
+                    {# {{ form_widget(form.tags) }} #}
+                    <button id="add_tag">+ Ajouter un tag</button>
+                </div>
             </div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-xs-12">
                 {{ form_row(form.content) }}

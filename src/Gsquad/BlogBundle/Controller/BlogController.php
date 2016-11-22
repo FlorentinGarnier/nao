@@ -84,9 +84,11 @@ class BlogController extends Controller
 
         $pagination = array(
             'page' => $page,
-            'route' => 'blog',
+            'route' => 'category',
             'pages_count' => ceil($posts_count / 5),
-            'route_params' => array()
+            'route_params' => array(
+                'slug' => $category->getSlug()
+            )
         );
 
         $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
