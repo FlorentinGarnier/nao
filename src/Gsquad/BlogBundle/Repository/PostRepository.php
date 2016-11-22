@@ -46,9 +46,9 @@ class PostRepository extends EntityRepository
                 ->addSelect('c')
             ->orderBy('p.creationDate', 'DESC')
             ->getQuery();
-        dump($query);
+
         $paginator = $this->paginate($query, $currentPage);
-        dump($paginator);
+
         return $paginator;
     }
 
