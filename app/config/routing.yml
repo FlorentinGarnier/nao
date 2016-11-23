@@ -11,9 +11,6 @@ app_search:
     resource: "@GsquadPiafBundle/Controller"
     type:     annotation
 
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /connect
@@ -24,10 +21,13 @@ hwi_oauth_connect:
 
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login
+    prefix:   /connect
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 facebook_login:
-    path: /login/check-facebook
+    path: /connect/check-facebook
 
 google_login:
-    path: /login/check-google
+    path: /connect/check-google
