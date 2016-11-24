@@ -24,5 +24,3 @@ parameters:
     facebook_app_secret: ~
     google_app_id: ~
     google_app_secret: ~
-    twitter_app_id: ~
-    twitter_app_secret: ~
