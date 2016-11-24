@@ -7,6 +7,6 @@
 
 pipelines:
   default:
-    - step:
-        script:
-          - ./heroku_deploy.sh
+      - step:
+          script:
+              - ./heroku_deploy.sh
