@@ -11,3 +11,6 @@ before_script:
 
 script:
 #    - phpunit tests
+
+notifications:
+  slack: abdounikarim:sIr2bHcAaFLKFBV0WLBC4Vwg
