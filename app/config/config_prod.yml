@@ -24,4 +24,4 @@ monolog:
 doctrine:
     dbal:
         driver:   pdo_mysql
-        database_url: "%env(DATABASE_URL)%"
+        database_url: "%env(CLEARDB_DATABASE_URL)%"
