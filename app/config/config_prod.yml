@@ -20,3 +20,8 @@ monolog:
             path: 'php://stderr'
         console:
             type:  console
+
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        database_url: "%env(DATABASE_URL)%"
