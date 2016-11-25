@@ -24,4 +24,4 @@ monolog:
 doctrine:
     dbal:
         driver:   pdo_mysql
-        database_url: "%database_url%"
+        url: "%database_url%"
