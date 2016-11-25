@@ -199,8 +199,8 @@
       <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
+            <state relative-caret-position="15">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -488,7 +488,7 @@
       <workItem from="1479897975605" duration="3519000" />
       <workItem from="1479978337542" duration="192000" />
       <workItem from="1480022720921" duration="2578000" />
-      <workItem from="1480079450801" duration="7318000" />
+      <workItem from="1480079450801" duration="7449000" />
     </task>
     <task id="LOCAL-00001" summary="ajout du bouton fb">
       <created>1479898705633</created>
@@ -630,11 +630,18 @@
       <option name="project" value="LOCAL" />
       <updated>1480092634092</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="test deploiement heroku">
+      <created>1480094291893</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1480094291893</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52118000" />
+    <option name="totallyTimeSpent" value="52249000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1325" height="1336" extended-state="0" />
@@ -1039,8 +1046,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
