@@ -88,7 +88,6 @@ vich_uploader:
             delete_on_update:   true
             delete_on_remove:   true
 
-
 hwi_oauth:
     #this is my custom user provider, created from FOSUBUserProvider - will manage the
     #automatic user registration on your site, with data from the provider (facebook. google, etc.)

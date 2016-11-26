@@ -5,7 +5,10 @@ namespace Gsquad\BlogBundle\Controller;
 use Gsquad\BlogBundle\Entity\Category;
 use Gsquad\BlogBundle\Entity\Comment;
 use Gsquad\BlogBundle\Entity\Post;
+use Gsquad\BlogBundle\Form\Type\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -110,6 +113,31 @@ class BlogController extends Controller
 
         return $this->render('blog/navigation_blog.html.twig', array(
             'categories' =>$listCategories,
+        ));
+    }
+
+    public function searchBlogAction(Request $request)
+    {
+        $formFactory = $form = $this->get('form.factory');
+        $form = $formFactory->createBuilder()
+            ->add('search', TextType::class)
+            ->getForm();
+        dump($request->getMethod());
+        dump($form->isValid());
+
+        if ($request->isMethod('POST'))
+        {
+            $form->bind($request);
+
+            if ($form->isValid())
+            {
+                dump($request);
+                //return $this->redirect($this->generateUrl('Manublog_recherche'));
+            }
+        }
+
+        return $this->render(':blog:search_blog.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 }
