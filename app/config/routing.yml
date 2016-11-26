@@ -6,6 +6,7 @@ gsquad_blog:
 app:
     resource: "@GsquadCoreBundle/Controller/"
     type:     annotation
+    prefix:   /
 
 app_search:
     resource: "@GsquadPiafBundle/Controller"
