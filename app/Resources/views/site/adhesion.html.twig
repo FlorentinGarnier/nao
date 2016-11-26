@@ -3,8 +3,38 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
+    Adhésion | {{ parent() }}
 {% endblock %}
 
 {% block content %}
-    <div class="container"></div>
+    <div class="container-fluid">
+        <h1 class="text-center">Rejoignez-nous</h1>
+        <section>
+            <div class="col-sm-8">
+                <div class="row">
+                    <img src="" alt="">
+                    <h2>Nos amis les oiseaux</h2>
+                    <p class="text-justify">
+                        Vous avez décidé de nous rejoindre pour nous aider dans notre démarche ?
+                        Pour cela, nous vous disons merci ! Afin de devenir adhérent à l'association,
+                        il ne vous reste plus qu'à suivr ces différentes étapes :
+                    </p>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                        <li>Integer sodales ipsum purus.</li>
+                        <li>Nulla facilisi.</li>
+                        <li>Praesent massa purus, varius ac lectus eu, mollis rhoncus eros.</li>
+                    </ul>
+                    <p class="text-center">
+                        Vous avez des questions concernant notre système d'adhésion ?
+                        N'hésitez pas à nous contacter en allant sur notre page
+                        <a href="{{ path('contact') }}" title="Contactez-nous">Contact</a>.
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-4>
+                <!-- ? -->
+            </div>
+        </section>
+    </div>
 {% endblock %}
