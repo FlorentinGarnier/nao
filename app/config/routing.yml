@@ -23,6 +23,12 @@ hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
     prefix:   /connect
 
+mentions_legales:
+    path: /mentions-legales
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/mentions_legales.html.twig
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
