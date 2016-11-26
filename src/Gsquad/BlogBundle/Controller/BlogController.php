@@ -77,7 +77,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/categorie/{slug}", name="category")
-     * @Route("/categorie/{slug}/{page}", name="category")
+     * @Route("/categorie/{slug}/{page}", name="category", requirements={"page": "\d+"})
      * @ParamConverter("category", class="GsquadBlogBundle:Category")
      */
     public function categoryAction(Category $category, $page = 1)
@@ -98,9 +98,12 @@ class BlogController extends Controller
         $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
             ->getPostsByCategory($category->getId(), $page);
 
-        return $this->render('blog/category.html.twig', array(
+        $title = $category->getName();
+
+        return $this->render('blog/index.html.twig', array(
             'posts' => $posts,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'title' => $title
         ));
     }
 
@@ -128,7 +131,6 @@ class BlogController extends Controller
             ->getRepository('GsquadBlogBundle:Post')
             ->countPublishedTotalBySearch($search);
 
-        dump($posts_count);
         $pagination = array(
             'page' => $page,
             'route' => 'search_results',
@@ -139,9 +141,12 @@ class BlogController extends Controller
         $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
             ->getPostsBySearch($search);
 
-        return $this->render('blog/search_results.html.twig', array(
+        $title = "Résultat de votre recherche : " . $search;
+
+        return $this->render('blog/index.html.twig', array(
             'posts' => $posts,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'title' => $title
         ));
     }
 

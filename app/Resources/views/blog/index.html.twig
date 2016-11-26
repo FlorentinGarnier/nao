@@ -9,11 +9,18 @@
     <link href="{{ asset('bundles/gsquadblog/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
+{% block title %}
+    Blog | {{ parent() }}
+{% endblock %}
+
 {% block content %}
     <div class="container">
         {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
 
         <section class="row">
+            {% if title is defined %}
+                <h1>{{ title }}</h1>
+            {% endif %}
             {% block section %}
                 {% if posts.count is not sameas(0) %}
                     {% for post in posts %}
