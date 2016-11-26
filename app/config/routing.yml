@@ -55,3 +55,9 @@ plan_site:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: static/plan_site.html.twig
+
+about:
+    path: /a-propos
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/about.html.twig
