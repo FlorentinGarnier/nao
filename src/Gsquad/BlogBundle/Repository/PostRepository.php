@@ -52,6 +52,25 @@ class PostRepository extends EntityRepository
         return $paginator;
     }
 
+    public function getPostsBySearch($search, $currentPage = 1)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb
+            ->select('p')
+            ->where('p.title LIKE :search OR p.content LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+            ->andWhere('p.status = :status')
+                ->setParameter('status', 'publié')
+            ->leftJoin('p.comments', 'c')
+                ->addSelect('c')
+            ->orderBy('p.creationDate', 'DESC');
+
+        $paginator = $this->paginate($qb, $currentPage);
+
+        return $paginator;
+    }
+
     public function paginate($dql, $page = 1, $limit = 5)
     {
         $paginator = new Paginator($dql);
@@ -90,6 +109,19 @@ class PostRepository extends EntityRepository
         return $qb->getQuery()
             ->getSingleScalarResult()
             ;
+    }
+
+    public function countPublishedTotalBySearch($search)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.title LIKE :search OR p.content LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+            ->andWhere('p.status = :status')
+             ->setParameter('status', 'publié')
+            ->select('COUNT(p)');
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
     }
 
 }
