@@ -15,4 +15,20 @@ class CoreController extends Controller
     {
         return $this->render('site/home.html.twig');
     }
+
+    /**
+     * @Route("/adhesion", name="adhesion")
+     */
+    public function adhesionAction()
+    {
+        return $this->render('site/adhesion.html.twig');
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contactAction()
+    {
+        return $this->render('site/contact.html.twig');
+    }
 }
