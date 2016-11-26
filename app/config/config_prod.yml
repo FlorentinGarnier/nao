@@ -17,5 +17,26 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+            path: 'php://stderr'
         console:
             type:  console
+
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        url: "%database_url%"
+
+hwi_oauth:
+
+
+    resource_owners:
+        facebook:
+
+            client_id:           "%facebook_id%"
+            client_secret:       "%facebook_secret%"
+
+        google:
+
+            client_id:           "%google_id%"
+            client_secret:       "%google_secret%"
+

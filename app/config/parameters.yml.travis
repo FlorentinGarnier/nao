@@ -20,10 +20,7 @@ parameters:
     secret:            ThisTokenIsSecret
 
     #OAuth
-    facebook_app_id: ~
-    facebook_app_secret: ~
-    google_app_id: ~
-    google_app_secret: ~
-
-    #Heroku
-    database_url: ~
+    facebook_app_id: $FACEBOOK_ID
+    facebook_app_secret: $FACEBOOK_SECRET
+    google_app_id: $GOOGLE_ID
+    google_app_secret: $GOOGLE_SECRET

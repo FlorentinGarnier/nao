@@ -26,9 +26,13 @@
             <div class="col-md-offset-4 col-md-4">
                 {% block fos_user_content %}
                 {% endblock fos_user_content %}
-                {{ render(url('hwi_oauth_connect')) }}
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
 
 {% endblock %}

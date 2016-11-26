@@ -25,27 +25,19 @@
     {% include 'navbar/index.html.twig' %}
 {% endblock %}
 
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-offset-10">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</div>
-        </div>
-    </div>
-{% endif %}
-
-{% block content %}
-
-{% endblock %}
+{% block content %}{% endblock %}
 
 {% block footer %}
     {% include 'footer/index.html.twig' %}
 {% endblock %}
 
-    {% block javascripts %}<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('assets/jquery/dist/jquery.min.js') }}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-{% endblock %}
+
+    <script src="{{ asset('assets/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+
 
 
 </body>
