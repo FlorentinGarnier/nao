@@ -3,101 +3,150 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
+    <style type="text/css">
+        html, body { height: 100%; margin: 0; padding: 0; }
+    </style>
+
 {% endblock %}
 
 {% block content %}
-    <div id="loading">
-        <img id="loading-image" src="{{ asset('bundles/gsquadpiaf/image/loader.gif') }}" alt="Chargement..." />
-    </div>
+    <div id="map"></div>
 
-    <p>Quelle espèce d'oiseau recherchez vous ?</p>
-
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
-
-    {{ form_errors(form.nameVern) }}
-    {{ form_label(form.nameVern, "Terme recherché : ") }}
-    {{ form_widget(form.nameVern) }}
-    <div id="match"></div>
-
-    {{ form_errors(form.espece) }}
-    {{ form_label(form.espece, "Espèce : ") }}
-    {{ form_widget(form.espece) }}
-
-    <br/>
-
-    {{ form_errors(form.departement) }}
-    {{ form_label(form.departement, "Département : ") }}
-    {{ form_widget(form.departement) }}
-
-    {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
-    {{ form_end(form) }}
-
-{#
-    {% if list_piafs %}
-        <div>
-            {% for piaf in list_piafs %}
-                <hr/>
-                <div>
-                    {% if piaf.ordre %}
-                        <p>Ordre : {{ piaf.ordre }}</p>
-                    {% endif %}
-                    {% if piaf.family %}
-                        <p>Famille : {{ piaf.family }}</p>
-                    {% endif %}
-                    {% if piaf.nameVern %}
-                        <p>Nom vulgaire : {{ piaf.nameVern }}</p>
-                    {% endif %}
-                    {% if piaf.nameVernEng %}
-                        <p>Nom vulgaire anglais : {{ piaf.nameVernEng }}</p>
-                    {% endif %}
-                    {% if piaf.nameLatin %}
-                        <p>Nom scientifique : {{ piaf.nameLatin }}</p>
-                    {% endif %}
-                    {% if piaf.habitat %}
-                        <p>Habitat : {{ piaf.habitat }}</p>
-                    {% endif %}
-                    {% if piaf.nbObservations %}
-                        <p>{{ piaf.nbObservations }} observation(s) faite(s) à cet endroit</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+    <div id="search-content">
+        <div id="loading">
+            <img id="loading-image" src="{{ asset('bundles/gsquadpiaf/image/loader.gif') }}" alt="Chargement..." />
         </div>
-    {% else %}
-        <p>Aucun résultat</p>
-    {% endif %}
-#}
 
-    {% if list_piafs %}
-        <div id="data-container"></div>
-        <div id="pagination-container"></div>
-    {% endif %}
+        <p>Quelle espèce d'oiseau recherchez vous ?</p>
+
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+
+        {{ form_errors(form.nameVern) }}
+        {{ form_label(form.nameVern, "Terme recherché : ") }}
+        {{ form_widget(form.nameVern) }}
+        <div id="match"></div>
+
+        {{ form_errors(form.espece) }}
+        {{ form_label(form.espece, "Espèce : ") }}
+        {{ form_widget(form.espece) }}
+
+        <br/>
+
+        {{ form_errors(form.departement) }}
+        {{ form_label(form.departement, "Département : ") }}
+        {{ form_widget(form.departement) }}
+
+        <br/>
+
+        {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+            {{ form_errors(form.latitude) }}
+            {{ form_label(form.latitude, "Latitude : ") }}
+            {{ form_widget(form.latitude) }}
+
+            {{ form_errors(form.longitude) }}
+            {{ form_label(form.longitude, "Longitude : ") }}
+            {{ form_widget(form.longitude) }}
+
+            {{ form_errors(form.range) }}
+            {{ form_label(form.range, "Écart possible (en degré) : ") }}
+            {{ form_widget(form.range) }}
+        {% endif %}
+
+        {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
+        {{ form_rest(form) }}
+        {{ form_end(form, {'render_rest': false}) }}
+
+        {% if list_piafs %}
+            <div id="liste-resultats">
+                {% for piaf in list_piafs %}
+                <a href="{{ path('observations', {'id': piaf.id} ) }}">
+                    <div>
+                        {% if piaf.nameVern %}
+                            <p>{{ piaf.nameVern }} ({{ piaf.lbNom }}), {{ piaf.nbObservations }} résultat(s)</p>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Aucun résultat</p>
+        {% endif %}
+
+
+        {% if list_piafs %}
+            <div id="data-container"></div>
+            <div id="pages">
+                <div id="pagination-container"></div>
+            </div>
+        {% endif %}
+
+    </div>
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>
+
     <script>
+        var imgUrl;
+        var scale = 'visiteur';
         var datas = [];
+        var latitudes = [];
+        var longitudes = [];
         var i = 0;
+        var link = '';
+
+        {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+            scale = 'chercheur';
+        {% elseif is_granted('ROLE_ADHERENT') %}
+            scale = 'adherent';
+        {% endif %}
+
         {% for piaf in list_piafs %}
-        datas[i] = [
+            imgUrl = '';
+            link = '{{ path('observations', {'id': piaf.id} ) }}';
+
+            {% if piaf.photo %}
+                imgUrl = '{{ piaf.getPhoto.imgUrl }}';
+            {% endif %}
+
+            datas[i] = [
+                imgUrl,
                 '{{ piaf.ordre }}',
                 '{{ piaf.family }}',
                 '{{ piaf.nameVern }}',
                 '{{ piaf.nameVernEng }}',
-                '{{ piaf.nameLatin }}',
+                '{{ piaf.lbNom }}',
                 '{{ piaf.habitat }}',
-                '{{ piaf.nbObservations }}'
-        ];
+                '{{ piaf.nbObservations }}',
+                link
+            ];
+            i++;
+        {% endfor %}
+
+        i=0;
+
+        {% for latitude in latitudes %}
+            latitudes[i] = {{ latitude }};
+        i++;
+        {% endfor %}
+
+        i=0;
+
+        {% for longitude in longitudes %}
+            longitudes[i] = {{ longitude }};
         i++;
         {% endfor %}
     </script>
+
+    <script src="{{ asset('bundles/gsquadpiaf/js/jquery.bootstrap-touchspin.min.js') }}"></script>
+
+    <script src="{{ asset('bundles/gsquadpiaf/js/googlemap.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI&callback=initMap"
+            async defer></script>
+
+    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/pagination.min.js') }}"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/paginate-result.js') }}"></script>
-    <script>
-        var loader = "{{ asset('bundles/gsquadpiaf/image/loader.gif') }}"; //link to the animated loader-small.gif
-    </script>
 {% endblock %}

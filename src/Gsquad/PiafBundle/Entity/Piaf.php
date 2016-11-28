@@ -278,6 +278,11 @@ class Piaf
      */
     private $nbObservations;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Photo")
+     */
+    private $photo;
+
 
 
     /**
@@ -1073,5 +1078,29 @@ class Piaf
     public function getCli()
     {
         return $this->cli;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param \Gsquad\PiafBundle\Entity\Photo $photo
+     *
+     * @return Piaf
+     */
+    public function setPhoto(\Gsquad\PiafBundle\Entity\Photo $photo)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return \Gsquad\PiafBundle\Entity\Photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
     }
 }
