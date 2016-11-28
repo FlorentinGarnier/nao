@@ -518,7 +518,7 @@
       <workItem from="1479978337542" duration="192000" />
       <workItem from="1480022720921" duration="2578000" />
       <workItem from="1480079450801" duration="12652000" />
-      <workItem from="1480338857930" duration="497000" />
+      <workItem from="1480338857930" duration="515000" />
     </task>
     <task id="LOCAL-00001" summary="ajout du bouton fb">
       <created>1479898705633</created>
@@ -709,11 +709,18 @@
       <option name="project" value="LOCAL" />
       <updated>1480339576211</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="correction deployement heroku">
+      <created>1480339640433</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1480339640433</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57949000" />
+    <option name="totallyTimeSpent" value="57967000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1325" height="1336" extended-state="0" />
