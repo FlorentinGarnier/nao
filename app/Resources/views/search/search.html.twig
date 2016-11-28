@@ -5,7 +5,6 @@
     <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
     <style type="text/css">
         html, body { height: 100%; margin: 0; padding: 0; }
-        #map { height: 450px; width: 400px; margin-left: 50px; }
     </style>
 
 {% endblock %}
@@ -48,21 +47,26 @@
             {{ form_errors(form.longitude) }}
             {{ form_label(form.longitude, "Longitude : ") }}
             {{ form_widget(form.longitude) }}
+
+            {{ form_errors(form.range) }}
+            {{ form_label(form.range, "Écart possible (en degré) : ") }}
+            {{ form_widget(form.range) }}
         {% endif %}
 
         {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
         {{ form_rest(form) }}
         {{ form_end(form, {'render_rest': false}) }}
 
-
         {% if list_piafs %}
             <div id="liste-resultats">
                 {% for piaf in list_piafs %}
+                <a href="{{ path('observations', {'id': piaf.id} ) }}">
                     <div>
                         {% if piaf.nameVern %}
-                            <p>{{ piaf.nameVern }} ({{ piaf.lbNom }})</p>
+                            <p>{{ piaf.nameVern }} ({{ piaf.lbNom }}), {{ piaf.nbObservations }} résultat(s)</p>
                         {% endif %}
                     </div>
+                </a>
                 {% endfor %}
             </div>
         {% else %}
@@ -91,6 +95,7 @@
         var latitudes = [];
         var longitudes = [];
         var i = 0;
+        var link = '';
 
         {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
             scale = 'chercheur';
@@ -100,6 +105,7 @@
 
         {% for piaf in list_piafs %}
             imgUrl = '';
+            link = '{{ path('observations', {'id': piaf.id} ) }}';
 
             {% if piaf.photo %}
                 imgUrl = '{{ piaf.getPhoto.imgUrl }}';
@@ -113,7 +119,8 @@
                 '{{ piaf.nameVernEng }}',
                 '{{ piaf.lbNom }}',
                 '{{ piaf.habitat }}',
-                '{{ piaf.nbObservations }}'
+                '{{ piaf.nbObservations }}',
+                link
             ];
             i++;
         {% endfor %}
@@ -132,6 +139,8 @@
         i++;
         {% endfor %}
     </script>
+
+    <script src="{{ asset('bundles/gsquadpiaf/js/jquery.bootstrap-touchspin.min.js') }}"></script>
 
     <script src="{{ asset('bundles/gsquadpiaf/js/googlemap.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI&callback=initMap"

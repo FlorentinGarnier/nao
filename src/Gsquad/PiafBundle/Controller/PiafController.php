@@ -21,6 +21,7 @@ class PiafController extends Controller
     public function indexAction(Request $request)
     {
         $listPiafsObserves = [];
+        $idObservations = [];
         $choiceEspece = [];
         $latitudes = [];
         $longitudes = [];
@@ -59,7 +60,14 @@ class PiafController extends Controller
             ){
                 $form
                     ->add('latitude', NumberType::class, array('required' => false))
-                    ->add('longitude', NumberType::class, array('required' => false));
+                    ->add('longitude', NumberType::class, array('required' => false))
+                    ->add('range', NumberType::class, array(
+                        'required' => false,
+                        'attr' => array(
+                            'min' => 5,
+                            'max' => 50
+                        )
+                    ));
             }
         }
 
@@ -74,16 +82,101 @@ class PiafController extends Controller
                 }
                 $departement = false;
                 $espece = false;
+                $latitude = false;
+                $longitude = false;
+                $range = false;
             }
             else {
                 $name = $form["nameVern"]->getData();
                 $departement = $form["departement"]->getData();
                 $espece = $form["espece"]->getData();
+                if($form->has("latitude")) {
+                    $latitude = $form["latitude"]->getData();
+                } else {
+                    $latitude = false;
+                }
+                if($form->has("longitude")) {
+                    $longitude = $form["longitude"]->getData();
+                } else {
+                    $longitude = false;
+                }
+                if($form->has("range")) {
+                    $range = $form["range"]->getData();
+                } else {
+                    $range = false;
+                }
             }
 
             $listPiafsObserves = [];
 
-            if($departement) {
+            if($latitude || $longitude) {
+                $listObservations = $observationRepository
+                    ->findObservationByPosition($latitude, $longitude, $range);
+
+                foreach ($listObservations as $observation) {
+                    $piafTemp = $observation->getPiaf();
+
+                    if($espece) {
+                        if($observation->getLatitude() && $observation->getLongitude() && ($piafTemp->getNameVern() === $espece || $piafTemp->getNameVern() === $espece." ")) {
+                            $latitudes[] = $observation->getLatitude();
+                            $longitudes[] = $observation->getLongitude();
+                        }
+                    }
+                    else {
+                        if($observation->getLatitude()
+                            && $observation->getLongitude()
+                            && (
+                                $name == null
+                                || strpos($this->removeAccents($piafTemp->getLbNom()),($this->removeAccents($name))) !== false
+                                || strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name))) !== false
+                            )
+                        ) {
+                            $latitudes[] = $observation->getLatitude();
+                            $longitudes[] = $observation->getLongitude();
+                        }
+                    }
+
+                    $posA = true;
+                    $posB = true;
+
+                    if($espece) {
+                        if($piafTemp->getNameVern() === $espece || $piafTemp->getNameVern() === $espece." ") {
+                            $posA = true;
+                        } else {
+                            $posA = false;
+                        }
+                        $posB = false;
+                    }
+
+                    if($name !== null && !$espece) {
+                        $posA = strpos($this->removeAccents($piafTemp->getLbNom()),($this->removeAccents($name)));
+                        $posB = strpos($this->removeAccents($piafTemp->getNameVern()),($this->removeAccents($name)));
+                    }
+
+                    if($posA !== false || $posB !== false) {
+                        if(!in_array($piafTemp, $listPiafsObserves)) {
+                            $piafTemp->setNbObservations(1);
+                            $listPiafsObserves[] = $piafTemp;
+                        } else {
+                            $key = array_search($piafTemp, $listPiafsObserves);
+                            $listPiafsObserves[$key]->setNbObservations($listPiafsObserves[$key]->getNbObservations() + 1);
+                        }
+                    }
+                }
+
+                usort($listPiafsObserves, function ($a, $b)
+                {
+                    if ($a->getNbObservations() == $b->getNbObservations()) {
+                        return 0;
+                    }
+                    return ($a->getNbObservations() > $b->getNbObservations()) ? -1 : 1;
+                });
+
+                $service = $this->container->get('gsquad_piaf.set_habitat');
+
+                $listPiafsObserves = $service->setHabitats($listPiafsObserves);
+            }
+            elseif($departement) {
                 $listObservations = $observationRepository
                     ->findBy(
                         array('departement' => $departement)
@@ -266,6 +359,13 @@ class PiafController extends Controller
                 $longitudes = $service->changeLongitudesAdherent($longitudes);
             }
 
+            foreach ($listObservations as $observation) {
+                $idObservations[] = $observation->getId();
+            }
+
+            $session = $request->getSession();
+            $session->set('obs', $idObservations);
+
             return $this->render('search/search.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'form' => $form->createView(),
@@ -339,9 +439,34 @@ class PiafController extends Controller
     }
 
     /**
-     * @Route("/observations", name="observations")
+     * @Route("/observations/{id}", name="observations")
      */
     public function pageOiseauAction(Request $request)
     {
+        $session = $request->getSession();
+        $id = $request->get('id');
+        $idObservations = $session->get('obs');
+        $listFinal = [];
+
+        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+        $observationRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Observation');
+
+        $piaf = $piafRepository->find($id);
+        $listObservations = $observationRepository->findBy(array('id' => $idObservations));
+
+        foreach($listObservations as $observation) {
+            if($observation->getPiaf() == $piaf) {
+                $listFinal[] = $observation;
+            }
+        }
+
+        $service = $this->container->get('gsquad_piaf.set_habitat');
+
+        $piaf = $service->setHabitats([$piaf])[0];
+
+        return $this->render('search/observations.html.twig', [
+            "piaf" => $piaf,
+            "observations" => $listFinal
+        ]);
     }
 }

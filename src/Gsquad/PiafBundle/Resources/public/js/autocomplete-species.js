@@ -31,4 +31,14 @@ $(document).ready(function(){
             }
         }, 1000);
     });
+
+    $("input[id='form_range']").TouchSpin({
+        verticalbuttons: true,
+        verticalupclass: 'glyphicon glyphicon-plus',
+        verticaldownclass: 'glyphicon glyphicon-minus',
+        min: 0,
+        max: 20,
+        step: 0.001,
+        decimals: 3
+    });
 });

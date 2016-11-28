@@ -38,7 +38,7 @@ class PiafRepository extends EntityRepository
             ->select('p.nameVern', 'p.lbNom')
             ->where('p.nbObservations > :observations')
             ->setParameter('observations', 0)
-            ->orderBy('p.nbObservations', 'ASC')
+            ->orderBy('p.nbObservations', 'DESC')
             ->getQuery();
         ;
 
@@ -49,7 +49,7 @@ class PiafRepository extends EntityRepository
         $query = $this->createQueryBuilder('p')
             ->where('p.nbObservations > :observations')
             ->setParameter('observations', 0)
-            ->orderBy('p.nbObservations', 'ASC')
+            ->orderBy('p.nbObservations', 'DESC')
             ->getQuery();
 
         return $query->getResult();
@@ -65,7 +65,7 @@ class PiafRepository extends EntityRepository
             ->setParameter('observations', 0)
             ->setParameter('term1', $term1)
             ->setParameter('term2', $term2)
-            ->orderBy('p.nbObservations', 'ASC')
+            ->orderBy('p.nbObservations', 'DESC')
             ->getQuery();
 
         return $query->getResult();
@@ -88,7 +88,7 @@ class PiafRepository extends EntityRepository
         }
 
         $query = $query
-            ->orderBy('p.nbObservations', 'ASC')
+            ->orderBy('p.nbObservations', 'DESC')
             ->getQuery();
 
         return $query->getResult();

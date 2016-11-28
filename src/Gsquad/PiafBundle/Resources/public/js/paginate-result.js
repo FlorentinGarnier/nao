@@ -28,12 +28,15 @@ $(document).ready(function(){
             html += '<p>Nom scientifique : ' + data[index][5] +'</p>';
             html += '<p>Habitat : ' + data[index][6] +'</p>';
             if(data[index][7] > 0) {
-                html += '<p>' + data[index][7] +' observation(s) faite(s) à cet endroit</p>';
+                html += '<p>' + data[index][7] +' résultat(s)</p>';
             }
+            html += '<a href="' + data[index][8] + '">Voir la fiche</a>';
             html += '</div>';
         });
 
         html += '</div>';
         return html;
     }
+
+
 });

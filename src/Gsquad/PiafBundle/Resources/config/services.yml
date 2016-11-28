@@ -7,3 +7,6 @@ services:
 
     gsquad_piaf.modifier_coordonnees:
         class: Gsquad\PiafBundle\Service\GsquadChangeCoordinates
+
+    gsquad_piaf.get_list_piafs:
+        class: Gsquad\PiafBundle\Service\GsquadGetListPiaf
