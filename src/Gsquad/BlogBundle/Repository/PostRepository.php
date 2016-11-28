@@ -13,19 +13,37 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class PostRepository extends EntityRepository
 {
-    public function getAllPosts($currentPage = 1)
+    public function getPublishedPosts()
     {
         $query = $this->createQueryBuilder('p');
 
         $query
             ->select('p')
-                ->where('p.status = :status')
+            ->where('p.status = :status')
                 ->setParameter('status', 'publié')
-            ->leftJoin('p.comments', 'c')
-              ->addSelect('c')
-            ->orderBy('p.creationDate', 'DESC')
-            ->getQuery();
+        ;
 
+        return $query;
+    }
+
+    public function getComments($query)
+    {
+        return $query->leftJoin('p.comments', 'c')
+            ->addSelect('c');
+    }
+
+    public function orderByDescDate($query)
+    {
+        return $query->orderBy('p.creationDate', 'DESC');
+    }
+
+    public function getAllPosts($currentPage = 1)
+    {
+        $query = $this->getPublishedPosts();
+        $this->getComments($query);
+        $this->orderByDescDate($query);
+
+        $query->getQuery();
 
         $paginator = $this->paginate($query, $currentPage);
 
@@ -34,18 +52,32 @@ class PostRepository extends EntityRepository
 
     public function getPostsByCategory($category, $currentPage = 1)
     {
-        $query = $this->createQueryBuilder('p');
+        $query = $this->getPublishedPosts();
 
-        $query
-            ->select('p')
-            ->where('p.category = :category')
-                ->setParameter('category', $category)
-            ->andWhere('p.status = :status')
-                ->setParameter('status', 'publié')
-            ->leftJoin('p.comments', 'c')
-                ->addSelect('c')
-            ->orderBy('p.creationDate', 'DESC')
-            ->getQuery();
+        $query->andWhere('p.category = :category')
+            ->setParameter('category', $category);
+
+        $this->getComments($query);
+        $this->orderByDescDate($query);
+
+        $query->getQuery();
+
+        $paginator = $this->paginate($query, $currentPage);
+
+        return $paginator;
+    }
+
+    public function getPostsBySearch($search, $currentPage = 1)
+    {
+        $query = $this->getPublishedPosts();
+
+        $query->andWhere('p.title LIKE :search OR p.content LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
+
+        $this->getComments($query);
+        $this->orderByDescDate($query);
+
+        $query->getQuery();
 
         $paginator = $this->paginate($query, $currentPage);
 
@@ -66,11 +98,7 @@ class PostRepository extends EntityRepository
 
     public function countPublishedTotal()
     {
-        $qb = $this->createQueryBuilder('p')
-            ->where('p.status = :status')
-            ->setParameter('status', 'publié')
-            ->select('COUNT(p)')
-        ;
+        $qb = $this->getPublishedPosts()->select('COUNT(p)');
 
         return $qb->getQuery()
             ->getSingleScalarResult()
@@ -79,10 +107,9 @@ class PostRepository extends EntityRepository
 
     public function countPublishedTotalByCategory($category)
     {
-        $qb = $this->createQueryBuilder('p')
-            ->where('p.status = :status')
-                ->setParameter('status', 'publié')
-            ->andWhere('p.category = :category')
+        $qb = $this->getPublishedPosts();
+
+        $qb->andWhere('p.category = :category')
                 ->setParameter('category', $category)
             ->select('COUNT(p)')
         ;
@@ -92,4 +119,15 @@ class PostRepository extends EntityRepository
             ;
     }
 
+    public function countPublishedTotalBySearch($search)
+    {
+        $qb = $this->getPublishedPosts();
+
+        $qb->andWhere('p.title LIKE :search OR p.content LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+            ->select('COUNT(p)');
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
 }

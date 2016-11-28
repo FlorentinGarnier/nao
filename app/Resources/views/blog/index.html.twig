@@ -4,9 +4,12 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('bundles/gsquadblog/css/blog.css') }}" rel="stylesheet">
     <link href="{{ asset('bundles/gsquadblog/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block title %}
+    Blog | {{ parent() }}
 {% endblock %}
 
 {% block content %}
@@ -14,6 +17,9 @@
         {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
 
         <section class="row">
+            {% if title is defined %}
+                <h1>{{ title }}</h1>
+            {% endif %}
             {% block section %}
                 {% if posts.count is not sameas(0) %}
                     {% for post in posts %}

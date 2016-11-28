@@ -5,7 +5,11 @@ namespace Gsquad\BlogBundle\Controller;
 use Gsquad\BlogBundle\Entity\Category;
 use Gsquad\BlogBundle\Entity\Comment;
 use Gsquad\BlogBundle\Entity\Post;
+use Gsquad\BlogBundle\Form\Type\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -72,8 +76,8 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/categorie/slug}", name="category")
-     * @Route("/categorie/{slug}/{page}", name="category")
+     * @Route("/categorie/{slug}", name="category")
+     * @Route("/categorie/{slug}/{page}", name="category", requirements={"page": "\d+"})
      * @ParamConverter("category", class="GsquadBlogBundle:Category")
      */
     public function categoryAction(Category $category, $page = 1)
@@ -94,9 +98,12 @@ class BlogController extends Controller
         $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
             ->getPostsByCategory($category->getId(), $page);
 
-        return $this->render('blog/category.html.twig', array(
+        $title = $category->getName();
+
+        return $this->render('blog/index.html.twig', array(
             'posts' => $posts,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'title' => $title
         ));
     }
 
@@ -111,5 +118,40 @@ class BlogController extends Controller
         return $this->render('blog/navigation_blog.html.twig', array(
             'categories' =>$listCategories,
         ));
+    }
+
+    /**
+     * @Route("/", name="search_results")
+     */
+    public function searchAction(Request $request, $page = 1)
+    {
+        $search = $request->get('terme');
+
+        $posts_count = $this->getDoctrine()
+            ->getRepository('GsquadBlogBundle:Post')
+            ->countPublishedTotalBySearch($search);
+
+        $pagination = array(
+            'page' => $page,
+            'route' => 'search_results',
+            'pages_count' => ceil($posts_count / 5),
+            'route_params' => array()
+        );
+
+        $posts = $this->getDoctrine()->getRepository('GsquadBlogBundle:Post')
+            ->getPostsBySearch($search);
+
+        $title = "Résultat de votre recherche : " . $search;
+
+        return $this->render('blog/index.html.twig', array(
+            'posts' => $posts,
+            'pagination' => $pagination,
+            'title' => $title
+        ));
+    }
+
+    public function searchBarBlogAction()
+    {
+        return $this->render(':blog:search_blog.html.twig');
     }
 }

@@ -3,7 +3,7 @@
 namespace Gsquad\PiafBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
+use DateTime;
 
 /**
  * Piaf
@@ -48,7 +48,17 @@ class Observation
     private $valid;
 
     /**
-     * @ORM\Column(name="createdAt", type="datetime", nullable=true)
+     * @ORM\Column(name="observateur", type="string", length=255, nullable=true)
+     */
+    private $observateur;
+
+    /**
+     * @ORM\Column(name="dateObservation", type="datetime", nullable=true)
+     */
+    private $dateObservation;
+
+    /**
+     * @ORM\Column(name="createdAt", type="datetime")
      */
     private $createdAt;
 
@@ -56,6 +66,11 @@ class Observation
      * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Photo", cascade={"persist"})
+     */
+    private $photo;
 
     /**
      * @ORM\ManyToOne(targetEntity="Piaf", cascade={"persist"})
@@ -70,7 +85,7 @@ class Observation
     public function __construct()
     {
         $this->valid = false;
-        //$this->createdAt = new DateTime();
+        $this->createdAt = new DateTime();
     }
 
     /**
@@ -84,51 +99,85 @@ class Observation
     }
 
     /**
-     * Set lat
+     * Set latitude
      *
-     * @param float $lat
-     *
-     * @return Piaf
-     */
-    public function setLat($lat)
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    /**
-     * Get lat
-     *
-     * @return float
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
-
-    /**
-     * Set long
-     *
-     * @param float $long
+     * @param float $latitude
      *
      * @return Observation
      */
-    public function setLong($long)
+    public function setLatitude($latitude)
     {
-        $this->long = $long;
+        $this->latitude = $latitude;
 
         return $this;
     }
 
     /**
-     * Get long
+     * Get latitude
      *
      * @return float
      */
-    public function getLong()
+    public function getLatitude()
     {
-        return $this->long;
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     *
+     * @return Observation
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set departement
+     *
+     * @param string $departement
+     *
+     * @return Observation
+     */
+    public function setDepartement($departement)
+    {
+        $this->departement = $departement;
+
+        return $this;
+    }
+
+    /**
+     * Get departement
+     *
+     * @return string
+     */
+    public function getDepartement()
+    {
+        return $this->departement;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
     }
 
     /**
@@ -146,13 +195,27 @@ class Observation
     }
 
     /**
-     * Get city
+     * Get imgUrl
      *
      * @return string
      */
-    public function getCity()
+    public function getImgUrl()
     {
-        return $this->city;
+        return $this->imgUrl;
+    }
+
+    /**
+     * Set imgUrl
+     *
+     * @param string $imgUrl
+     *
+     * @return Observation
+     */
+    public function setImgUrl($imgUrl)
+    {
+        $this->imgUrl = $imgUrl;
+
+        return $this;
     }
 
     /**
@@ -177,6 +240,54 @@ class Observation
     public function getValid()
     {
         return $this->valid;
+    }
+
+    /**
+     * Set observateur
+     *
+     * @param string $observateur
+     *
+     * @return Observation
+     */
+    public function setObservateur($observateur)
+    {
+        $this->observateur = $observateur;
+
+        return $this;
+    }
+
+    /**
+     * Get observateur
+     *
+     * @return string
+     */
+    public function getObservateur()
+    {
+        return $this->observateur;
+    }
+
+    /**
+     * Set dateObservation
+     *
+     * @param \DateTime $dateObservation
+     *
+     * @return Observation
+     */
+    public function setDateObservation($dateObservation)
+    {
+        $this->dateObservation = $dateObservation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateObservation
+     *
+     * @return \DateTime
+     */
+    public function getDateObservation()
+    {
+        return $this->dateObservation;
     }
 
     /**
@@ -249,5 +360,29 @@ class Observation
     public function getPiaf()
     {
         return $this->piaf;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param \Gsquad\PiafBundle\Entity\Photo $photo
+     *
+     * @return Observation
+     */
+    public function setPhoto(\Gsquad\PiafBundle\Entity\Photo $photo)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return \Gsquad\PiafBundle\Entity\Photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
     }
 }

@@ -1,3 +1,5 @@
+{# app/Resources/views/blog/navigation_blog.html.twig #}
+
 <div class="row">
     <ul class="list-inline text-center">
         {% for category in categories %}
@@ -7,5 +9,5 @@
             <li><a href="{{ path('add') }}" title="">Créer un nouveau post</a></li>
         {% endif %}
     </ul>
-    <!--<input type="text" placeholder="Recherche dans cette catégorie">-->
+    {{ render(controller('GsquadBlogBundle:AdminBlog:searchBarBlog')) }}
 </div>

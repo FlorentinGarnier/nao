@@ -36,9 +36,13 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 
     <script src="{{ asset('assets/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-{% block javascripts %}{% endblock %}
 
-
+{% block javascripts %}
+    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-header.js') }}"></script>
+    <script>
+        var loader = "{{ asset('bundles/gsquadpiaf/image/loader.gif') }}"; //link to the animated loader-small.gif
+    </script>
+{% endblock %}
 
 </body>
 </html>
