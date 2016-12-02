@@ -62,6 +62,38 @@
     margin-bottom: 65px;
 }
 
+​.cover {
+    width: 250px;
+    height: 250px;
+}
+
+.img-observation {
+    height: 250px;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-position: center;
+}
+
+#zone-form {
+    width: 48%;
+    display: inline-block;
+}
+
+#preview {
+    width: 48%;
+    display: inline-block;
+    border: 1px solid grey;
+}
+
+#cadre {
+    width: 80%;
+    border: 1px solid grey;
+    position: absolute;
+    top: 50%;
+    left:50%;
+}
+
 .paginationjs {
     line-height:1.6;
     font-family:Marmelad,"Lucida Grande",Arial,"Hiragino Sans GB",Georgia,sans-serif;

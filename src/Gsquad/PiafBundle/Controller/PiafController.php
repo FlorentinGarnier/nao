@@ -2,6 +2,9 @@
 
 namespace Gsquad\PiafBundle\Controller;
 
+use Gsquad\PiafBundle\Entity\Observation;
+use Gsquad\PiafBundle\Entity\Photo;
+use Gsquad\PiafBundle\Form\Type\ObservationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class PiafController extends Controller
 {
@@ -389,17 +394,10 @@ class PiafController extends Controller
      */
     public function updateDataAction(Request $request)
     {
-        $session = $request->getSession();
         $data = $request->get('input');
 
-        if($session->has('results')) {
-            $results = $session->get('results');
-        } else {
-            $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-            $results = $piafRepository->fetchAllNomVernLbNomObservedPiaf();
-
-            $session->set('results', $results);
-        }
+        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+        $results = $piafRepository->fetchAllNomVernLbNomObservedPiaf();
 
         $temp = [];
 
@@ -467,6 +465,102 @@ class PiafController extends Controller
         return $this->render('search/observations.html.twig', [
             "piaf" => $piaf,
             "observations" => $listFinal
+        ]);
+    }
+
+    /**
+     * @Route("/ajout", name="ajout")
+     */
+    public function ajoutObservationAction(Request $request)
+    {
+        $service = $this->container->get('gsquad_piaf.get_departements');
+        $depts = $service->getDepartementsArray();
+        $choiceEspece['Autre'] = false;
+
+        $session = $request->getSession();
+
+        if($session->has('list')) {
+            $listEspeces = $session->get('list');
+        } else {
+            $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+            $listEspeces = $piafRepository->findAll();
+
+            $session->set('list', $listEspeces);
+        }
+
+        foreach($listEspeces as $espece) {
+            if($espece->getNameVern() != null && !array_key_exists($espece->getNameVern(), $choiceEspece)) {
+                $choiceEspece[$espece->getNameVern()] = $espece->getId();
+            }
+        }
+
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('image', FileType::class, array('required' => false), array('label' => 'Photo / image :'))
+            ->add('latitude', NumberType::class, array('required' => false), array('label' => 'Latitude :'))
+            ->add('longitude', NumberType::class, array('required' => false), array('label' => 'Longitude :'))
+            ->add('observateur', TextType::class, array('required' => false), array('label' => 'Nom de l\'observateur :'))
+            ->add('city', TextType::class, array('label' => 'Commune associée à l\'observation :'))
+            ->add('dateObservation', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker']
+            ))
+            ->add('departement', ChoiceType::class,
+                array('choices' => $depts), array('label' => 'Département associé à l\'observation :'))
+            ->add('espece', ChoiceType::class,
+                array('choices' => $choiceEspece), array('label' => 'Espèce observée :'))
+            ->add('espece-autre', TextType::class, array('label' => 'Autre :'))
+            ->add('submit',SubmitType::class, array('label' => 'Valider l\'observation'))
+            ->getForm();
+
+        if($form->handleRequest($request)->isValid())
+        {
+            $obs = new Observation();
+            $obs->setLatitude($form["latitude"]->getData());
+            $obs->setLongitude($form["longitude"]->getData());
+            $obs->setObservateur($form["observateur"]->getData());
+            $obs->setCity($form["city"]->getData());
+            $obs->setDateObservation($form["dateObservation"]->getData());
+            $obs->setDepartement($form["departement"]->getData());
+
+            $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+            $piaf = $piafRepository->find($form["espece"]->getData());
+
+            $obs->setPiaf($piaf);
+
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $form["image"]->getData();
+
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            $file->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+
+            $image = new Photo();
+            $image->setImgUrl($fileName);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($image);
+            $em->flush();
+
+            $obs->setPhoto($image);
+
+            $em->persist($obs);
+            $em->flush();
+
+            return $this->render('search/nouvellesaisie.html.twig', [
+                "form" => $form->createView(),
+                "observation" => $obs
+            ]);
+        }
+
+        return $this->render('search/nouvellesaisie.html.twig', [
+            "form" => $form->createView(),
+            "observation" => null
         ]);
     }
 }

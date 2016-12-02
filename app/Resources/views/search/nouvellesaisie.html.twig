@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.css"/>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="zone-form">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+
+        {% if observation %}
+            <img src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+        {% endif %}
+    </div>
+
+    <div id="preview">
+        <div id="#cadre">
+            <div id="image-holder"></div>
+            <h4 id="preview-espece">Espece : non précisée</h4>
+            <p id="preview-date">Observé le : non précisé</p>
+            <p id="preview-observateur">Observé par : non précisé</p>
+            <p id="preview-lieu">Lieu de l'observation : non précisé</p>
+            <p id="preview-geo">Localisation : non précisée</p>
+        </div>
+    </div>
+
+    <div id="marge-bottom"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.js-datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                language: 'fr-FR'
+            });
+        });
+    </script>
+    <script src="{{ asset('bundles/gsquadpiaf/js/preview.js') }}"></script>
+{% endblock %}
