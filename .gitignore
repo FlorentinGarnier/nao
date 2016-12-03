@@ -20,5 +20,5 @@ web/assets/jquery-ui/
 web/assets/jquery/
 src/Gsquad/CoreBundle/Resources/
 src/Gsquad/UserBundle/Entity/User.php~
-.idea/
+
 bin/
