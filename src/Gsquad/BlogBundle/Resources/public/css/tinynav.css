@@ -1,0 +1,15 @@
+/* styles for desktop */
+.tinynav { display: none }
+
+/* styles for mobile */
+@media screen and (max-width: 600px) {
+    .tinynav {
+        display: block;
+        width: 92%;
+        margin: auto;
+        margin-bottom: 15px;
+        border-radius: 3px;
+        padding: 6px;
+    }
+    #nav { display: none }
+}
