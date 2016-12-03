@@ -69,7 +69,7 @@
     "incenteev-parameters": {
       "file": "app/config/parameters.yml",
       "env-map": {
-        "database_url": "DATABASE_URL",
+        "database_url": "HEROKU_POSTGRESQL_TEAL_URL",
         "facebook_id": "FACEBOOK_ID",
         "facebook_secret": "FACEBOOK_SECRET",
         "google_id": "GOOGLE_ID",

@@ -14,12 +14,13 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left">
+            <form id="navbar-form" class="navbar-form navbar-left" action="{{ path('search') }}" method="post">
                 <div class="form-group gsquad-inner-glyph gsquad-left-glyph">
                     <i class="glyphicon glyphicon-search"></i>
-                    <input type="text" class="form-control" placeholder="Quelle espèce?">
+                    <input id="navbar-search" type="text" class="form-control" name="espece" placeholder="Quelle espèce?">
+                    <div id="navbar-match"></div>
                 </div>
-                <button type="submit" class="hidden">Submit</button>
+                <button id="navbar-search-button" type="submit" class="hidden">Submit</button>
             </form>
             {{ include('navbar/nav.html.twig') }}
         </div><!-- /.navbar-collapse -->

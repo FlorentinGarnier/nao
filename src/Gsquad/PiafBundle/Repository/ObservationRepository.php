@@ -22,4 +22,24 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    public function findObservationByPosition($latitude, $longitude, $range) {
+        $latMin = $latitude - $range;
+        $latMax = $latitude + $range;
+        $lonMin = $longitude - $range;
+        $lonMax = $longitude + $range;
+
+        $query = $this->createQueryBuilder('o')
+            ->where('o.latitude >= :latmin')
+            ->andWhere('o.latitude <= :latmax')
+            ->andWhere('o.longitude >= :lonmin')
+            ->andWhere('o.longitude <= :lonmax')
+            ->setParameter('latmin', $latMin)
+            ->setParameter('latmax', $latMax)
+            ->setParameter('lonmin', $lonMin)
+            ->setParameter('lonmax', $lonMax)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
