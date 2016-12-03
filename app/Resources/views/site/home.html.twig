@@ -3,16 +3,22 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
+    Accueil | {{ parent() }}
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <h1 class="text-center">Titre de bienvenue</h1>
         <div class="row">
-            <!-- 3 dernières obs -->
+            {% for obs in lastObs %}
+                <div class="col-md-4">
+                    <img src="" alt="">
+                    <span>{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
+                </div>
+            {% endfor %}
         </div>
         <div class="row">
-            <div class="col-sm-6 text-center">
+            <div class="col-md-6 text-center">
                 <img src="" alt="" class="pull-right">
                 <h2>Nos Amis les Oiseaux</h2>
                 <p>
@@ -27,7 +33,7 @@
                     <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a></li>
                 </ul>
             </div>
-            <div class="col-sm-6 text-center">
+            <div class="col-md-6 text-center">
                 <h2>Ajoutez vos propres observations !</h2>
                 <p>
                     Cras a arcu vitae dui consequat porta. Suspendisse neque felis, malesuada ut gravida vitae, mollis
@@ -40,14 +46,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4 text-center">
+            <div class="col-md-4 text-center">
                 <p>
                     Inscrivez-vous à notre newsletter et recevez les dernières informations de l'association !
                 </p>
-                <!-- form newsletter -->
+                <!-- form newsletter mailchimp -->
             </div>
-            <div class="col-sm-8">
+            <div class="col-md-4 col-sm-6">
                 <img src="" alt="">
+            </div>
+            <div class="col-md-4 col-sm-6">
                 <p class="text-center">
                     Rejoignez notre communauté, et échangez sur notre blog. <br>
                     <a href="{{ path('blog') }}" title="Blog">Blog</a>

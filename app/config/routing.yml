@@ -51,14 +51,14 @@ faq:
         _controller: FrameworkBundle:Template:template
         template: static/faq.html.twig
 
-plan_site:
-    path: /plan-site
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: static/plan_site.html.twig
-
 about:
     path: /a-propos
     defaults:
         _controller: FrameworkBundle:Template:template
         template: static/about.html.twig
+
+adhesion:
+    path: /adhesion
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/adhesion.html.twig

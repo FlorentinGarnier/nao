@@ -6,7 +6,6 @@ use Gsquad\BlogBundle\Form\Type\TagType;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -70,6 +69,4 @@ class PostType extends AbstractType
     {
         return 'gsquad_blogbundle_post';
     }
-
-
 }

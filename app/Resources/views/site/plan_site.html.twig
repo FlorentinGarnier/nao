@@ -1,0 +1,43 @@
+{# app/Resources/views/site/plan_site.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Plan du site | {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Plan du site</h1>
+    <section>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('homepage') }}" title="Accueil Nos Amis les Oiseaux">Accueil</a></li>
+            <li>Notre association</li>
+                <ul>
+                    <li><a href="{{ path('about') }}" title="A propos de l'association">A propos</a></li>
+                    <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Page d'adhésion</a></li>
+                </ul>
+            <li>Espace membre</li>
+                <ul>
+                    <li><a href="{{ path('fos_user_security_login') }}" title="Connexion à l'espace membre">Connexion</a></li>
+                    <li><a href="{{ path('fos_user_registration_register') }}" title="S'inscrire">Inscription</a></li>
+                </ul>
+            <li><a href="#" title="Rechercher une observation">Recherche d'observation</a></li>
+            <li><a href="{{ path('faq') }}" title="Foire aux questions">Foire aux questions</a></li>
+            <li><a href="{{ path('contact') }}" title="Nous contacter">Contact</a></li>
+        </ul>
+
+        <a href="{{ path('blog') }}" title="Blog">Blog</a>
+        <ul class="list-inline">
+            {% for category in categories %}
+                <li><a href="{{ path('category', {'slug': category.slug}) }}" title="{{ category.name }}">{{ category.name }}</a>
+                    <ul>
+                        {% for post in category.posts %}
+                            <li><a href="{{ path('single_post', {'slug': post.slug}) }}" title="{{ post.title }}">{{ post.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </section>
+</div>
+{% endblock %}

@@ -5,6 +5,9 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadblog/css/blog.css') }}" rel="stylesheet">
+    <!-- Tiny nav for blog navigation -->
+    <link href="{{ asset('bundles/gsquadblog/css/tinynav.css') }}" rel="stylesheet">
+
     <link href="{{ asset('bundles/gsquadblog/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
@@ -16,7 +19,7 @@
     <div class="container">
         {{ render(controller('GsquadBlogBundle:Blog:navigationBlog')) }}
 
-        <section class="row">
+        <section>
             {% if title is defined %}
                 <h1>{{ title }}</h1>
             {% endif %}
@@ -24,7 +27,7 @@
                 {% if posts.count is not sameas(0) %}
                     {% for post in posts %}
                         <article class="col-xs-12 post-block">
-                            <h1>{{ post.title }}</h1>
+                            <h2>{{ post.title }}</h2>
                             {% if post.imageName %}
                                 <img src="{{ asset(post.webPath) }}" alt="{{ post.imageName }}" width="200px" class="pull-left img-post"/>
                             {% endif %}
@@ -62,4 +65,14 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/gsquadblog/js/blog.js') }}"></script>
+    <!-- Tiny nav for blog navigation -->
+    <script src="{{ asset('bundles/gsquadblog/js/tinynav.min.js') }}"></script>
+    <script>
+        $(function () {
+            $("#nav").tinyNav({
+                header: 'Catégories'
+            });
+        });
+    </script>
+
 {% endblock %}

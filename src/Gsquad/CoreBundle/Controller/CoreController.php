@@ -11,24 +11,49 @@ class CoreController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        return $this->render('site/home.html.twig');
-    }
+        $lastObs = $this->getDoctrine()
+            ->getRepository('GsquadPiafBundle:Observation')
+            ->findLatestObs(3);
 
-    /**
-     * @Route("/adhesion", name="adhesion")
-     */
-    public function adhesionAction()
-    {
-        return $this->render('site/adhesion.html.twig');
+        return $this->render('site/home.html.twig', array(
+            'lastObs' => $lastObs
+        ));
     }
 
     /**
      * @Route("/contact", name="contact")
      */
-    public function contactAction()
+    public function contactAction(Request $request)
     {
-        return $this->render('site/contact.html.twig');
+        $formType = 'Gsquad\CoreBundle\Form\Type\ContactType';
+        $form = $this->get('form.factory')->create($formType);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            dump($form->handleRequest($request)->isValid());
+        } else {
+            dump('erreur');
+        }
+
+        return $this->render('site/contact.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/plan-site", name="plan_site")
+     */
+    public function planAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listCategories = $em
+            ->getRepository('GsquadBlogBundle:Category')
+            ->findAll();
+
+        return $this->render('site/plan_site.html.twig', array(
+            'categories' => $listCategories
+        ));
     }
 }
