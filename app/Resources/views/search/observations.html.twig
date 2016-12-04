@@ -12,9 +12,9 @@
     {% if piaf %}
         <div id="liste-resultats">
             <h4>{{ piaf.nameVern }} <i>({{ piaf.lbNom }})</i></h4>
-            {% if piaf.getPhoto %}
-                <div>
-                    {{ piaf.getPhoto.imgUrl }}
+            {% if piaf.photo %}
+                <div class="cover">
+                    <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
                 </div>
             {% endif %}
             <li>
@@ -36,9 +36,9 @@
         <div id="fiches-area">
             {% for observation in observations %}
                 <div class="fiche">
-                    {% if observation.getPhoto %}
-                        <div>
-                            {{ observation.getPhoto.imgUrl }}
+                    {% if observation.photo %}
+                        <div class="cover">
+                            <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
                         </div>
                     {% endif %}
                     <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
@@ -74,8 +74,8 @@
                         </div>
                         <div class="modal-body">
                             {% if observation.getPhoto %}
-                                <div>
-                                    {{ observation.getPhoto.imgUrl }}
+                                <div class="cover">
+                                    <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
                                 </div>
                             {% endif %}
                             <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
