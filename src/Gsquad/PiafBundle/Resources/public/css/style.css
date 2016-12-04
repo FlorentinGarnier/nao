@@ -83,15 +83,26 @@
 #preview {
     width: 48%;
     display: inline-block;
-    border: 1px solid grey;
 }
 
 #cadre {
     width: 80%;
     border: 1px solid grey;
     position: absolute;
-    top: 50%;
-    left:50%;
+    top: 150px;
+}
+
+
+#conseils {
+    width: 80%;
+    border: 1px solid grey;
+    position: absolute;
+    top: 550px;
+    margin-top: 20px;
+}
+
+.obligatoire {
+    background-color: cornsilk;
 }
 
 .paginationjs {

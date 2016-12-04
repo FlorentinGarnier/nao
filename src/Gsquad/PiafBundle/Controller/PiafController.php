@@ -496,10 +496,10 @@ class PiafController extends Controller
 
         $data = array();
         $form = $this->createFormBuilder($data)
-            ->add('image', FileType::class, array('required' => false), array('label' => 'Photo / image :'))
-            ->add('latitude', NumberType::class, array('required' => false), array('label' => 'Latitude :'))
-            ->add('longitude', NumberType::class, array('required' => false), array('label' => 'Longitude :'))
-            ->add('observateur', TextType::class, array('required' => false), array('label' => 'Nom de l\'observateur :'))
+            ->add('image', FileType::class, array('required' => false))
+            ->add('latitude', NumberType::class, array('required' => false))
+            ->add('longitude', NumberType::class, array('required' => false))
+            ->add('observateur', TextType::class, array('required' => false))
             ->add('city', TextType::class, array('label' => 'Commune associée à l\'observation :'))
             ->add('dateObservation', DateType::class, array(
                 'widget' => 'single_text',
@@ -507,11 +507,11 @@ class PiafController extends Controller
                 'attr' => ['class' => 'js-datepicker']
             ))
             ->add('departement', ChoiceType::class,
-                array('choices' => $depts), array('label' => 'Département associé à l\'observation :'))
+                array('choices' => $depts))
             ->add('espece', ChoiceType::class,
-                array('choices' => $choiceEspece), array('label' => 'Espèce observée :'))
-            ->add('espece-autre', TextType::class, array('label' => 'Autre :'))
-            ->add('submit',SubmitType::class, array('label' => 'Valider l\'observation'))
+                array('choices' => $choiceEspece))
+            ->add('especeautre', TextType::class, array('required' => false))
+            ->add('submit',SubmitType::class, array('label' => 'Soumettre cette observation'))
             ->getForm();
 
         if($form->handleRequest($request)->isValid())

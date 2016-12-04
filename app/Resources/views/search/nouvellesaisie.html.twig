@@ -13,26 +13,91 @@
         {{ form_start(form) }}
         {{ form_errors(form) }}
 
-        {{ form_rest(form) }}
-        {{ form_end(form) }}
+        {{ form_errors(form.image) }}
+        {{ form_label(form.image, "Image associée :") }}
+        {{ form_widget(form.image) }}
 
-        {% if observation %}
-            <img src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
-        {% endif %}
+        {{ form_errors(form.latitude) }}
+        {{ form_label(form.latitude, "Latitude :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.latitude, {'attr': {'class': 'form-control'}}) }}
+
+        {{ form_errors(form.longitude) }}
+        {{ form_label(form.longitude, "Longitude :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.longitude, {'attr': {'class': 'form-control'}}) }}
+
+        {{ form_errors(form.observateur) }}
+        {{ form_label(form.observateur, "Nom de l'observateur :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.observateur, {'attr': {'class': 'form-control'}}) }}
+
+        {{ form_errors(form.city) }}
+        {{ form_label(form.city, "Commune associée à l'observation* :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.city, {'attr': {'class': 'form-control obligatoire'}}) }}
+
+        {{ form_errors(form.departement) }}
+        {{ form_label(form.departement, "Département associé à l'observation* :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.departement, {'attr': {'class': 'form-control obligatoire'}}) }}
+
+        {{ form_errors(form.dateObservation) }}
+        {{ form_label(form.dateObservation, "Date de l'observation* :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.dateObservation, {'attr': {'class': 'form-control js-datepicker obligatoire'}}) }}
+
+        {{ form_errors(form.espece) }}
+        {{ form_label(form.espece, "Espèce observée* :", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.espece, {'attr': {'class': 'form-control obligatoire'}}) }}
+
+        {{ form_errors(form.especeautre) }}
+        {{ form_label(form.especeautre, "Autre :", {'label_attr': {'class': 'control-label to-hide'}}) }}
+        {{ form_widget(form.especeautre, {'attr': {'class': 'form-control to-hide'}}) }}
+
+        <button id="bouton-validation" type="button" class="btn btn-primary" data-toggle="modal" data-target="#fichesaisie">
+            Valider cette observation
+        </button>
     </div>
 
     <div id="preview">
         <div id="#cadre">
-            <div id="image-holder"></div>
-            <h4 id="preview-espece">Espece : non précisée</h4>
-            <p id="preview-date">Observé le : non précisé</p>
-            <p id="preview-observateur">Observé par : non précisé</p>
-            <p id="preview-lieu">Lieu de l'observation : non précisé</p>
-            <p id="preview-geo">Localisation : non précisée</p>
+            <div class="image-holder"></div>
+            <h4 class="preview-espece">Espece : non précisée</h4>
+            <p class="preview-date">Observé le : non précisé</p>
+            <p class="preview-observateur">Observé par : non précisé</p>
+            <p class="preview-lieu">Lieu de l'observation : non précisé</p>
+            <p class="preview-geo">Localisation : non précisée</p>
+        </div>
+
+        <div id="#conseils">
+            <p>testestest</p>
         </div>
     </div>
 
     <div id="marge-bottom"></div>
+
+    <div class="modal fade" id="fichesaisie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Nouvelle observation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="image-holder"></div>
+                    <h4 class="preview-espece">Espece : non précisée</h4>
+                    <p class="preview-date">Observé le : non précisé</p>
+                    <p class="preview-observateur">Observé par : non précisé</p>
+                    <p class="preview-lieu">Lieu de l'observation : non précisé</p>
+                    <p class="preview-geo">Localisation : non précisée</p>
+                </div>
+                <div class="modal-footer">
+                    {{ form_widget(form.submit) }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
 
 {% endblock %}
 

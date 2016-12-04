@@ -7,7 +7,7 @@ class GsquadGetDepartements
     public function getDepartementsArray()
     {
         $depts = array();
-        $depts["Pas de préférence"] = false;
+        $depts["Non précisé"] = false;
         $depts["Ain"] = "Ain";
         $depts["Aisne"] = "Aisne";
         $depts["Allier"] = "Allier";
