@@ -6,6 +6,7 @@ gsquad_blog:
 app:
     resource: "@GsquadCoreBundle/Controller/"
     type:     annotation
+    prefix:   /
 
 app_search:
     resource: "@GsquadPiafBundle/Controller"
@@ -31,3 +32,33 @@ facebook_login:
 
 google_login:
     path: /connect/check-google
+
+mentions_legales:
+    path: /mentions-legales
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/mentions_legales.html.twig
+
+conditions_generales:
+    path: /conditions-generales
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/conditions_generales.html.twig
+
+faq:
+    path: /faq
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/faq.html.twig
+
+about:
+    path: /a-propos
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/about.html.twig
+
+adhesion:
+    path: /adhesion
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: static/adhesion.html.twig

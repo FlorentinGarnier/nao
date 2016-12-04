@@ -11,11 +11,49 @@ class CoreController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
+        $lastObs = $this->getDoctrine()
+            ->getRepository('GsquadPiafBundle:Observation')
+            ->findLatestObs(3);
+
+        return $this->render('site/home.html.twig', array(
+            'lastObs' => $lastObs
+        ));
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contactAction(Request $request)
+    {
+        $formType = 'Gsquad\CoreBundle\Form\Type\ContactType';
+        $form = $this->get('form.factory')->create($formType);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            dump($form->handleRequest($request)->isValid());
+        } else {
+            dump('erreur');
+        }
+
+        return $this->render('site/contact.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/plan-site", name="plan_site")
+     */
+    public function planAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listCategories = $em
+            ->getRepository('GsquadBlogBundle:Category')
+            ->findAll();
+
+        return $this->render('site/plan_site.html.twig', array(
+            'categories' => $listCategories
+        ));
     }
 }

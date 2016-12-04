@@ -1,0 +1,22 @@
+{# app/Resources/views/site/contact.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Contactez-nous !</h1>
+        <section>
+            <p class="text-center">
+                N'hésitez pas à remplir ce formulaire pour nous faire part de vos commentaires.
+                Si vous avez des questions, rendez-vous sur la page
+                <a href="{{ path('faq') }}" title="Foire aux questions">Foire aux questions</a>.
+            </p>
+            {{ form_errors(form) }}
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </section>
+    </div>
+{% endblock %}

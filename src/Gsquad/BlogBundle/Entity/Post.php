@@ -79,7 +79,7 @@ class Post
     /*private $tags;*/
 
     /**
-     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"}, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

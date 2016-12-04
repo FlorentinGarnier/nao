@@ -4,7 +4,7 @@
         {% elseif is_granted("ROLE_CHERCHEUR") %}
             <a href="#">Administrer les observations</a>
         {% else %}
-            <a href="#">Notre association</a>
+            <a href="{{ path('about') }}" title="A propos">Notre association</a>
         {% endif %}
     </li>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

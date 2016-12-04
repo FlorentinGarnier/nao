@@ -2,6 +2,7 @@
 
 namespace Gsquad\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,16 @@ class Category
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Gsquad\BlogBundle\Entity\Post", mappedBy="category")
+     */
+    private $posts;
+
+    public function __construct()
+    {
+        $posts = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -91,5 +102,15 @@ class Category
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Get posts
+     *
+     * @return mixed
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }
