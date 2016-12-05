@@ -12,3 +12,10 @@ services:
             class: Gsquad\UserBundle\Form\RegistrationType
             tags:
                 - { name: form.type, alias: app_user_registration }
+
+    gsquad.slugger:
+        class: Gsquad\Utils\Slugger
+
+    mail_manager:
+        class: Gsquad\CoreBundle\Services\MailManager
+        arguments: ["@mailer", "@templating"]

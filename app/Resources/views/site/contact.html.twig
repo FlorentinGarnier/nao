@@ -8,14 +8,40 @@
 {% block content %}
     <div class="container">
         <h1 class="text-center">Contactez-nous !</h1>
+        {% for flash_message in app.session.flashBag.get('notice') %}
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flash_message }}
+            </div>
+        {% endfor %}
         <section>
             <p class="text-center">
                 N'hésitez pas à remplir ce formulaire pour nous faire part de vos commentaires.
                 Si vous avez des questions, rendez-vous sur la page
                 <a href="{{ path('faq') }}" title="Foire aux questions">Foire aux questions</a>.
             </p>
-            {{ form_errors(form) }}
             {{ form_start(form) }}
+
+            <div>
+                {{ form_row(form.subject) }}
+            </div>
+            <div>
+                {{ form_row(form.name) }}
+            </div>
+            <div>
+                {{ form_row(form.email) }}
+            </div>
+            <div>
+                {{ form_row(form.message,{ 'attr': {'rows': '10'} }) }}
+            </div>
+
+            {# Render CSRF token etc .#}
+            <div style="display:none">
+                {{ form_rest(form) }}
+            </div>
+
+            <input type="submit" value="Envoyer le message">
+
             {{ form_end(form) }}
         </section>
     </div>

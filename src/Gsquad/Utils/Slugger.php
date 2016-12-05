@@ -6,7 +6,7 @@
  * Time: 10:33
  */
 
-namespace Gsquad\BlogBundle\Utils;
+namespace Gsquad\Utils;
 
 
 class Slugger

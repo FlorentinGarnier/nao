@@ -1,0 +1,14 @@
+{# app/Resources/views/mails/contact_mail.html.twig #}
+
+{% extends 'mails/layout.html.twig' %}
+
+{% block body %}
+    <div>
+        Cet email a été envoyé par : {{ data.name }} <{{ data.email }}>,<br>
+        le {{ "now" | date("Y-m-d H:i") }} à partir du formulaire de contact du site NAO
+    </div>
+    <div>
+        <h1>Objet : {{ data.subject }}</h1>
+        <div>{{ data.message }}</div>
+    </div>
+{% endblock %}
