@@ -33,29 +33,9 @@ class User extends BaseUser
     protected $facebook_id;
 
     /**
-     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-     */
-    protected $facebook_access_token;
-
-    /**
      * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
      */
     protected $google_id;
-
-    /**
-     * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true)
-     */
-    protected $google_access_token;
-
-    /**
-     * @ORM\Column(name="first_name", type="string", length=65, nullable=true)
-     */
-    protected $first_name;
-
-    /**
-     * @ORM\Column(name="last_name", type="string", length=65, nullable=true)
-     */
-    protected $last_name;
 
 
 
@@ -84,30 +64,6 @@ class User extends BaseUser
     }
 
     /**
-     * Set facebookAccessToken
-     *
-     * @param string $facebookAccessToken
-     *
-     * @return User
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebook_access_token = $facebookAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get facebookAccessToken
-     *
-     * @return string
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebook_access_token;
-    }
-
-    /**
      * Set googleId
      *
      * @param string $googleId
@@ -131,59 +87,6 @@ class User extends BaseUser
         return $this->google_id;
     }
 
-    /**
-     * Set googleAccessToken
-     *
-     * @param string $googleAccessToken
-     *
-     * @return User
-     */
-    public function setGoogleAccessToken($googleAccessToken)
-    {
-        $this->google_access_token = $googleAccessToken;
 
-        return $this;
-    }
-
-    /**
-     * Get googleAccessToken
-     *
-     * @return string
-     */
-    public function getGoogleAccessToken()
-    {
-        return $this->google_access_token;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->last_name;
-    }
-
-    /**
-     * @param mixed $last_name
-     */
-    public function setLastName($last_name)
-    {
-        $this->last_name = $last_name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
-    {
-        return $this->first_name;
-    }
-
-    /**
-     * @param mixed $first_name
-     */
-    public function setFirstName($first_name)
-    {
-        $this->first_name = $first_name;
-    }
 }
+
