@@ -47,6 +47,16 @@ class User extends BaseUser
      */
     protected $google_access_token;
 
+    /**
+     * @ORM\Column(name="first_name", type="string", length=65, nullable=true)
+     */
+    protected $first_name;
+
+    /**
+     * @ORM\Column(name="last_name", type="string", length=65, nullable=true)
+     */
+    protected $last_name;
+
 
 
     /**
@@ -143,5 +153,37 @@ class User extends BaseUser
     public function getGoogleAccessToken()
     {
         return $this->google_access_token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param mixed $last_name
+     */
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param mixed $first_name
+     */
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
     }
 }
