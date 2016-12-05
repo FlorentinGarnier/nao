@@ -33,7 +33,7 @@ class CoreController extends Controller
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $data = $form->getData();
 
-            $this->get('mail_manager')->sendContactMail($data);
+            $this->get('gsquad.mailer')->sendContactMail($data);
 
             $this->addFlash('notice', 'Merci ! Votre message a bien été envoyé.');
             return $this->redirectToRoute('contact');

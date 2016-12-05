@@ -32,4 +32,19 @@ class Mailer
 
         $this->mailer->send($mail);
     }
+
+    public function sendContactMail($data)
+    {
+        $template = 'mails/contact_mail.html.twig';
+
+        $from = $data['email'];
+
+        $to = 'admin@example.com';
+
+        $subject = '[NAO] Formulaire de contact';
+
+        $body = $this->templating->render($template, array('data' => $data));
+
+        $this->sendMail($from, $to, $subject, $body);
+    }
 }

@@ -16,6 +16,6 @@ services:
     gsquad.slugger:
         class: Gsquad\Utils\Slugger
 
-    mail_manager:
-        class: Gsquad\CoreBundle\Services\MailManager
+    gsquad.mailer:
+        class: Gsquad\Utils\Mailer
         arguments: ["@mailer", "@templating"]
