@@ -28,241 +28,120 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
-    protected $firstName;
+    protected $facebook_id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
      */
-    protected $lastName;
+    protected $facebook_access_token;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(type="date")
+     * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
      */
-    protected $birthday;
+    protected $google_id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=125)
+     * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true)
      */
-    protected $adress1;
+    protected $google_access_token;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=125, nullable=true)
-     */
-    protected $adress2;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=125)
-     */
-    protected $zipCode;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $facebookID;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $googleID;
 
 
     /**
-     * Set firstName
+     * Set facebookId
      *
-     * @param string $firstName
+     * @param string $facebookId
      *
      * @return User
      */
-    public function setFirstName($firstName)
+    public function setFacebookId($facebookId)
     {
-        $this->firstName = $firstName;
+        $this->facebook_id = $facebookId;
 
         return $this;
     }
 
     /**
-     * Get firstName
+     * Get facebookId
      *
      * @return string
      */
-    public function getFirstName()
+    public function getFacebookId()
     {
-        return $this->firstName;
+        return $this->facebook_id;
     }
 
     /**
-     * Set lastName
+     * Set facebookAccessToken
      *
-     * @param string $lastName
+     * @param string $facebookAccessToken
      *
      * @return User
      */
-    public function setLastName($lastName)
+    public function setFacebookAccessToken($facebookAccessToken)
     {
-        $this->lastName = $lastName;
+        $this->facebook_access_token = $facebookAccessToken;
 
         return $this;
     }
 
     /**
-     * Get lastName
+     * Get facebookAccessToken
      *
      * @return string
      */
-    public function getLastName()
+    public function getFacebookAccessToken()
     {
-        return $this->lastName;
+        return $this->facebook_access_token;
     }
 
     /**
-     * Set birthday
+     * Set googleId
      *
-     * @param \DateTime $birthday
+     * @param string $googleId
      *
      * @return User
      */
-    public function setBirthday($birthday)
+    public function setGoogleId($googleId)
     {
-        $this->birthday = $birthday;
+        $this->google_id = $googleId;
 
         return $this;
     }
 
     /**
-     * Get birthday
-     *
-     * @return \DateTime
-     */
-    public function getBirthday()
-    {
-        return $this->birthday;
-    }
-
-    /**
-     * Set adress1
-     *
-     * @param string $adress1
-     *
-     * @return User
-     */
-    public function setAdress1($adress1)
-    {
-        $this->adress1 = $adress1;
-
-        return $this;
-    }
-
-    /**
-     * Get adress1
+     * Get googleId
      *
      * @return string
      */
-    public function getAdress1()
+    public function getGoogleId()
     {
-        return $this->adress1;
+        return $this->google_id;
     }
 
     /**
-     * Set adress2
+     * Set googleAccessToken
      *
-     * @param string $adress2
+     * @param string $googleAccessToken
      *
      * @return User
      */
-    public function setAdress2($adress2)
+    public function setGoogleAccessToken($googleAccessToken)
     {
-        $this->adress2 = $adress2;
+        $this->google_access_token = $googleAccessToken;
 
         return $this;
     }
 
     /**
-     * Get adress2
+     * Get googleAccessToken
      *
      * @return string
      */
-    public function getAdress2()
+    public function getGoogleAccessToken()
     {
-        return $this->adress2;
-    }
-
-    /**
-     * Set zipCode
-     *
-     * @param string $zipCode
-     *
-     * @return User
-     */
-    public function setZipCode($zipCode)
-    {
-        $this->zipCode = $zipCode;
-
-        return $this;
-    }
-
-    /**
-     * Get zipCode
-     *
-     * @return string
-     */
-    public function getZipCode()
-    {
-        return $this->zipCode;
-    }
-
-    /**
-     * Set facebookID
-     *
-     * @param string $facebookID
-     *
-     * @return User
-     */
-    public function setFacebookID($facebookID)
-    {
-        $this->facebookID = $facebookID;
-
-        return $this;
-    }
-
-    /**
-     * Get facebookID
-     *
-     * @return string
-     */
-    public function getFacebookID()
-    {
-        return $this->facebookID;
-    }
-
-    /**
-     * Set googleID
-     *
-     * @param string $googleID
-     *
-     * @return User
-     */
-    public function setGoogleID($googleID)
-    {
-        $this->googleID = $googleID;
-
-        return $this;
-    }
-
-    /**
-     * Get googleID
-     *
-     * @return string
-     */
-    public function getGoogleID()
-    {
-        return $this->googleID;
+        return $this->google_access_token;
     }
 }

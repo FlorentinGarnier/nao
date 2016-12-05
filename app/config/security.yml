@@ -29,15 +29,15 @@ security:
                 check_path: /login_check
             oauth:
                 resource_owners:
-                    facebook:           "/connect/check-facebook"
-                    google:             "/connect/check-google"
-                login_path:        /connect
-                failure_path:      /connect
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                login_path:        /login
+                failure_path:      /login
 
                 oauth_user_provider:
                     #this is my custom user provider, created from FOSUBUserProvider - will manage the
                     #automatic user registration on your site, with data from the provider (facebook. google, etc.)
-                    service: hwi_oauth.user.provider.fosub_bridge
+                    service: gsquad.user_provider
             logout:       true
             anonymous:    true
 
