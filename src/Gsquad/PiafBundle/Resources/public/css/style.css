@@ -62,6 +62,49 @@
     margin-bottom: 65px;
 }
 
+​.cover {
+    width: 250px;
+    height: 250px;
+}
+
+.img-observation {
+    height: 250px;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-position: center;
+}
+
+#zone-form {
+    width: 48%;
+    display: inline-block;
+}
+
+#preview {
+    width: 48%;
+    display: inline-block;
+}
+
+#cadre {
+    width: 80%;
+    border: 1px solid grey;
+    position: absolute;
+    top: 150px;
+}
+
+
+#conseils {
+    width: 80%;
+    border: 1px solid grey;
+    position: absolute;
+    top: 550px;
+    margin-top: 20px;
+}
+
+.obligatoire {
+    background-color: cornsilk;
+}
+
 .paginationjs {
     line-height:1.6;
     font-family:Marmelad,"Lucida Grande",Arial,"Hiragino Sans GB",Georgia,sans-serif;

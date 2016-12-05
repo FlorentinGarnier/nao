@@ -10,8 +10,7 @@ $(document).ready(function(){
                 var data = {input: input};
                 $.ajax({
                     type: "POST",
-                    //TODO a redéfinir lors de la mise en ligne
-                    url: "http://localhost/pro6_web/web/app_dev.php/ajax/autocomplete/update/data",
+                    url: "ajax/autocomplete/update/data",
                     data: data,
                     dataType: 'json',
                     timeout: 8000,
