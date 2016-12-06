@@ -31,9 +31,12 @@ class CoreController extends Controller
         $form = $this->get('form.factory')->create($formType);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            dump($form->handleRequest($request)->isValid());
-        } else {
-            dump('erreur');
+            $data = $form->getData();
+
+            $this->get('gsquad.mailer')->sendContactMail($data);
+
+            $this->addFlash('notice', 'Merci ! Votre message a bien été envoyé.');
+            return $this->redirectToRoute('contact');
         }
 
         return $this->render('site/contact.html.twig', array(

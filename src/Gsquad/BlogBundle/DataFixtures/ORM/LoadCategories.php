@@ -35,7 +35,7 @@ class LoadCategories implements FixtureInterface, ContainerAwareInterface
             $newCategory->setName($category);
 
             // Appel service Slugger pour générer le slug de la catégorie
-            $slugger = $this->container->get('gsquad_blog.slugger');
+            $slugger = $this->container->get('gsquad.slugger');
             $slug = $slugger->slugify($category);
             $newCategory->setSlug($slug);
 

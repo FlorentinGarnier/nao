@@ -54,7 +54,7 @@ class AdminBlogController extends BlogController
         $form = $this->get('form.factory')->create($formType, $newPost);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $slug = $this->get('gsquad_blog.slugger')->slugify($newPost->getTitle());
+            $slug = $this->get('gsquad.slugger')->slugify($newPost->getTitle());
             $newPost->setSlug($slug);
             $newPost->setAuthor($user->getUsername());
 

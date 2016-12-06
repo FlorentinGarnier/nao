@@ -8,7 +8,7 @@
         {% endif %}
     </li>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <li><a href="#">Saisir une observation</a></li>
+        <li><a href="{{ path('ajout') }}">Saisir une observation</a></li>
     {% else %}
         <li><a href="{{ path('fos_user_registration_register') }}">Créer un compte</a></li>
     {% endif %}
