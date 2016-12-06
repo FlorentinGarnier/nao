@@ -6,10 +6,11 @@
  * Time: 15:49
  */
 
-namespace Gsquad\BlogBundle\Controller;
+namespace Gsquad\AdminBundle\Controller;
 
 
 use Gsquad\BlogBundle\Entity\Post;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -18,10 +19,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Class AdminBlogController
  * @package Gsquad\BlogBundle\Controller
  */
-class AdminBlogController extends BlogController
+class AdminBlogController extends Controller
 {
     /**
-     * @Route("/admin", name="admin-index")
+     * @Route("/blog", name="admin_blog")
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function adminIndexAction()
@@ -34,14 +35,14 @@ class AdminBlogController extends BlogController
 
         $form = $this->get('form.factory')->create();
 
-        return $this->render('blog/admin/index.html.twig', array(
+        return $this->render('admin/blog/index.html.twig', array(
             'listPosts' => $listPosts,
             'form' => $form->createView()
         ));
     }
 
     /**
-     * @Route("/add", name ="add")
+     * @Route("/blog/add", name ="post_add")
      * @Security("has_role('ROLE_CONTRIBUTEUR')")
      */
     public function addAction(Request $request)
@@ -72,13 +73,13 @@ class AdminBlogController extends BlogController
             return $this->redirectToRoute('blog');
         }
 
-        return $this->render('blog/admin/add.html.twig', array(
+        return $this->render('admin/blog/add.html.twig', array(
             'form' => $form->createView(),
         ));
     }
 
     /**
-     * @Route("/edit/{id}", name ="edit")
+     * @Route("/blog/edit/{id}", name ="post_edit")
      * @Security("has_role('ROLE_REDACTEUR')")
      */
     public function editAction(Request $request, Post $post)
@@ -99,16 +100,16 @@ class AdminBlogController extends BlogController
 
             $this->addFlash('info', 'Element bien modifié.');
 
-            return $this->redirectToRoute('admin-index');
+            return $this->redirectToRoute('admin_blog');
         }
 
-        return $this->render('blog/admin/add.html.twig', array(
+        return $this->render('admin/blog/add.html.twig', array(
             'form' => $form->createView(),
         ));
     }
 
     /**
-     * @Route("/delete/{id}", name="delete")
+     * @Route("/blog/delete/{id}", name="post_delete")
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Post $post)
@@ -121,6 +122,6 @@ class AdminBlogController extends BlogController
             $this->addFlash('info', "L'élément a bien été supprimé.");
             dump('supprimé');
         }
-        return $this->redirectToRoute('admin-index');
+        return $this->redirectToRoute('admin_blog');
     }
 }

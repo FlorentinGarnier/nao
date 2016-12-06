@@ -5,7 +5,6 @@ namespace Gsquad\BlogBundle\Controller;
 use Gsquad\BlogBundle\Entity\Category;
 use Gsquad\BlogBundle\Entity\Comment;
 use Gsquad\BlogBundle\Entity\Post;
-use Gsquad\BlogBundle\Form\Type\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

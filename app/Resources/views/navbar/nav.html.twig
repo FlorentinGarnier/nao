@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav navbar-right">
-    <li>{% if is_granted("ROLE_SUPER_ADMIN") %}
-            <a href="#">Éspace administrateur</a>
+    <li>{% if is_granted("ROLE_REDACTEUR") %}
+            <a href="{{ path('admin') }}">Espace administrateur</a>
         {% elseif is_granted("ROLE_CHERCHEUR") %}
             <a href="#">Administrer les observations</a>
         {% else %}

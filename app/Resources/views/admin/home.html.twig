@@ -1,0 +1,37 @@
+{# app/Resources/views/admin/home.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Admin | {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Bienvenue, que souhaitez-vous faire aujourd'hui ?</h1>
+        <section class="text-center">
+            {% if is_granted("ROLE_SUPER_ADMIN") %}
+                <div class="col-sm-6">
+                    <h2>Administration des membres</h2>
+                    <a href="{{ path('admin_users') }}" title="Admistration des membres">Page membres</a>
+                </div>
+                <div class="col-sm-6">
+                    <h2>Mailing</h2>
+                    <a href="{{ path('mailing') }}" title="Page de mailing">Page de mailing</a>
+                </div>
+            {% endif %}
+            {% if is_granted("ROLE_CHERCHEUR") %}
+                <div class="col-sm-6">
+                    <h2>Administration des observations</h2>
+                    <a href="{{ path('admin_observations') }}" title="Admistration des observations">Page observations</a>
+                </div>
+            {% endif %}
+            {% if is_granted("ROLE_REDACTEUR") %}
+                <div class="col-sm-6">
+                    <h2>Blog</h2>
+                    <a href="{{ path('admin_blog') }}" title="Admistration du blog">Page du blog</a>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

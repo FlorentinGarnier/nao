@@ -13,11 +13,11 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     public function findLatestObs($limit)
     {
         $query = $this->createQueryBuilder('obs')
-            ->select('obs')
+            /*->select('obs')
             ->where('obs.valid = :isValid')
                 ->setParameter('isValid', true)
             ->orderBy('obs.createdAt', 'DESC')
-            ->setMaxResults($limit)
+            ->setMaxResults($limit)*/
             ->getQuery();
 
         return $query->getResult();

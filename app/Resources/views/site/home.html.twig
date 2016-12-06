@@ -12,14 +12,14 @@
         <div class="row">
             {% for obs in lastObs %}
                 <div class="col-md-4">
-                    <img src="" alt="">
+                    <img src="" alt="{{ obs.piaf.nameVern }}">
                     <span>{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
                 </div>
             {% endfor %}
         </div>
         <div class="row">
             <div class="col-md-6 text-center">
-                <img src="" alt="" class="pull-right">
+                <img src="" alt="Logo" class="pull-right">
                 <h2>Nos Amis les Oiseaux</h2>
                 <p>
                     Cras a arcu vitae dui consequat porta. Suspendisse neque felis, malesuada ut gravida vitae, mollis
@@ -42,7 +42,7 @@
                     suscipit. Suspendisse fringilla tellus vel maximus fermentum. Nunc ornare velit lacinia varius
                     efficitur.
                 </p>
-                <a href="#" title="Ajouter une observation">Ajouter une observation</a>
+                <a href="{{ path('ajout') }}" title="Ajouter une observation">Ajouter une observation</a>
             </div>
         </div>
         <div class="row">

@@ -1,0 +1,17 @@
+{# app/Resources/views/admin/home.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mailing | {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Système de mailing</h1>
+        <section>
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </section>
+    </div>
+{% endblock %}

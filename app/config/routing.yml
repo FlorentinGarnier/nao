@@ -1,8 +1,3 @@
-gsquad_blog:
-    resource: "@GsquadBlogBundle/Controller/"
-    type:     annotation
-    prefix:   /blog
-
 app:
     resource: "@GsquadCoreBundle/Controller/"
     type:     annotation
@@ -11,6 +6,16 @@ app:
 app_search:
     resource: "@GsquadPiafBundle/Controller"
     type:     annotation
+
+gsquad_blog:
+    resource: "@GsquadBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /blog
+
+gsquad_admin:
+    resource: "@GsquadAdminBundle/Controller"
+    type:     annotation
+    prefix:   /admin
 
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
