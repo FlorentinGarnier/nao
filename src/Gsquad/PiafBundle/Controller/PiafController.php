@@ -401,7 +401,7 @@ class PiafController extends Controller
 
         $temp = [];
 
-        $speciesList = '<ul id="matchList">';
+        $speciesList = '<ul id="match-list">';
 
         foreach ($results as $result) {
             if(!in_array($result, $temp)) {
@@ -421,7 +421,7 @@ class PiafController extends Controller
             }
         }
 
-        if($speciesList == '<ul id="matchList">') {
+        if($speciesList == '<ul id="match-list">') {
             $speciesList .= '<p>Pas de correspondance</p>';
         }
 
@@ -552,10 +552,7 @@ class PiafController extends Controller
             $em->persist($obs);
             $em->flush();
 
-            return $this->render('search/nouvellesaisie.html.twig', [
-                "form" => $form->createView(),
-                "observation" => $obs
-            ]);
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('search/nouvellesaisie.html.twig', [

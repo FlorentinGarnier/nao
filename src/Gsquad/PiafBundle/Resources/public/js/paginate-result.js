@@ -20,7 +20,9 @@ $(document).ready(function(){
 
         $.each(data, function(index, item){
             html += '<div class="fiche">';
-            html += '<p>Image source : ' + data[index][0] +'</p>';
+            html += '<div class="cover">';
+            html += '<img class="img-observation" src="' + data[index][0] + '" />';
+            html += '</div>';
             html += '<p>Ordre : ' + data[index][1] +'</p>';
             html += '<p>Famille : ' + data[index][2] +'</p>';
             html += '<p>Nom vulgaire : ' + data[index][3] +'</p>';

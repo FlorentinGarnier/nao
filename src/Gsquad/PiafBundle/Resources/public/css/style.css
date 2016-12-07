@@ -2,7 +2,6 @@
     z-index: 999;
     position: absolute;
     background-color: white;
-    border: grey 2px solid;
     border-radius: 5px;
 }
 
@@ -29,8 +28,10 @@
 }
 
 #liste-resultats {
+    height: 200px;
     border: grey solid 2px;
     border-radius: 5px;
+    overflow: auto;
 }
 
 #search-content {
@@ -47,15 +48,16 @@
 
 .fiche {
     width: 30%;
+    height: 450px;
     margin: 5px;
     border: solid grey 2px;
     border-radius: 5px;
+    text-align: center;
 }
 
 #map {
     height: 450px;
     width: 400px;
-    margin-left: 50px;
 }
 
 #marge-bottom {
@@ -63,42 +65,20 @@
 }
 
 ​.cover {
-    width: 250px;
+    width: 300px;
     height: 250px;
 }
 
 .img-observation {
-    height: 250px;
+    max-height: 250px;
+    max-width: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-position: center;
-}
-
-#zone-form {
-    width: 48%;
-    display: inline-block;
-}
-
-#preview {
-    width: 48%;
-    display: inline-block;
-}
-
-#cadre {
-    width: 80%;
-    border: 1px solid grey;
-    position: absolute;
-    top: 150px;
-}
-
-
-#conseils {
-    width: 80%;
-    border: 1px solid grey;
-    position: absolute;
-    top: 550px;
-    margin-top: 20px;
 }
 
 .obligatoire {

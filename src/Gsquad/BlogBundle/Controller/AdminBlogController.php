@@ -53,6 +53,8 @@ class AdminBlogController extends BlogController
 
         $form = $this->get('form.factory')->create($formType, $newPost);
 
+        $formCategory = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType');
+
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $slug = $this->get('gsquad.slugger')->slugify($newPost->getTitle());
             $newPost->setSlug($slug);
@@ -74,6 +76,7 @@ class AdminBlogController extends BlogController
 
         return $this->render('blog/admin/add.html.twig', array(
             'form' => $form->createView(),
+            'formCategory' => $formCategory->createView()
         ));
     }
 

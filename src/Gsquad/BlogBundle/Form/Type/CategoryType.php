@@ -1,43 +1,27 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: aigie
+ * Date: 07/12/2016
+ * Time: 11:42
+ */
 
 namespace Gsquad\BlogBundle\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CategoryType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', EntityType::class, array(
-            'class' => 'Gsquad\BlogBundle\Entity\Category',
-            'choice_label' => 'name'
-        ))
+        $builder
+            ->add('title', TextType::class, array(
+                'label' => 'Titre de la nouvelle catégorie'
+            ))
+
         ;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Gsquad\BlogBundle\Entity\Category'
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'gsquad_blogbundle_category';
-    }
-
-
 }
