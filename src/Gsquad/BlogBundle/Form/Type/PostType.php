@@ -2,18 +2,36 @@
 
 namespace Gsquad\BlogBundle\Form\Type;
 
+use Doctrine\ORM\EntityManager;
+use Gsquad\BlogBundle\Entity\Category;
+use Gsquad\BlogBundle\Form\EventListener\AddPostListener;
 use Gsquad\BlogBundle\Form\Type\TagType;
+use Gsquad\Utils\Slugger;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PostType extends AbstractType
 {
+    private $em;
+    private $slugger;
+
+    public function __construct(EntityManager $em, Slugger $slugger)
+    {
+        $this->em = $em;
+        $this->slugger = $slugger;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,9 +51,9 @@ class PostType extends AbstractType
                 'allow_add' => true
             ))*/
             ->add('category', EntityType::class, array(
-                'class' => 'Gsquad\BlogBundle\Entity\Category',
+                'class'        => 'GsquadBlogBundle:Category',
                 'choice_label' => 'name',
-                'label' => 'Dans quelle catégorie souhaitez-vous ajouter votre article ?'
+
             ))
             ->add('imageFile', VichImageType::class, array(
                 'label' => 'Associer une image',
@@ -49,6 +67,7 @@ class PostType extends AbstractType
             ->add('submit', SubmitType::class, array(
                 'label' => 'Soumettre l\'article'
             ))
+            ->addEventSubscriber(new AddPostListener($this->em, $this->slugger))
         ;
     }
     

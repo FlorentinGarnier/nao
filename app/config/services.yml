@@ -19,3 +19,9 @@ services:
     gsquad.mailer:
         class: Gsquad\Utils\Mailer
         arguments: ["@mailer", "@templating"]
+
+    gsquad.form.type.post:
+        class: Gsquad\BlogBundle\Form\Type\PostType
+        arguments: ["@doctrine.orm.entity_manager", "@gsquad.slugger"]
+        tags:
+            - { name: form.type }
