@@ -71,6 +71,7 @@ class UserProvider extends FOSUBUserProvider
 
         $user->setEnabled(true);
 
+
         return $user;
     }
 
