@@ -11,6 +11,8 @@ class MarketingControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/participez-etude-observation-oiseaux');
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 'response status is 2xx');
     }
 
 }
