@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <div id="zone-form">
+    <div class="col-md-6">
         {{ form_start(form) }}
         {{ form_errors(form) }}
 
@@ -54,22 +54,29 @@
         </button>
     </div>
 
-    <div id="preview">
-        <div id="#cadre">
-            <div class="image-holder"></div>
-            <h4 class="preview-espece">Espece : non précisée</h4>
-            <p class="preview-date">Observé le : non précisé</p>
-            <p class="preview-observateur">Observé par : non précisé</p>
-            <p class="preview-lieu">Lieu de l'observation : non précisé</p>
-            <p class="preview-geo">Localisation : non précisée</p>
+    <div class="col-md-6 text-center">
+        <div class="row">
+            <div class="image-holder col-md-4">
+                <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="Pas d'image"/>
+            </div>
+            <div class="col-md-8">
+                <h4 class="preview-espece">Espece : non précisée</h4>
+                <p class="preview-date">Observé le : non précisé</p>
+                <p class="preview-observateur">Observé par : non précisé</p>
+                <p class="preview-lieu">Lieu de l'observation : non précisé</p>
+                <p class="preview-geo">Localisation : non précisée</p>
+            </div>
         </div>
 
-        <div id="#conseils">
-            <p>testestest</p>
+        <div class="row">
+            <h4>Règles à suivre pour une bonne observation</h4>
+            <p>Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum </p>
         </div>
     </div>
 
-    <div id="marge-bottom"></div>
+    <div class="row">
+        <div id="marge-bottom"></div>
+    </div>
 
     <div class="modal fade" id="fichesaisie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

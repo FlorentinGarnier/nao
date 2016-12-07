@@ -21,7 +21,7 @@ function initMap() {
 
     function setIconSize(size) {
         var icon = {
-            url: "http://localhost/pro6_web/web/bundles/gsquadpiaf/image/bluecircle.png",
+            url: circle,
             scaledSize: new google.maps.Size(18 * Math.pow(2, size), 18 * Math.pow(2, size)),
             origin: new google.maps.Point(0,0),
             anchor: new google.maps.Point(9 * Math.pow(2, size), 9 * Math.pow(2, size))

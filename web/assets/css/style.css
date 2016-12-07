@@ -29,5 +29,12 @@ body{
     padding-left: 30px;
 }
 
+#match, #navbar-match {
+    z-index: 999;
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+}
+
 
 

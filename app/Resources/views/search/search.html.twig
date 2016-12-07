@@ -10,77 +10,94 @@
 {% endblock %}
 
 {% block content %}
-    <div id="map"></div>
-
-    <div id="search-content">
+    <div class="container">
         <div id="loading">
             <img id="loading-image" src="{{ asset('bundles/gsquadpiaf/image/loader.gif') }}" alt="Chargement..." />
         </div>
 
-        <p>Quelle espèce d'oiseau recherchez vous ?</p>
-
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
-
-        {{ form_errors(form.nameVern) }}
-        {{ form_label(form.nameVern, "Terme recherché : ") }}
-        {{ form_widget(form.nameVern) }}
-        <div id="match"></div>
-
-        {{ form_errors(form.espece) }}
-        {{ form_label(form.espece, "Espèce : ") }}
-        {{ form_widget(form.espece) }}
-
-        <br/>
-
-        {{ form_errors(form.departement) }}
-        {{ form_label(form.departement, "Département : ") }}
-        {{ form_widget(form.departement) }}
-
-        <br/>
-
-        {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-            {{ form_errors(form.latitude) }}
-            {{ form_label(form.latitude, "Latitude : ") }}
-            {{ form_widget(form.latitude) }}
-
-            {{ form_errors(form.longitude) }}
-            {{ form_label(form.longitude, "Longitude : ") }}
-            {{ form_widget(form.longitude) }}
-
-            {{ form_errors(form.range) }}
-            {{ form_label(form.range, "Écart possible (en degré) : ") }}
-            {{ form_widget(form.range) }}
-        {% endif %}
-
-        {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
-        {{ form_rest(form) }}
-        {{ form_end(form, {'render_rest': false}) }}
-
-        {% if list_piafs %}
-            <div id="liste-resultats">
-                {% for piaf in list_piafs %}
-                <a href="{{ path('observations', {'id': piaf.id} ) }}">
-                    <div>
-                        {% if piaf.nameVern %}
-                            <p>{{ piaf.nameVern }} ({{ piaf.lbNom }}), {{ piaf.nbObservations }} résultat(s)</p>
-                        {% endif %}
-                    </div>
-                </a>
-                {% endfor %}
+        <div class="row">
+            <div class="col-md-6">
+                <div id="map">
+                </div>
             </div>
-        {% else %}
-            <p>Aucun résultat</p>
-        {% endif %}
 
+            <div id="search-content" class="col-md-6">
+                <div class="row">
+                    <p>Quelle espèce d'oiseau recherchez vous ?</p>
 
-        {% if list_piafs %}
-            <div id="data-container"></div>
-            <div id="pages">
-                <div id="pagination-container"></div>
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    {{ form_errors(form.nameVern) }}
+                    {{ form_label(form.nameVern, "Terme recherché : ") }}
+                    {{ form_widget(form.nameVern, {'attr': {'autocomplete': 'off'}}) }}
+                    <div id="match"></div>
+
+                    {{ form_errors(form.espece) }}
+                    {{ form_label(form.espece, "Espèce : ") }}
+                    {{ form_widget(form.espece) }}
+
+                    <br/>
+
+                    {{ form_errors(form.departement) }}
+                    {{ form_label(form.departement, "Département : ") }}
+                    {{ form_widget(form.departement) }}
+
+                    <br/>
+
+                    {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                        {{ form_errors(form.latitude) }}
+                        {{ form_label(form.latitude, "Latitude : ") }}
+                        {{ form_widget(form.latitude) }}
+
+                        {{ form_errors(form.longitude) }}
+                        {{ form_label(form.longitude, "Longitude : ") }}
+                        {{ form_widget(form.longitude) }}
+
+                        {{ form_errors(form.range) }}
+                        {{ form_label(form.range, "Écart possible (en degré) : ") }}
+                        {{ form_widget(form.range) }}
+                    {% endif %}
+
+                    {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
+                    {{ form_rest(form) }}
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+
+                <div class="row">
+                    {% if list_piafs %}
+                        <div id="liste-resultats">
+                            {% for piaf in list_piafs %}
+                                <a href="{{ path('observations', {'id': piaf.id} ) }}">
+                                    <div>
+                                        {% if piaf.nameVern %}
+                                            <p>{{ piaf.nameVern }} ({{ piaf.lbNom }}), {{ piaf.nbObservations }} résultat(s)</p>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Aucun résultat</p>
+                    {% endif %}
+                </div>
             </div>
-        {% endif %}
+        </div>
 
+        <div class="row">
+            {% if list_piafs %}
+                <div id="data-container"></div>
+                <div id="pages">
+                    <div id="pagination-container"></div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="test">test</div>
+
+        <div class="row">
+            <div id="marge-bottom"></div>
+        </div>
     </div>
 
 {% endblock %}
@@ -96,6 +113,7 @@
         var longitudes = [];
         var i = 0;
         var link = '';
+        var circle = '{{ asset('bundles/gsquadpiaf/image/bluecircle.png') }}';
 
         {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
             scale = 'chercheur';
@@ -104,7 +122,7 @@
         {% endif %}
 
         {% for piaf in list_piafs %}
-            imgUrl = '';
+            imgUrl = '{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}';
             link = '{{ path('observations', {'id': piaf.id} ) }}';
 
             {% if piaf.photo %}
@@ -145,8 +163,55 @@
     <script src="{{ asset('bundles/gsquadpiaf/js/googlemap.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI&callback=initMap"
             async defer></script>
-
-    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/pagination.min.js') }}"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/paginate-result.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            var timer;
+
+            $("#form_nameVern").on('keyup', function() {
+                clearTimeout(timer);
+                timer = window.setTimeout(function() {
+                    var input = $("#form_nameVern").val();
+                    if ( input.length >= 2 ) {
+                        $("#navbar-search-button").show();
+                        $('#match').html('<img src="' + window.loader + '" />');
+                        var data = {input: input};
+                        $.ajax({
+                            type: "POST",
+                            url: '{{ path('ajax_autocomplete') }}',
+                            data: data,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function(response){
+                                $('#match').css("border", "black 1px solid");
+                                $('#match').html(response.speciesList);
+                                $('#match-list li').on('click', function() {
+                                    $('#form_nameVern').val($(this).text());
+                                    $('#match').text('');
+                                    $('#match').css("border", "none");
+                                });
+                            },
+                            error: function() {
+                                $('#match').text('Erreur');
+                            }
+                        });
+                    } else {
+                        $('#match').text('');
+                    }
+                }, 1000);
+            });
+
+            $("input[id='form_range']").TouchSpin({
+                verticalbuttons: true,
+                verticalupclass: 'glyphicon glyphicon-plus',
+                verticaldownclass: 'glyphicon glyphicon-minus',
+                min: 0,
+                max: 20,
+                step: 0.001,
+                decimals: 3
+            });
+        });
+    </script>
 {% endblock %}
