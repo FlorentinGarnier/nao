@@ -42,12 +42,13 @@
                                     </td>
                                     <td>{{ post.creationDate | date('d/m/Y') }}</td>
                                     {% if is_granted('ROLE_REDACTEUR') %}
-                                        <td><a href="{{ path('post_edit', {'id': post.id}) }}"><span
-                                                        class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td><a href="{{ path('post_edit', {'id': post.id}) }}"><a data-toggle="tooltip" href="#" title="Editer"><span
+                                                            class="glyphicon glyphicon-pencil"></span></a></a></td>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <td class="btn-delete">
-                                            <i class="glyphicon glyphicon-trash"></i>
+                                            <a data-toggle="tooltip" href="#" title="Supprimer"><i
+                                                        class="glyphicon glyphicon-trash"></i></a>
                                             <form action="{{ path('delete', {'param': 'Post','id': post.id}) }}"
                                                   method="post">
                                                 <input type="submit" value=""/>
@@ -97,7 +98,8 @@
                                         <td>{{ comment.post.title }}</td>
                                         <td>{{ comment.creationDate | date('d/m/Y') }}</td>
                                         <td class="btn-delete">
-                                            <i class="glyphicon glyphicon-trash"></i>
+                                            <a data-toggle="tooltip" href="#" title="Supprimer"><i
+                                                        class="glyphicon glyphicon-trash"></i></a>
                                             <form action="{{ path('delete', {'param': 'Comment','id': comment.id}) }}"
                                                   method="post">
                                                 <input type="submit" value=""/>

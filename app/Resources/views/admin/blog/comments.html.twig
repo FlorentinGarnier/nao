@@ -28,7 +28,8 @@
                 <td>{{ comment.post.title }}</td>
                 <td>{{ comment.creationDate | date('d/m/Y') }}</td>
                 <td class="btn-delete">
-                    <i class="glyphicon glyphicon-trash"></i>
+                    <a data-toggle="tooltip" href="#" title="Supprimer"><i
+                                class="glyphicon glyphicon-trash"></i></a>
                     <form action="{{ path('delete', {'param': 'Comment','id': comment.id}) }}" method="post">
                         <input type="submit" value=""/>
                         {{ form_rest(form) }}
