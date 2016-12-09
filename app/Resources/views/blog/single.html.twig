@@ -18,6 +18,12 @@
         </div>
 
         <div class="comments bg-white">
+            {% for flash_message in app.session.flashBag.get('info') %}
+                <div class="alert alert-success alert-dismissible fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
             {% if post.comments %}
                 {% for comment in post.comments %}
                     <div class="comment">

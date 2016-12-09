@@ -11,5 +11,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
+    public function getNewComments($date)
+    {
+        $query = $this->createQueryBuilder('c');
 
+        $query
+            ->select('c')
+            ->where('c.creationDate > :date')
+            ->setParameter('date', $date)
+        ;
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
 }

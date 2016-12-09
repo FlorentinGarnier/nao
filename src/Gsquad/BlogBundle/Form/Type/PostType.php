@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PostType extends AbstractType
@@ -21,21 +23,30 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, array(
-                'label' => 'Titre de l\'article'
+                'label' => 'Titre de l\'article',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(array("message" => "Merci d'indiquer un titre")),
+                    new Length(array(
+                        'min' => 2,
+                        'max' => 70,
+                        'minMessage' => 'Minimum {{ limit }} caractères',
+                        'maxMessage' => 'Maximum {{ limit }} caractères',
+                    ))
+                ]
             ))
             ->add('content', CKEditorType::class, array(
                 'config' => array('toolbar' => 'standard'),
-                'label' => 'Votre article'
+                'label' => 'Votre article',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(array("message" => "Merci de rédiger votre article")),
+                ]
             ))
-            /*->add('tags', CollectionType::class, array(
-                'entry_type' => TagType::class,
-                'label' => 'Tags associés',
-                'allow_add' => true
-            ))*/
             ->add('category', EntityType::class, array(
                 'class' => 'Gsquad\BlogBundle\Entity\Category',
                 'choice_label' => 'name',
-                'label' => 'Dans quelle catégorie souhaitez-vous ajouter votre article ?'
+                'label' => 'Dans quelle catégorie souhaitez-vous ajouter votre article ?',
             ))
             ->add('imageFile', VichImageType::class, array(
                 'label' => 'Associer une image',

@@ -8,7 +8,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Gsquad\BlogBundle\Entity\Category;
-use Gsquad\BlogBundle\Entity\Tag;
 
 /**
  * Post
@@ -72,26 +71,20 @@ class Post
      */
     private $slug;
 
-    /*/**
-     * @ORM\ManyToMany(targetEntity="Gsquad\BlogBundle\Entity\Tag", cascade={"persist"})
-     * @ORM\JoinTable(name="post_tag")
-     */
-    /*private $tags;*/
-
     /**
      * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"}, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
-    /** @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName")
+    /** @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName", nullable=true)
     *
     * @var File
     */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
@@ -120,7 +113,6 @@ class Post
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        //$this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->updatedAt = new \DateTime();
     }
@@ -280,40 +272,6 @@ class Post
     {
         return $this->slug;
     }
-
-    /*/**
-     * Add tag
-     *
-     * @param Tag $tag
-     *
-     * @return Post
-     */
-    /*public function addTag(Tag $tag)
-    {
-        $this->tags[] = $tag;
-
-        return $this;
-    }*/
-
-    /*/**
-     * Remove tag
-     *
-     * @param Tag $tag
-     */
-    /*public function removeTag(Tag $tag)
-    {
-        $this->tags->removeElement($tag);
-    }*/
-
-    /*/**
-     * Get tags
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    /*public function getTags()
-    {
-        return $this->tags;
-    }*/
 
     /**
      * Set category

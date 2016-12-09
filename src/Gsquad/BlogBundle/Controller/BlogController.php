@@ -112,10 +112,10 @@ class BlogController extends Controller
 
         $listCategories = $em
             ->getRepository('GsquadBlogBundle:Category')
-            ->findAll();
+            ->getCategoriesWithPosts();
 
         return $this->render('blog/navigation_blog.html.twig', array(
-            'categories' =>$listCategories,
+            'categories' => $listCategories,
         ));
     }
 

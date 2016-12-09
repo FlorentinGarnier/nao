@@ -26,6 +26,21 @@ class PostRepository extends EntityRepository
         return $query;
     }
 
+    public function getPendingPosts()
+    {
+        $query = $this->createQueryBuilder('p');
+
+        $query
+            ->select('p')
+            ->where('p.status = :status')
+                ->setParameter('status', 'en attente')
+            ;
+
+        return $query
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getComments($query)
     {
         return $query->leftJoin('p.comments', 'c')

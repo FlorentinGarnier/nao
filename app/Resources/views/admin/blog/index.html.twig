@@ -4,44 +4,118 @@
 
 {% block content %}
     <div class="container">
-        <h1>Articles</h1>
-        <a href="{{ path('post_add') }}">Ajouter un article</a>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Auteur</th>
-                    <th>Catégorie</th>
-                    <th>Commentaires</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                    <th colspan="2"></th>
-                <tr>
-            </thead>
-            <tbody>
-                {% for post in listPosts %}
-                    <tr>
-                        <td>{{ post.title }}</td>
-                        <td>{{ post.author }}</td>
-                        <td>{{ post.category.name }}</td>
-                        <td>{{ post.comments | length }}</td>
-                        <td>{{ post.creationDate | date('d/m/Y') }}</td>
-                        <td>{{ post.status }}</td>
-                        {% if is_granted('ROLE_REDACTEUR') %}
-                        <td><a href="{{ path('post_edit', {'id': post.id}) }}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+        <div class="col-sm-3">
+            <ul>
+                <li><a href="{{ path('admin_blog_posts') }}" title="Administrer les articles">Articles</a></li>
+                <li><a href="{{ path('admin_blog_categories') }}" title="Administrer les catégories">Catégories</a></li>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <li><a href="{{ path('admin_blog_comments') }}"
+                           title="Administrer les commentaires">Commentaires</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            {% block adminBlogContent %}
+                <h1>Administration du blog</h1>
+                <div>
+                    <h2>Articles en attente de validation</h2>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Catégorie</th>
+                            <th>Date</th>
+                            <th colspan="2"></th>
+                        <tr>
+                        </thead>
+                        <tbody>
+                        {% if listPosts | length > 0 %}
+                            {% for post in listPosts %}
+                                <tr>
+                                    <td>{{ post.title }}</td>
+                                    <td>{{ post.author }}</td>
+                                    <td>
+                                        {% if post.category is not null %}{{ post.category.name }}
+                                        {% else %}Non classé
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ post.creationDate | date('d/m/Y') }}</td>
+                                    {% if is_granted('ROLE_REDACTEUR') %}
+                                        <td><a href="{{ path('post_edit', {'id': post.id}) }}"><span
+                                                        class="glyphicon glyphicon-pencil"></span></a></td>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <td class="btn-delete">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                            <form action="{{ path('delete', {'param': 'Post','id': post.id}) }}"
+                                                  method="post">
+                                                <input type="submit" value=""/>
+                                                {{ form_rest(form) }}
+                                            </form>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center">Aucun article en attente de validation</td>
+                            </tr>
                         {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <td class="btn-delete">
-                            <i class="glyphicon glyphicon-trash"></i>
-                            <form action="{{ path('post_delete', {'id': post.id}) }}" method="post">
-                                <input type="submit" value=""/>
-                                {{ form_rest(form) }}
-                            </form>
-                        </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h2>Catégories</h2>
+                    <ul>
+                        {% for category in listCategories %}
+                            <li>{{ category.name }} <i>({% transchoice category.posts | length %}[0,1] %count%
+                                    article|]1,Inf[ %count% articles{% endtranschoice %})</i>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <div>
+                        <h2>Nouveaux commentaires</h2>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Commentaire</th>
+                                <th>Auteur</th>
+                                <th>Article</th>
+                                <th>Date</th>
+                                <th colspan="2"></th>
+                            <tr>
+                            </thead>
+                            <tbody>
+                            {% if listComments | length > 0 %}
+                                {% for comment in listComments %}
+                                    <tr>
+                                        <td>{{ comment.content }}</td>
+                                        <td>{{ comment.author }}</td>
+                                        <td>{{ comment.post.title }}</td>
+                                        <td>{{ comment.creationDate | date('d/m/Y') }}</td>
+                                        <td class="btn-delete">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                            <form action="{{ path('delete', {'param': 'Comment','id': comment.id}) }}"
+                                                  method="post">
+                                                <input type="submit" value=""/>
+                                                {{ form_rest(form) }}
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center">Aucun nouveau commentaire</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
     </div>
 {% endblock %}

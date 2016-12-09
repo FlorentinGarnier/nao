@@ -1,0 +1,41 @@
+{# app/Resources/views/admin/blog/comments.html.twig #}
+
+{% extends 'admin/blog/index.html.twig' %}
+
+{% block adminBlogContent %}
+    <h1>Commentaires</h1>
+    {% for flash_message in app.session.flashBag.get('info') %}
+        <div class="alert alert-success alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Commentaire</th>
+            <th>Auteur</th>
+            <th>Article</th>
+            <th>Date</th>
+            <th colspan="2"></th>
+        <tr>
+        </thead>
+        <tbody>
+        {% for comment in listComments %}
+            <tr>
+                <td>{{ comment.content }}</td>
+                <td>{{ comment.author }}</td>
+                <td>{{ comment.post.title }}</td>
+                <td>{{ comment.creationDate | date('d/m/Y') }}</td>
+                <td class="btn-delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <form action="{{ path('delete', {'param': 'Comment','id': comment.id}) }}" method="post">
+                        <input type="submit" value=""/>
+                        {{ form_rest(form) }}
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -3,7 +3,7 @@
 <div class="row text-center">
     <ul id="nav" class="list-inline">
         {% for category in categories %}
-            <li><a href="{{ path('category', {'slug': category.slug}) }}" title="">{{ category.name }}</a></li>
+            <li><a href="{{ path('category', {'slug': category.slug}) }}" title="{{ category.name }}">{{ category.name }}</a></li>
         {% endfor %}
         {% if is_granted('ROLE_CONTRIBUTEUR') %}
             <li><a href="{{ path('post_add') }}" title="">Créer un nouveau post</a></li>

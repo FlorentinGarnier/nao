@@ -23,20 +23,32 @@ class AdminBlogController extends Controller
 {
     /**
      * @Route("/blog", name="admin_blog")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_REDACTEUR')")
      */
     public function adminIndexAction()
     {
+        $lastLogin = $this->getUser()->getLastLogin();
+
         $em = $this->getDoctrine()->getManager();
 
         $listPosts = $em
             ->getRepository('GsquadBlogBundle:Post')
+            ->getPendingPosts();
+
+        $listCategories = $em
+            ->getRepository('GsquadBlogBundle:Category')
             ->findAll();
+
+        $listComments = $em
+            ->getRepository('GsquadBlogBundle:Comment')
+            ->getNewComments($lastLogin);
 
         $form = $this->get('form.factory')->create();
 
         return $this->render('admin/blog/index.html.twig', array(
             'listPosts' => $listPosts,
+            'listCategories' => $listCategories,
+            'listComments' => $listComments,
             'form' => $form->createView()
         ));
     }
@@ -109,19 +121,88 @@ class AdminBlogController extends Controller
     }
 
     /**
-     * @Route("/blog/delete/{id}", name="post_delete")
+     * @Route("/blog/{param}/{id}", name="delete")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function deleteAction(Request $request, Post $post)
+    public function deleteAction(Request $request, $param, $id)
     {
+        $entity = 'Gsquad\BlogBundle\Entity\\' . $param;
+        $element = $this
+            ->getDoctrine()
+            ->getRepository($entity)
+            ->find($id);
+
         if ($request->isMethod('POST')) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($post);
+            $em->remove($element);
             $em->flush();
 
             $this->addFlash('info', "L'élément a bien été supprimé.");
-            dump('supprimé');
         }
-        return $this->redirectToRoute('admin_blog');
+
+        if($param === 'Category') $param = 'categorie';
+
+        $route = 'admin_blog_' . lcfirst($param) . 's';
+        return $this->redirectToRoute($route);
+    }
+
+    /**
+     * @Route("/blog/posts", name="admin_blog_posts")
+     * @Security("has_role('ROLE_REDACTEUR')")
+     */
+    public function postsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listPosts = $em
+            ->getRepository('GsquadBlogBundle:Post')
+            ->findAll();
+
+        $form = $this->get('form.factory')->create();
+
+        return $this->render('admin/blog/posts.html.twig', array(
+            'listPosts' => $listPosts,
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/blog/categories", name="admin_blog_categories")
+     * @Security("has_role('ROLE_REDACTEUR')")
+     */
+    public function categoriesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listCategories = $em
+            ->getRepository('GsquadBlogBundle:Category')
+            ->findAll();
+
+        $form = $this->get('form.factory')->create();
+
+        return $this->render('admin/blog/categories.html.twig', array(
+            'listCategories' => $listCategories,
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/blog/comments", name="admin_blog_comments")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function commentsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listComments = $em
+            ->getRepository('GsquadBlogBundle:Comment')
+            ->findAll();
+
+        $form = $this->get('form.factory')->create();
+
+        return $this->render('admin/blog/comments.html.twig', array(
+            'listComments' => $listComments,
+            'form' => $form->createView()
+        ));
     }
 }
