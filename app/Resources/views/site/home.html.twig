@@ -12,7 +12,7 @@
         <div class="row">
             {% for obs in lastObs %}
                 <div class="col-md-4">
-                    <img src="" alt="{{ obs.piaf.nameVern }}">
+                    <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}" class="img-responsive">
                     <span>{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
                 </div>
             {% endfor %}

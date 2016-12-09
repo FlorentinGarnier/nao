@@ -1,0 +1,16 @@
+{# app/Resources/views/admin/blog/add_category.html.twig #}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h1>{% block modalTitle %}Ajouter une catégorie{% endblock %}</h1>
+</div>
+<div class="modal-body">
+    {% block modalBody %}
+    {{ form_start(form, {'action': path('new_category')}) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.name) }}
+        {{ form_rest(form) }}
+        <input type="submit" value="Ajouter la nouvelle catégorie">
+    {{ form_end(form) }}
+    {% endblock %}
+</div>

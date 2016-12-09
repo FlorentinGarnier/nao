@@ -10,7 +10,7 @@
             {{ flash_message }}
         </div>
     {% endfor %}
-    <a href="#">Ajouter une catégorie</a>
+    <button data-toggle="modal" href="{{ path('category_add') }}" data-target="#edit">Ajouter une catégorie</button>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -22,22 +22,34 @@
         <tbody>
         {% for category in listCategories %}
             <tr>
-                <td>{{ category.name }} {{ form_start(editForm) }}{{ form_end(editForm) }}</td>
+                <td>{{ category.name }}</td>
                 <td>{{ category.posts | length }}</td>
                 {% if is_granted('ROLE_REDACTEUR') %}
-                    <td><a href=""><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a data-toggle="tooltip" href="#" title="Editer">
+                            <button data-toggle="modal" href="{{ path('category_edit', {'id': category.id}) }}"
+                                    data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>
+                        </a>
+                    </td>
                 {% endif %}
                 {% if (is_granted('ROLE_ADMIN')) and (category.posts | length == 0) %}
                     <td class="btn-delete">
-                        <i class="glyphicon glyphicon-trash"></i>
+                        <a data-toggle="tooltip" href="#" title="Supprimer"><i
+                                    class="glyphicon glyphicon-trash"></i></a>
                         <form action="{{ path('delete', {'param': 'Category','id': category.id}) }}" method="post">
                             <input type="submit" value=""/>
                             {{ form_rest(form) }}
                         </form>
                     </td>
+
                 {% endif %}
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="modal fade" id="edit">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
 {% endblock %}

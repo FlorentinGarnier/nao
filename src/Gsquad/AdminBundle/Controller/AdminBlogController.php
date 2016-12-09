@@ -9,6 +9,7 @@
 namespace Gsquad\AdminBundle\Controller;
 
 
+use Gsquad\BlogBundle\Entity\Category;
 use Gsquad\BlogBundle\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,6 +66,7 @@ class AdminBlogController extends Controller
         $newPost = new Post();
 
         $form = $this->get('form.factory')->create($formType, $newPost);
+        $formCategory = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType');
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $slug = $this->get('gsquad.slugger')->slugify($newPost->getTitle());
@@ -81,12 +83,12 @@ class AdminBlogController extends Controller
             $em->persist($newPost);
             $em->flush();
 
-            $this->addFlash('info', 'L\'article a été ajouté !');
             return $this->redirectToRoute('blog');
         }
 
         return $this->render('admin/blog/add.html.twig', array(
             'form' => $form->createView(),
+            'formCategory' => $formCategory->createView()
         ));
     }
 
@@ -99,6 +101,7 @@ class AdminBlogController extends Controller
         $formType = 'Gsquad\BlogBundle\Form\Type\PostType';
 
         $form = $this->get('form.factory')->create($formType, $post);
+        $formCategory = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType');
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             if($form->get('submit')->isClicked()) {
@@ -107,17 +110,87 @@ class AdminBlogController extends Controller
                 $post->setStatus('publié');
             }
 
+            $title = $form->getData()->getTitle();
+            $slug = $this->get('gsquad.slugger')->slugify($title);
+            $post->setSlug($slug);
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash('info', 'Element bien modifié.');
+            $this->addFlash('info', 'Article modifié.');
 
-            return $this->redirectToRoute('admin_blog');
+            return $this->redirectToRoute('admin_blog_posts');
         }
 
         return $this->render('admin/blog/add.html.twig', array(
             'form' => $form->createView(),
+            'formCategory' => $formCategory->createView()
         ));
+    }
+
+    /**
+     * @Route("/blog/add-category", name="category_add")
+     */
+    public function addCategoryAction(Request $request)
+    {
+        $form = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType');
+
+        return $this->render('admin/blog/add_category.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/blog/edit-category/{id}", name ="category_edit")
+     * @Security("has_role('ROLE_REDACTEUR')")
+     */
+    public function editCategoryAction(Category $category)
+    {
+        $form = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType', $category);
+
+        return $this->render('admin/blog/edit_category.html.twig', array(
+            'form' => $form->createView(),
+            'category' => $category
+        ));
+    }
+
+    /**
+     * @Route("/blog/save-new-category", name="new_category")
+     */
+    public function saveNewCategoryAction(Request $request)
+    {
+        $category = new Category();
+        if ($request->isMethod('POST')) {
+            $name = $request->request->get('category')['name'];
+            $category->setName($name);
+            $slug = $this->get('gsquad.slugger')->slugify($name);
+            $category->setSlug($slug);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->flush();
+            $this->addFlash('info', 'Catégorie ajoutée');
+
+            return $this->redirectToRoute('admin_blog_categories');
+        }
+    }
+
+    /**
+     * @Route("/blog/save-category/{id}", name="save_category")
+     */
+    public function saveCategoryAction(Request $request, Category $category)
+    {
+       if($request->isMethod('POST')){
+           $name = $request->request->get('category')['name'];
+           $category->setName($name);
+           $slug = $this->get('gsquad.slugger')->slugify($name);
+           $category->setSlug($slug);
+
+           $em = $this->getDoctrine()->getManager();
+           $em->flush();
+           $this->addFlash('info', 'Modification enregistrée');
+       }
+       return $this->redirectToRoute('admin_blog_categories');
     }
 
     /**
@@ -179,12 +252,10 @@ class AdminBlogController extends Controller
             ->findAll();
 
         $form = $this->get('form.factory')->create();
-        $editForm = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType');
 
         return $this->render('admin/blog/categories.html.twig', array(
             'listCategories' => $listCategories,
             'form' => $form->createView(),
-            'editForm' => $editForm->createView()
         ));
     }
 

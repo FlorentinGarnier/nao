@@ -1,0 +1,14 @@
+{# app/Resources/views/admin/blog/edit_category.html.twig #}
+
+{% extends 'add_category.html.twig' %}
+
+{% block modalTitle %}Modifier une catégorie{% endblock %}
+
+{% block modalBody %}
+    {{ form_start(form, {'action': path('save_category', {'id': category.id })}) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.name) }}
+    {{ form_rest(form) }}
+    <input type="submit" value="Enregistrer les modifications">
+    {{ form_end(form) }}
+{% endblock %}

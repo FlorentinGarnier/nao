@@ -22,3 +22,4 @@ src/Gsquad/CoreBundle/Resources/
 src/Gsquad/UserBundle/Entity/User.php~
 .idea/
 bin/
+web/uploads/

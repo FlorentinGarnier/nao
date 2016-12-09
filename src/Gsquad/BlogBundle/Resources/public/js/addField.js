@@ -13,7 +13,8 @@ $(document).ready(function() {
             $('#addCategory').modal('show');
 
             $('#addNewCategory').on('click', function(){
-               var newCategoryTitle = $('#category_title').val();
+               var newCategoryTitle = $('#category_name').val();
+               console.log(newCategoryTitle);
                newCategoryTitle = newCategoryTitle.charAt(0).toUpperCase() + newCategoryTitle.substring(1).toLowerCase();
 
                 //On ajoute celle-ci à la liste déroulante et on ferme la modale

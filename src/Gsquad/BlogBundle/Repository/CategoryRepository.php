@@ -18,11 +18,6 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
             ->innerJoin('c.posts', 'p')
                 ->where('p.status = :status')
                 ->setParameter('status', 'publié')
-            ->having(
-                $query->expr()->gt(
-                    $query->expr()->count('p'), 0
-                )
-            )
         ;
 
         return $query->getQuery()->getResult();
