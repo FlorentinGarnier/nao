@@ -2,7 +2,10 @@
 
 namespace Gsquad\BlogBundle\Form\Type;
 
-use Gsquad\BlogBundle\Form\Type\TagType;
+use Doctrine\ORM\EntityManager;
+use Gsquad\BlogBundle\Entity\Category;
+use Gsquad\BlogBundle\Form\EventListener\AddPostListener;
+use Gsquad\Utils\Slugger;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,6 +19,15 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PostType extends AbstractType
 {
+    private $em;
+    private $slugger;
+
+    public function __construct(EntityManager $em, Slugger $slugger)
+    {
+        $this->em = $em;
+        $this->slugger = $slugger;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +56,7 @@ class PostType extends AbstractType
                 ]
             ))
             ->add('category', EntityType::class, array(
-                'class' => 'Gsquad\BlogBundle\Entity\Category',
+                'class'        => 'GsquadBlogBundle:Category',
                 'choice_label' => 'name',
                 'label' => 'Dans quelle catégorie souhaitez-vous ajouter votre article ?',
             ))
@@ -60,6 +72,7 @@ class PostType extends AbstractType
             ->add('submit', SubmitType::class, array(
                 'label' => 'Soumettre l\'article'
             ))
+            ->addEventSubscriber(new AddPostListener($this->em, $this->slugger))
         ;
     }
     

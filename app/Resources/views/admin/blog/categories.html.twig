@@ -22,7 +22,7 @@
         <tbody>
         {% for category in listCategories %}
             <tr>
-                <td>{{ category.name }}</td>
+                <td>{{ category.name }} {{ form_start(editForm) }}{{ form_end(editForm) }}</td>
                 <td>{{ category.posts | length }}</td>
                 {% if is_granted('ROLE_REDACTEUR') %}
                     <td><a href=""><span class="glyphicon glyphicon-pencil"></span></a></td>

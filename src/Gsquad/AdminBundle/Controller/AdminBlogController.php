@@ -179,10 +179,12 @@ class AdminBlogController extends Controller
             ->findAll();
 
         $form = $this->get('form.factory')->create();
+        $editForm = $this->get('form.factory')->create('Gsquad\BlogBundle\Form\Type\CategoryType');
 
         return $this->render('admin/blog/categories.html.twig', array(
             'listCategories' => $listCategories,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'editForm' => $editForm->createView()
         ));
     }
 
