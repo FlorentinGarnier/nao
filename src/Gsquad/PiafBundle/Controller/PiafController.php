@@ -4,6 +4,7 @@ namespace Gsquad\PiafBundle\Controller;
 
 use Gsquad\PiafBundle\Entity\Observation;
 use Gsquad\PiafBundle\Entity\Photo;
+use Gsquad\PiafBundle\Entity\Piaf;
 use Gsquad\PiafBundle\Form\Type\ObservationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -475,7 +476,7 @@ class PiafController extends Controller
     {
         $service = $this->container->get('gsquad_piaf.get_departements');
         $depts = $service->getDepartementsArray();
-        $choiceEspece['Autre'] = false;
+        $choiceEspece = [];
 
         $session = $request->getSession();
 
@@ -493,6 +494,24 @@ class PiafController extends Controller
                 $choiceEspece[$espece->getNameVern()] = $espece->getId();
             }
         }
+
+        function wd_remove_accents($str, $charset='utf-8')
+        {
+            $str = htmlentities($str, ENT_NOQUOTES, $charset);
+
+            $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+            $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
+            $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
+
+            return $str;
+        }
+
+        uksort($choiceEspece, function($a, $b)
+        {
+            return strcmp(strtolower(wd_remove_accents($a)), strtolower(wd_remove_accents($b)));
+        });
+        $firstItem = array('Autre' => false);
+        $choiceEspece = $firstItem + $choiceEspece;
 
         $data = array();
         $form = $this->createFormBuilder($data)
@@ -517,37 +536,67 @@ class PiafController extends Controller
         if($form->handleRequest($request)->isValid())
         {
             $obs = new Observation();
-            $obs->setLatitude($form["latitude"]->getData());
-            $obs->setLongitude($form["longitude"]->getData());
-            $obs->setObservateur($form["observateur"]->getData());
+
+            if($form["latitude"]->getData() != null) {
+                $obs->setLatitude($form["latitude"]->getData());
+            }
+
+            if($form["longitude"]->getData() != null) {
+                $obs->setLongitude($form["longitude"]->getData());
+            }
+
+            if($form["observateur"]->getData() != null) {
+                $obs->setObservateur($form["observateur"]->getData());
+            }
+
             $obs->setCity($form["city"]->getData());
             $obs->setDateObservation($form["dateObservation"]->getData());
             $obs->setDepartement($form["departement"]->getData());
 
             $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-            $piaf = $piafRepository->find($form["espece"]->getData());
-
-            $obs->setPiaf($piaf);
-
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $form["image"]->getData();
-
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-            $file->move(
-                $this->getParameter('images_directory'),
-                $fileName
-            );
-
-            $image = new Photo();
-            $image->setImgUrl($fileName);
 
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($image);
-            $em->flush();
+            if($form["espece"]->getData() == false) {
+                $nouveauNom = $form["especeautre"]->getData();
+                $piaf = new Piaf();
+                $piaf->setClasse('inconnue');
+                $piaf->setCdNom(0);
+                $piaf->setCdTaxSup(0);
+                $piaf->setOrdre('inconnu');
+                $piaf->setFamily('inconnue');
+                $piaf->setNameLatin('inconnu');
+                $piaf->setNameVern($nouveauNom);
+                $piaf->setNameVernEng('inconnu');
+                $piaf->setHabitat('0');
 
-            $obs->setPhoto($image);
+                $em->persist($piaf);
+                $em->flush();
+            } else {
+                $piaf = $piafRepository->find($form["espece"]->getData());
+            }
+
+            $obs->setPiaf($piaf);
+
+            if($form["image"]->getData() != null) {
+                /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+                $file = $form["image"]->getData();
+
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fileName
+                );
+
+                $image = new Photo();
+                $image->setImgUrl($fileName);
+
+                $em->persist($image);
+                $em->flush();
+
+                $obs->setPhoto($image);
+            }
 
             $em->persist($obs);
             $em->flush();
