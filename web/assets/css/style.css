@@ -1,6 +1,49 @@
+
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 /*padding for fixed bottom navbar*/
 body{
     padding-bottom:70px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Comfortaa', sans-serif;
+}
+
+.navbar-img{
+    height: 30px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+
+.gsquad-navbar-default{
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    border: transparent;
+
+}
+
+.gsquad-header-title{
+    color: #fff;
+    padding: 300px 0;
+}
+
+.gsquad-intro-header{
+    background: url('../img/bg.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+hr.gsquad-small{
+    max-width: 100px;
+    margin: 15px auto;
+    border-width: 4px;
 }
 /**
  * glyphicon inside text field
