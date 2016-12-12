@@ -44,16 +44,12 @@ class LoadDataUser implements FixtureInterface, ContainerAwareInterface
         foreach ( self::ROLES as $role) {
 
             $user = $userManager->createUser();
-            $user->setFirstName($role);
-            $user->setLastName($role);
             $user->setUsername($role);
-            $user->setBirthday(new \DateTime('NOW'));
             $user->setEmail($role . '@' . $role . '.fr');
             $user->setPlainPassword($role);
             $user->setEnabled(true);
             $user->setRoles(['ROLE_' . strtoupper($role)]);
-            $user->setAdress1('fgdfg');
-            $user->setZipCode('63570');
+
 
             $userManager->updateUser($user, true);
         }
