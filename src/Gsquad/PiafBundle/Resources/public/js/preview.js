@@ -97,6 +97,31 @@ $(document).ready(function(){
 
     x.on("change keyup", function() {
         $('.preview-geo').html("Latitude : " + $(this).val() + "°, longitude : " + $('#form_longitude').val() + "°");
+
+        if(x.val() != "" && y.val() != "") {
+            var xNoComma = x.val().replace(/,/g, '.');
+            var yNoComma = y.val().replace(/,/g, '.');
+
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ xNoComma +","+ yNoComma +"&key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI";
+
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: url,
+                data: {},
+                success: function(data) {
+                    $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
+                    $('#form_city').prop('disabled', true);
+                    $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
+                    $('#form_departement').prop('disabled', true);
+                },
+                error: function () { console.log('error'); }
+            });
+        }
+        else {
+            $('#form_city').prop('disabled', false);
+            $('#form_departement').prop('disabled', false);
+        }
     });
 
     x.keydown(function (e) {
@@ -120,6 +145,31 @@ $(document).ready(function(){
 
     y.on("change keyup", function() {
         $('.preview-geo').html("Latitude : " +$('#form_latitude').val() + "°, longitude : " + $(this).val() + "°");
+
+        if(x.val() != "" && y.val() != "") {
+            var xNoComma = x.val().replace(/,/g, '.');
+            var yNoComma = y.val().replace(/,/g, '.');
+
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ xNoComma +","+ yNoComma +"&key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI";
+
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: url,
+                data: {},
+                success: function(data) {
+                    $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
+                    $('#form_city').prop('disabled', true);
+                    $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
+                    $('#form_departement').prop('disabled', true);
+                },
+                error: function () { console.log('error'); }
+            });
+        }
+        else {
+            $('#form_city').prop('disabled', false);
+            $('#form_departement').prop('disabled', false);
+        }
     });
 
     y.keydown(function (e) {
