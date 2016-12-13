@@ -29,9 +29,9 @@
             {% for obs in lastObs %}
 
                 <div class="col-md-4">
-                    {% if obs.piaf.photo %}
+                    {% if obs.photo %}
                         <div class="cover">
-                            <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
+                            <img class="img-observation" src="{{ asset('uploads/images/' ~ obs.getPhoto.imgUrl) }}" />
                         </div>
                     {% else %}
                         <div class="cover">
