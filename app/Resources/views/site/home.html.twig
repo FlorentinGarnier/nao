@@ -27,9 +27,18 @@
 
         <div class="row">
             {% for obs in lastObs %}
+
                 <div class="col-md-4">
-                    <img src="" alt="">
-                    <span>{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
+                    {% if obs.piaf.photo %}
+                        <div class="cover">
+                            <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
+                        </div>
+                    {% else %}
+                        <div class="cover">
+                            <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
+                        </div>
+                    {% endif %}
+                    <p>{{ obs.piaf.nameVern }}, {{ obs.departement }}</p>
                 </div>
             {% endfor %}
         </div>
