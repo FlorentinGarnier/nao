@@ -11,8 +11,11 @@ h1, h2 {
     font-family: 'Comfortaa', sans-serif;
 }
 
+/**
+Navbar Custom
+ */
 .navbar-img{
-    height: 30px;
+   height: 30px;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -30,6 +33,9 @@ h1, h2 {
 
 }
 
+/*
+Header Photo
+ */
 .gsquad-header-title{
     color: #fff;
     padding: 300px 0;
@@ -45,6 +51,40 @@ hr.gsquad-small{
     margin: 15px auto;
     border-width: 4px;
 }
+
+/*
+Connection social
+ */
+
+.gsquad-btn-logo{
+    width: 20px;
+    display: inline-block;
+}
+
+.gsquad-btn{
+    width: 250px;
+    margin: 5px 0 5px 0;
+   /* border: 1px solid rgb(95, 95, 95); */
+    padding: 10px;
+
+}
+
+.gsquad-btn>a{
+    color: #fff;
+}
+
+.gsquad-btn>a:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
+.gsquad-facebook{
+    background-color: #415a93;
+}
+.gsquad-google{
+    background-color: #d85040;
+}
+
 /**
  * glyphicon inside text field
  */

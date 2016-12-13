@@ -1,10 +1,21 @@
 <hr>
 
 <div class="row">
-    <div class="col-md-6">
-        <p><a href="{{ hwi_oauth_login_url('facebook') }}"><img class="img-responsive" src="{{ asset('assets/img/facebook_btn.png') }}" alt="logo-facebook"></a></p>
+    <div class="col-md-12">
+        <div class="gsquad-btn gsquad-facebook">
+            <a href="{{ hwi_oauth_login_url('facebook') }}">
+                <span class="gsquad-btn-logo"><i class="fa fa-facebook" aria-hidden="true"></i></span>
+                Connectez-vous avec Facebook
+            </a>
+        </div>
     </div>
-    <div class="col-md-6">
-        <p><a href="{{ hwi_oauth_login_url('google') }}"><img class="img-responsive"  src="{{ asset('assets/img/google_btn.png') }}" alt="logo-facebook"></a></p>
+    <div class="col-md-12">
+        <div class="gsquad-btn gsquad-google">
+            <a href="{{ hwi_oauth_login_url('google') }}">
+                <span class="gsquad-btn-logo" ><i class="fa fa-google" aria-hidden="true"></i></span>
+                Connectez vous avec Google
+            </a>
+        </div>
+
     </div>
 </div>
