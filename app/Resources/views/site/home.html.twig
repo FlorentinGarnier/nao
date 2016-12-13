@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-    </div>
+        </div>
 
     </div>
     <div class="container">
@@ -29,16 +29,19 @@
             {% for obs in lastObs %}
 
                 <div class="col-md-4">
-                    {% if obs.photo %}
-                        <div class="cover">
-                            <img class="img-observation" src="{{ asset('uploads/images/' ~ obs.getPhoto.imgUrl) }}" />
+                    <div class="thumbnail">
+                        {% if obs.photo %}
+                            <img class="img-observation" src="{{ asset('uploads/images/' ~ obs.getPhoto.imgUrl) }}"/>
+                        {% else %}
+                            <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}"/>
+                        {% endif %}
+                        <div class="caption">
+
+                            <h3>{{ obs.piaf.nameVern }}, {{ obs.departement }}</h3>
+                            <p><a class="btn btn-primary" href="{{ path('observations', {'id': obs.piaf.id}) }}">Voir l'observation</a></p>
                         </div>
-                    {% else %}
-                        <div class="cover">
-                            <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
-                        </div>
-                    {% endif %}
-                    <p>{{ obs.piaf.nameVern }}, {{ obs.departement }}</p>
+
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -55,7 +58,8 @@
                 </p>
                 <ul class="list-inline">
                     <li><a href="{{ path('about') }}" title="En savoir plus">En savoir plus</a></li>
-                    <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a></li>
+                    <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-6 text-center">
