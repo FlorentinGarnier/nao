@@ -46,8 +46,8 @@
         {{ form_widget(form.espece, {'attr': {'class': 'form-control obligatoire'}}) }}
 
         {{ form_errors(form.especeautre) }}
-        {{ form_label(form.especeautre, "Autre :", {'label_attr': {'class': 'control-label to-hide'}}) }}
-        {{ form_widget(form.especeautre, {'attr': {'class': 'form-control to-hide'}}) }}
+        {{ form_label(form.especeautre, "Autre* :", {'label_attr': {'class': 'control-label to-hide'}}) }}
+        {{ form_widget(form.especeautre, {'attr': {'class': 'form-control to-hide obligatoire'}}) }}
 
         <button id="bouton-validation" type="button" class="btn btn-primary" data-toggle="modal" data-target="#fichesaisie">
             Valider cette observation
@@ -88,7 +88,9 @@
                     <h4 class="modal-title" id="myModalLabel">Nouvelle observation</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="image-holder"></div>
+                    <div class="image-holder">
+                        <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="Pas d'image"/>
+                    </div>
                     <h4 class="preview-espece">Espece : non précisée</h4>
                     <p class="preview-date">Observé le : non précisé</p>
                     <p class="preview-observateur">Observé par : non précisé</p>
@@ -97,7 +99,7 @@
                 </div>
                 <div class="modal-footer">
                     {{ form_widget(form.submit) }}
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button id="bouton-annuler" type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                 </div>
             </div>
         </div>
@@ -116,7 +118,9 @@
         $(document).ready(function() {
             $('.js-datepicker').datepicker({
                 format: 'yyyy-mm-dd',
-                language: 'fr-FR'
+                language: 'fr-FR',
+                endDate: '0d',
+                autoclose: true
             });
 
             $('#zone-form').on('keyup keypress', function(e) {
