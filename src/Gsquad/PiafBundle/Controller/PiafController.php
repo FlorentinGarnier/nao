@@ -525,10 +525,12 @@ class PiafController extends Controller
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker']
             ))
-            ->add('departement', ChoiceType::class,
-                array('choices' => $depts))
-            ->add('espece', ChoiceType::class,
-                array('choices' => $choiceEspece))
+            ->add('departement', ChoiceType::class, array(
+                'choices' => $depts
+            ))
+            ->add('espece', ChoiceType::class, array(
+                'choices' => $choiceEspece
+            ))
             ->add('especeautre', TextType::class, array('required' => false))
             ->add('submit',SubmitType::class, array('label' => 'Soumettre cette observation'))
             ->getForm();

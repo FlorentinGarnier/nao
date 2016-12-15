@@ -1,3 +1,7 @@
+html, body {
+    overflow-x: hidden;
+}
+
 #match, #navbar-match {
     z-index: 999;
     position: absolute;
@@ -64,25 +68,64 @@
     margin-bottom: 65px;
 }
 
+#space-bottom {
+    margin-bottom: 50px;
+}
+
 ​.cover {
     width: 300px;
     height: 250px;
 }
 
-.img-observation {
-    max-height: 250px;
-    max-width: 300px;
+.obligatoire {
+    background-color: cornsilk;
+}
+
+.erreur-content {
+    padding: 0 15px 0 15px;
+}
+
+#erreur-depts {
+    background-color: sandybrown;
     border-radius: 5px;
-    margin-top: 5px;
+    display: none;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+#bouton-validation {
+    margin-top: 15px;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: #a5cd39;
+    border-color: #93bc3d;
+    color: black;
+}
+
+.zone-preview {
+    background-color: #d9ffb3;
+    margin: 40px 0 25px 15px;
+    border-radius: 5px;
+}
+
+.zone-consigne {
+}
+
+.img-observation {
+    max-height: 230px;
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
     margin-bottom: 10px;
     background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-position: center;
-}
-
-.obligatoire {
-    background-color: cornsilk;
 }
 
 .paginationjs {
@@ -443,4 +486,15 @@
 .paginationjs.paginationjs-big .paginationjs-go-input>input[type=text] {
     height:36px\9;
     line-height:36px\9
+}
+
+@media only screen and (min-width : 992px) {
+    .zone-preview {
+        display: flex;
+        align-items: center;
+    }
+
+    .zone-preview {
+        margin: 20px 0 25px 15px;
+    }
 }

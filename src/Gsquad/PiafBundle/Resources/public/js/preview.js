@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    $('.to-hide').hide();
+    $('#form_espece option:eq(1)').prop('selected', true);
     var x = $("#form_latitude");
     var y = $("#form_longitude");
     $('#bouton-validation').hide();
@@ -110,6 +112,14 @@ $(document).ready(function(){
                 success: function(data) {
                     $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
                     $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
+
+                    if($('#form_departement').val() == null) {
+                        $('#form_departement option:eq(0)').prop('selected', true);
+                        $('#erreur-depts').css("display", "block");
+                    }
+                    else {
+                        $('#erreur-depts').css("display", "none");
+                    }
 
                     $('.preview-geo').html("Latitude : " + $('#form_latitude').val() + "°, longitude : " + $('#form_longitude').val() + "°");
                     $('.preview-lieu').html("Lieu de l'observation : " + $('#form_city').val() + ", " + $("#form_departement option:selected").text());
