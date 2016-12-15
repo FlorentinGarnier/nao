@@ -19,7 +19,7 @@ $(document).ready(function(){
         html += '<div id="fiches-area">';
 
         $.each(data, function(index, item){
-            html += '<div class="fiche">';
+            html += '<div class="col-sm-6 col-md-4 text-center fiche">';
             html += '<div class="cover">';
             html += '<img class="img-observation" src="' + data[index][0] + '" />';
             html += '</div>';
@@ -32,7 +32,7 @@ $(document).ready(function(){
             if(data[index][7] > 0) {
                 html += '<p>' + data[index][7] +' résultat(s)</p>';
             }
-            html += '<a href="' + data[index][8] + '">Voir la fiche</a>';
+            html += '<p><a class="button" href="' + data[index][8] + '">Voir les observations</a></p>';
             html += '</div>';
         });
 

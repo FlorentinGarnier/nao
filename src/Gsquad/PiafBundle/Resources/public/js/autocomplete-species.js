@@ -7,6 +7,7 @@ $(document).ready(function(){
             var input = $("#form_nameVern").val();
             if ( input.length >= 2 ) {
                 $("#navbar-search-button").show();
+                $('#match').show();
                 $('#match').html('<img src="' + window.loader + '" />');
                 var data = {input: input};
                 $.ajax({
@@ -20,6 +21,17 @@ $(document).ready(function(){
                         $('#matchList li').on('click', function() {
                             $('#form_nameVern').val($(this).text());
                             $('#match').text('');
+                            $('#match').hide();
+                        });
+                        $(document).mouseup(function (e)
+                        {
+                            var container = $("#match");
+
+                            if (!container.is(e.target) // if the target of the click isn't the container...
+                                && container.has(e.target).length === 0) // ... nor a descendant of the container
+                            {
+                                container.hide();
+                            }
                         });
                     },
                     error: function() {
@@ -28,6 +40,7 @@ $(document).ready(function(){
                 });
             } else {
                 $('#match').text('');
+                $('#match').hide();
             }
         }, 1000);
     });

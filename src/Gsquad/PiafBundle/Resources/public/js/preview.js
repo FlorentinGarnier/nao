@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    $('.to-hide').hide();
+    $('#form_espece option:eq(1)').prop('selected', true);
     var x = $("#form_latitude");
     var y = $("#form_longitude");
     $('#bouton-validation').hide();
@@ -95,9 +97,7 @@ $(document).ready(function(){
         requiredEntry();
     });
 
-    x.on("change keyup", function() {
-        $('.preview-geo').html("Latitude : " + $(this).val() + "°, longitude : " + $('#form_longitude').val() + "°");
-
+    function setLocation() {
         if(x.val() != "" && y.val() != "") {
             var xNoComma = x.val().replace(/,/g, '.');
             var yNoComma = y.val().replace(/,/g, '.');
@@ -111,17 +111,37 @@ $(document).ready(function(){
                 data: {},
                 success: function(data) {
                     $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
-                    $('#form_city').prop('disabled', true);
                     $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
+
+                    if($('#form_departement').val() == null) {
+                        $('#form_departement option:eq(0)').prop('selected', true);
+                        $('#erreur-depts').css("display", "block");
+                    }
+                    else {
+                        $('#erreur-depts').css("display", "none");
+                    }
+
+                    $('.preview-geo').html("Latitude : " + $('#form_latitude').val() + "°, longitude : " + $('#form_longitude').val() + "°");
+                    $('.preview-lieu').html("Lieu de l'observation : " + $('#form_city').val() + ", " + $("#form_departement option:selected").text());
+                    requiredEntry();
+
+                    $('#form_city').prop('disabled', true);
                     $('#form_departement').prop('disabled', true);
                 },
-                error: function () { console.log('error'); }
+                error: function () { console.log('Erreur géolocalisation inversée'); }
             });
         }
         else {
             $('#form_city').prop('disabled', false);
             $('#form_departement').prop('disabled', false);
         }
+    }
+
+    x.on("change keyup", function() {
+        $('.preview-geo').html("Latitude : " + $(this).val() + "°, longitude : " + $('#form_longitude').val() + "°");
+
+        setLocation();
+        rewrite();
     });
 
     x.keydown(function (e) {
@@ -146,30 +166,7 @@ $(document).ready(function(){
     y.on("change keyup", function() {
         $('.preview-geo').html("Latitude : " +$('#form_latitude').val() + "°, longitude : " + $(this).val() + "°");
 
-        if(x.val() != "" && y.val() != "") {
-            var xNoComma = x.val().replace(/,/g, '.');
-            var yNoComma = y.val().replace(/,/g, '.');
-
-            var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ xNoComma +","+ yNoComma +"&key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI";
-
-            $.ajax({
-                type: 'GET',
-                dataType: "json",
-                url: url,
-                data: {},
-                success: function(data) {
-                    $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
-                    $('#form_city').prop('disabled', true);
-                    $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
-                    $('#form_departement').prop('disabled', true);
-                },
-                error: function () { console.log('error'); }
-            });
-        }
-        else {
-            $('#form_city').prop('disabled', false);
-            $('#form_departement').prop('disabled', false);
-        }
+        setLocation();
     });
 
     y.keydown(function (e) {
@@ -214,11 +211,26 @@ $(document).ready(function(){
         }
     });
 
+    $('#bouton-validation').on('click', function() {
+        if(x.val() != "" && y.val() != "") {
+            $('#form_city').prop('disabled', false);
+            $('#form_departement').prop('disabled', false);
+        }
+    });
+
+    $('#bouton-annuler').on('click', function() {
+        if(x.val() != "" && y.val() != "") {
+            $('#form_city').prop('disabled', true);
+            $('#form_departement').prop('disabled', true);
+        }
+    });
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 x.val(position.coords.latitude);
                 y.val(position.coords.longitude);
+                setLocation();
             });
         }
     }
