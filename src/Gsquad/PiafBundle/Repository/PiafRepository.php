@@ -76,14 +76,18 @@ class PiafRepository extends EntityRepository
 
         $query = $query
             ->where("p.nameVern = :term OR p.lbNom = :term")
-            ->setParameter('term', $attr[0]);
+            ->andWhere("p.nbObservations > :observations")
+            ->setParameter('term', $attr[0])
+            ->setParameter('observations', 0);
 
 
         if(count($attr) > 1) {
             for($i = 1; $i < count($attr); $i++) {
                 $query
                     ->orWhere('p.nameVern = :term'.$i.' OR p.lbNom = :term'.$i)
-                    ->setParameter('term'.$i, $attr[$i]);
+                    ->andWhere("p.nbObservations > :observations")
+                    ->setParameter('term'.$i, $attr[$i])
+                    ->setParameter('observations', 0);
             }
         }
 

@@ -49,6 +49,7 @@
                     var input = $("#navbar-search").val();
                     if ( input.length >= 2 ) {
                         $('#navbar-match').html('<img src="' + window.loader + '" />');
+                        $('#navbar-match').show();
                         var data = {input: input};
                         $.ajax({
                             type: "POST",
@@ -63,6 +64,17 @@
                                     $('#navbar-search').val($(this).text());
                                     $('#navbar-match').text('');
                                     $('#navbar-match').css("border", "none");
+                                    $('#navbar-match').hide();
+                                });
+                                $(document).mouseup(function (e)
+                                {
+                                    var container = $("#navbar-match");
+
+                                    if (!container.is(e.target) // if the target of the click isn't the container...
+                                            && container.has(e.target).length === 0) // ... nor a descendant of the container
+                                    {
+                                        container.hide();
+                                    }
                                 });
                             },
                             error: function() {
@@ -71,6 +83,8 @@
                         });
                     } else {
                         $('#navbar-match').text('');
+                        $('#navbar-match').css("border", "none");
+                        $('#navbar-match').hide();
                     }
                 }, 1000);
             });

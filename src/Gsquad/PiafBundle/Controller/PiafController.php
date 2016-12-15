@@ -317,7 +317,7 @@ class PiafController extends Controller
                     $temp = [];
 
                     foreach ($results as $result) {
-                        if(!in_array($result, $temp)) {
+                        if(!in_array($result->getNameVern(), $temp)) {
                             if($name === null) {
                                 $posA = true;
                                 $posB = true;
@@ -407,7 +407,7 @@ class PiafController extends Controller
         foreach ($results as $result) {
             if(!in_array($result, $temp)) {
                 $temp[] = $result;
-                //dump($result);
+
                 $posA = strpos($this->removeAccents($result['lbNom']),($this->removeAccents($data)));
                 $posB = strpos($this->removeAccents($result['nameVern']),($this->removeAccents($data)));
 
