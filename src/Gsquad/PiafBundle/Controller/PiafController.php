@@ -478,16 +478,8 @@ class PiafController extends Controller
         $depts = $service->getDepartementsArray();
         $choiceEspece = [];
 
-        $session = $request->getSession();
-
-        if($session->has('list')) {
-            $listEspeces = $session->get('list');
-        } else {
-            $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-            $listEspeces = $piafRepository->findAll();
-
-            $session->set('list', $listEspeces);
-        }
+        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+        $listEspeces = $piafRepository->findAll();
 
         foreach($listEspeces as $espece) {
             if($espece->getNameVern() != null && !array_key_exists($espece->getNameVern(), $choiceEspece)) {

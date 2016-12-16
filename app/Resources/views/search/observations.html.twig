@@ -3,44 +3,49 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
-
-
 {% endblock %}
 
 {% block content %}
 
-    <div class="container">
-        <div class="text-center">
+    <div class="container-fluid">
+        <div>
             {% if piaf %}
-                <h4>{{ piaf.nameVern }} <i>({{ piaf.lbNom }})</i></h4>
+                <div class="col-sm-12 text-center">
+                    <h2>{{ piaf.nameVern }} <i>({{ piaf.lbNom }})</i></h2>
+                    <hr/>
+                </div>
                 {% if piaf.photo %}
-                    <div class="cover">
+                    <div class="col-sm-6">
                         <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
                     </div>
                 {% else %}
-                    <div class="cover">
+                    <div class="col-sm-6">
                         <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
                     </div>
                 {% endif %}
-                <p>Regne : {{ piaf.regne }}</p>
-                <p>Phylum : {{ piaf.phylum }}</p>
-                <p>Classe : {{ piaf.classe }}</p>
-                <p>Ordre : {{ piaf.ordre }}</p>
-                <p>Famille : {{ piaf.family }}</p>
-                <p>Découvert par : {{ piaf.lbAuteur }}</p>
-                <p>Habitat : {{ piaf.habitat }}</p>
-                <p>Nom anglais : {{ piaf.nameVernEng }}</p>
+                <div class="col-sm-6">
+                    <p>Regne : {{ piaf.regne }}</p>
+                    <p>Phylum : {{ piaf.phylum }}</p>
+                    <p>Classe : {{ piaf.classe }}</p>
+                    <p>Ordre : {{ piaf.ordre }}</p>
+                    <p>Famille : {{ piaf.family }}</p>
+                    <p>Découvert par : {{ piaf.lbAuteur }}</p>
+                    <p>Habitat : {{ piaf.habitat }}</p>
+                    <p>Nom anglais : {{ piaf.nameVernEng }}</p>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <hr/>
+                </div>
             {% else %}
                 <p>Aucun résultat</p>
             {% endif %}
         </div>
 
-        <hr/>
-
         {% if observations %}
             <div class="row">
                 {% for observation in observations %}
-                    <div class="col-md-4 fiche">
+                    <div class="col-sm-6 col-md-4 text-center fiche">
                         {% if observation.photo %}
                             <div class="cover">
                                 <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
@@ -74,7 +79,7 @@
         {% for observation in observations %}
             <!-- Modal -->
             <div class="modal fade" id="{{ observation.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-obs" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -82,20 +87,20 @@
                             </button>
                             <h4 class="modal-title" id="myModalLabel">{{ observation.city }}, {{ observation.departement }}</h4>
                         </div>
-                        <div class="modal-body col-md-12">
-                            <div class="col-md-4">
+                        <div class="modal-body col-md-12 vertical-align">
+                            <div class="col-md-6">
                                 {% if observation.getPhoto %}
                                     <div class="cover">
-                                        <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                                        <img class="img-observation-modal" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
                                     </div>
                                 {% else %}
                                     <div class="cover">
-                                        <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
+                                        <img class="img-observation-modal" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
                                     </div>
                                 {% endif %}
                             </div>
 
-                            <div class="col-md-8 text-center">
+                            <div class="col-md-6 text-center">
                                 <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
                                 <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
                                 <p>Observateur : {{ observation.observateur }}</p>

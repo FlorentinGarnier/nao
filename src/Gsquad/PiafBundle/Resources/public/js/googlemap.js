@@ -47,7 +47,6 @@ function initMap() {
     var title = "observation";
 
     for(var y = 0; y < myLatLng.length; y++ ) {
-        title = datas[y][3];
 
         if(scale == 'chercheur') {
             title += " Latitude: " + myLatLng[y].lat;
@@ -87,8 +86,9 @@ function initMap() {
 
         clearOverlays();
 
+        title = "observation";
+
         for(var y = 0; y < myLatLng.length; y++ ) {
-            title = datas[y][3];
 
             if(scale == 'chercheur') {
                 title += " Latitude: " + myLatLng[y].lat;

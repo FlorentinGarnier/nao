@@ -127,9 +127,6 @@ html, body {
     border-radius: 5px;
 }
 
-.zone-consigne {
-}
-
 .img-observation {
     max-height: 230px;
     max-width: 100%;
@@ -140,6 +137,14 @@ html, body {
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-position: center;
+}
+
+.img-observation-modal {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .paginationjs {
@@ -514,5 +519,14 @@ html, body {
 
     .zone-preview {
         margin: 20px 0 25px 15px;
+    }
+
+    .vertical-align {
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-obs {
+        width: 80%;
     }
 }
