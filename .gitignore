@@ -22,3 +22,4 @@ web/assets/jquery/
 bin/
 var/cache/
 src/Gsquad/UserBundle/Entity/User.php~
+/web/uploads/
