@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        {% if observations is defined %}
+            {% for observation in observations %}
+                <div id="obs-{{ observation.id }}" class="col-sm-6 col-md-4">
+                    {% if observation.photo %}
+                        <div class="cover">
+                            <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                        </div>
+                    {% endif %}
+                    <div class="dropdown">
+                        <div id="titre-{{ observation.id }}" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ observation.piaf.nameVern }}
+                            <span class="caret"></span></div>
+                        <ul class="dropdown-menu">
+                            {% for espece in especes %}
+                                <li><p class="choix-{{ observation.id }}">{{ espece }}</p></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
+                    <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
+                    <p>Observateur : {{ observation.observateur }}</p>
+                    {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                        <p>Position : {{ observation.latitude }}° de latitude, {{ observation.longitude }}° de longitude</p>
+                    {% endif %}
+
+                    <!-- Button trigger modal -->
+                    <button id="button-{{ observation.id }}" type="button" class="btn btn-primary">
+                        Valider l'observation
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ observation.id }}">
+                        Supprimer l'observation
+                    </button>
+                </div>
+            {% endfor %}
+
+            {% for observation in observations %}
+                <!-- Modal -->
+                <div class="modal fade" id="{{ observation.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Êtes-vous sûr de vouloir supprimer cette observation ?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="modal-title" id="myModalLabel"><p id="espece-{{ observation.id }}">{{ observation.piaf.nameVern }}</p></h4>
+                                {% if observation.getPhoto %}
+                                    <div class="cover">
+                                        <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                                    </div>
+                                {% endif %}
+                                <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
+                                <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
+                                <p>Observateur : {{ observation.observateur }}</p>
+                                {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                                    <p>Position : {{ observation.latitude }}° de latitude, {{ observation.longitude }}° de longitude</p>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                <button id="button-delete-{{ observation.id }}" type="button" class="btn btn-primary">
+                                    Supprimer l'observation
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucune observation en attente de validation</p>
+        {% endif %}
+    </div>
+
+    <div id="marge-bottom"></div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+        {% if observations is defined %}
+            {% for observation in observations %}
+            $("#button-{{ observation.id }}").on('click',function(){
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('admin_post_validation') }}',
+                    data: {
+                        id: {{ observation.id }},
+                        espece: $("#espece-{{ observation.id }}").val()
+                    },
+                    dataType: 'json',
+                    success:function(response){
+                        $("#obs-{{ observation.id }}").hide();
+                    },
+                    error: function(e) {
+                }
+                });
+                return false;
+            });
+
+            $("#button-delete-{{ observation.id }}").on('click',function(){
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('admin_post_delete') }}',
+                    data: {id: {{ observation.id }}},
+                    dataType: 'json',
+                    success:function(response){
+                        $("#obs-{{ observation.id }}").hide();
+                        $("#{{ observation.id }}").hide();
+                    },
+                    error: function(e) {
+                    }
+                });
+                return false;
+            });
+
+            $(".choix-{{ observation.id }}").on('click',function(){
+                $("#titre-{{ observation.id }}").text($(this).text());
+                $("#titre-{{ observation.id }}").append(' <span class="caret"></span></div>')
+                $("#espece-{{ observation.id }}").text($(this).text());
+            });
+            {% endfor %}
+        {% endif %}
+        });
+    </script>
+{% endblock %}
