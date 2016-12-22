@@ -2,6 +2,10 @@
 
 {% extends 'blog/index.html.twig' %}
 
+{% block title %}
+    {{ post.title }} | {{ parent() }}
+{% endblock %}
+
 {% block section %}
     <div id="fb-root"></div>
     <div id="fb-root"></div>

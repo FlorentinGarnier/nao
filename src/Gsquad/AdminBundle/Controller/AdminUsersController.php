@@ -18,6 +18,17 @@ class AdminUsersController extends Controller
      */
     public function adminUsersAction()
     {
-        return $this->render('admin/users/users.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em
+            ->getRepository('GsquadUserBundle:User')
+            ->findAll();
+
+        $form = $this->get('form.factory')->create();
+
+        return $this->render('admin/users/users.html.twig', array(
+            'users' => $users,
+            'form' => $form->createView()
+        ));
     }
 }
