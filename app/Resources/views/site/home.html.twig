@@ -12,7 +12,11 @@
         <div class="row">
             {% for obs in lastObs %}
                 <div class="col-md-4">
-                    <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}" class="img-responsive">
+                    {% if obs.photo %}
+                        <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}" class="img-responsive">
+                    {% else %}
+                        <img src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="{{ obs.piaf.nameVern }}" class="img-responsive">
+                    {% endif %}
                     <span>{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
                 </div>
             {% endfor %}

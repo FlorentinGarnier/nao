@@ -13,11 +13,23 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
     public function findLatestObs($limit)
     {
         $query = $this->createQueryBuilder('obs')
-            /*->select('obs')
+            ->select('obs')
             ->where('obs.valid = :isValid')
                 ->setParameter('isValid', true)
             ->orderBy('obs.createdAt', 'DESC')
-            ->setMaxResults($limit)*/
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findNotValidObs()
+    {
+        $query = $this->createQueryBuilder('obs')
+            ->select('obs')
+            ->where('obs.valid = :isValid')
+                ->setParameter('isValid', false)
+            ->orderBy('obs.createdAt', 'ASC')
             ->getQuery();
 
         return $query->getResult();
@@ -30,7 +42,9 @@ class ObservationRepository extends \Doctrine\ORM\EntityRepository
         $lonMax = $longitude + $range;
 
         $query = $this->createQueryBuilder('o')
-            ->where('o.latitude >= :latmin')
+            ->where('o.valid = :isValid')
+            ->setParameter('isValid', true)
+            ->andWhere('o.latitude >= :latmin')
             ->andWhere('o.latitude <= :latmax')
             ->andWhere('o.longitude >= :lonmin')
             ->andWhere('o.longitude <= :lonmax')
