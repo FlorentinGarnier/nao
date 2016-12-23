@@ -8,6 +8,7 @@
     <title>{% block title %}Nos Amis les Oiseaux{% endblock %}</title>
 
     {% block stylesheets %}
+
         <!-- Bootstrap -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
@@ -38,10 +39,62 @@
     <script src="{{ asset('assets/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-header.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            var timer;
+
+            $("#navbar-search").on('keyup', function() {
+                clearTimeout(timer);
+                timer = window.setTimeout(function() {
+                    var input = $("#navbar-search").val();
+                    if ( input.length >= 2 ) {
+                        $('#navbar-match').html('<img src="' + window.loader + '" />');
+                        $('#navbar-match').show();
+                        var data = {input: input};
+                        $.ajax({
+                            type: "POST",
+                            url: '{{ path('ajax_autocomplete') }}',
+                            data: data,
+                            dataType: 'json',
+                            timeout: 8000,
+                            success: function(response){
+                                $('#navbar-match').css("border", "black 1px solid");
+                                $('#navbar-match').html(response.speciesList);
+                                $('#match-list li').on('click', function() {
+                                    $('#navbar-search').val($(this).text());
+                                    $('#navbar-match').text('');
+                                    $('#navbar-match').css("border", "none");
+                                    $('#navbar-match').hide();
+                                });
+                                $(document).mouseup(function (e)
+                                {
+                                    var container = $("#navbar-match");
+
+                                    if (!container.is(e.target) // if the target of the click isn't the container...
+                                            && container.has(e.target).length === 0) // ... nor a descendant of the container
+                                    {
+                                        container.hide();
+                                    }
+                                });
+                            },
+                            error: function() {
+                                $('#navbar-match').text('Erreur');
+                            }
+                        });
+                    } else {
+                        $('#navbar-match').text('');
+                        $('#navbar-match').css("border", "none");
+                        $('#navbar-match').hide();
+                    }
+                }, 1000);
+            });
+        });
+    </script>
     <script>
         var loader = "{{ asset('bundles/gsquadpiaf/image/loader.gif') }}"; //link to the animated loader-small.gif
     </script>
+    <!-- Font Awesome CDN -->
+    <script src="https://use.fontawesome.com/24a58b73b2.js"></script>
 {% endblock %}
 
 </body>

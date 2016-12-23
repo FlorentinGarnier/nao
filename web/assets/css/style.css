@@ -1,7 +1,97 @@
+
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 /*padding for fixed bottom navbar*/
 body{
-    padding-bottom:70px;
+    font-family: 'Open Sans', sans-serif;
 }
+
+h1, h2 {
+    font-family: 'Comfortaa', sans-serif;
+}
+
+/**
+Navbar Custom
+ */
+.navbar-img{
+   height: 30px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    /*color: #fff;*/
+}
+
+.gsquad-navbar-default{
+    background-color: transparent;
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    border: transparent;
+
+}
+
+.gsquad-form-control{
+    border: none;
+    padding-top: 20px;
+}
+.gsquad-form-control:focus{
+    outline: none;
+}
+
+/*
+Header Photo
+ */
+.gsquad-header-title{
+    color: #fff;
+    padding: 300px 0;
+}
+
+.gsquad-intro-header{
+    background: url('../img/bg.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+hr.gsquad-small{
+    max-width: 100px;
+    margin: 15px auto;
+    border-width: 4px;
+}
+
+/*
+Connection social
+ */
+
+.gsquad-btn-logo{
+    width: 20px;
+    display: inline-block;
+}
+
+.gsquad-btn{
+    width: 250px;
+    margin: 5px 0 5px 0;
+   /* border: 1px solid rgb(95, 95, 95); */
+    padding: 10px;
+
+}
+
+.gsquad-btn a{
+    color: #fff;
+}
+
+.gsquad-btn>a:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
+.gsquad-facebook{
+    background-color: #415a93;
+}
+.gsquad-google{
+    background-color: #d85040;
+}
+
 /**
  * glyphicon inside text field
  */
@@ -14,7 +104,7 @@ body{
 /* style glyph */
 .gsquad-inner-glyph .glyphicon{
     position: absolute;
-    padding: 10px;
+    padding: 22px 10px 10px 10px;
     pointer-events: none;
 }
 
@@ -29,5 +119,26 @@ body{
     padding-left: 30px;
 }
 
+#match, #navbar-match {
+    z-index: 999;
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+}
+
+/*
+footer
+ */
+
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+}
 
 

@@ -3,68 +3,83 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
-
-
 {% endblock %}
 
 {% block content %}
 
-    {% if piaf %}
-        <div id="liste-resultats">
-            <h4>{{ piaf.nameVern }} <i>({{ piaf.lbNom }})</i></h4>
-            {% if piaf.photo %}
-                <div class="cover">
-                    <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
+    <div class="container-fluid">
+        <div>
+            {% if piaf %}
+                <div class="col-sm-12 text-center">
+                    <h2>{{ piaf.nameVern }} <i>({{ piaf.lbNom }})</i></h2>
+                    <hr/>
                 </div>
+                {% if piaf.photo %}
+                    <div class="col-sm-6">
+                        <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
+                    </div>
+                {% else %}
+                    <div class="col-sm-6">
+                        <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
+                    </div>
+                {% endif %}
+                <div class="col-sm-6">
+                    <p>Regne : {{ piaf.regne }}</p>
+                    <p>Phylum : {{ piaf.phylum }}</p>
+                    <p>Classe : {{ piaf.classe }}</p>
+                    <p>Ordre : {{ piaf.ordre }}</p>
+                    <p>Famille : {{ piaf.family }}</p>
+                    <p>Découvert par : {{ piaf.lbAuteur }}</p>
+                    <p>Habitat : {{ piaf.habitat }}</p>
+                    <p>Nom anglais : {{ piaf.nameVernEng }}</p>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <hr/>
+                </div>
+            {% else %}
+                <p>Aucun résultat</p>
             {% endif %}
-            <li>
-                <ul>Regne : {{ piaf.regne }}</ul>
-                <ul>Phylum : {{ piaf.phylum }}</ul>
-                <ul>Classe : {{ piaf.classe }}</ul>
-                <ul>Ordre : {{ piaf.ordre }}</ul>
-                <ul>Famille : {{ piaf.family }}</ul>
-                <ul>Découvert par : {{ piaf.lbAuteur }}</ul>
-                <ul>Habitat : {{ piaf.habitat }}</ul>
-                <ul>Nom anglais : {{ piaf.nameVernEng }}</ul>
-            </li>
         </div>
-    {% else %}
-        <p>Aucun résultat</p>
-    {% endif %}
 
-    {% if observations %}
-        <div id="fiches-area">
-            {% for observation in observations %}
-                <div class="fiche">
-                    {% if observation.photo %}
-                        <div class="cover">
-                            <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
-                        </div>
-                    {% endif %}
-                    <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
-                    <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
-                    <p>Observateur : {{ observation.observateur }}</p>
-                    {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-                        <p>Position : {{ observation.latitude }}° de latitude, {{ observation.longitude }}° de longitude</p>
-                    {% endif %}
+        {% if observations %}
+            <div class="row">
+                {% for observation in observations %}
+                    <div class="col-sm-6 col-md-4 text-center fiche">
+                        {% if observation.photo %}
+                            <div class="cover">
+                                <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                            </div>
+                        {% else %}
+                            <div class="cover">
+                                <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
+                            </div>
+                        {% endif %}
+                        <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
+                        <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
+                        <p>Observateur : {{ observation.observateur }}</p>
+                        {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                            <p>Position : {{ observation.latitude }}° de latitude, {{ observation.longitude }}° de longitude</p>
+                        {% endif %}
 
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#{{ observation.id }}">
-                        Voir l'observation
-                    </button>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>Aucun résultat</p>
-    {% endif %}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ observation.id }}">
+                            Voir l'observation
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Aucun résultat</p>
+        {% endif %}
+    </div>
 
 
     {% if observations %}
         {% for observation in observations %}
             <!-- Modal -->
             <div class="modal fade" id="{{ observation.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-obs" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,18 +87,27 @@
                             </button>
                             <h4 class="modal-title" id="myModalLabel">{{ observation.city }}, {{ observation.departement }}</h4>
                         </div>
-                        <div class="modal-body">
-                            {% if observation.getPhoto %}
-                                <div class="cover">
-                                    <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
-                                </div>
-                            {% endif %}
-                            <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
-                            <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
-                            <p>Observateur : {{ observation.observateur }}</p>
-                            {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-                                <p>Position : {{ observation.latitude }}° de latitude, {{ observation.longitude }}° de longitude</p>
-                            {% endif %}
+                        <div class="modal-body col-md-12 vertical-align">
+                            <div class="col-md-6">
+                                {% if observation.getPhoto %}
+                                    <div class="cover">
+                                        <img class="img-observation-modal" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                                    </div>
+                                {% else %}
+                                    <div class="cover">
+                                        <img class="img-observation-modal" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" />
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6 text-center">
+                                <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>
+                                <p>Observation enregistrée le : {{ observation.createdAt|date('Y-m-d') }}</p>
+                                <p>Observateur : {{ observation.observateur }}</p>
+                                {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                                    <p>Position : {{ observation.latitude }}° de latitude, {{ observation.longitude }}° de longitude</p>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>

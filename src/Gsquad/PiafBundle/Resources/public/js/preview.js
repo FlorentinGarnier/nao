@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    $('.to-hide').hide();
+    $('#form_espece option:eq(1)').prop('selected', true);
     var x = $("#form_latitude");
     var y = $("#form_longitude");
     $('#bouton-validation').hide();
@@ -95,8 +97,51 @@ $(document).ready(function(){
         requiredEntry();
     });
 
+    function setLocation() {
+        if(x.val() != "" && y.val() != "") {
+            var xNoComma = x.val().replace(/,/g, '.');
+            var yNoComma = y.val().replace(/,/g, '.');
+
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+ xNoComma +","+ yNoComma +"&key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI";
+
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: url,
+                data: {},
+                success: function(data) {
+                    $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
+                    $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
+
+                    if($('#form_departement').val() == null) {
+                        $('#form_departement option:eq(0)').prop('selected', true);
+                        $('#erreur-depts').css("display", "block");
+                    }
+                    else {
+                        $('#erreur-depts').css("display", "none");
+                    }
+
+                    $('.preview-geo').html("Latitude : " + $('#form_latitude').val() + "°, longitude : " + $('#form_longitude').val() + "°");
+                    $('.preview-lieu').html("Lieu de l'observation : " + $('#form_city').val() + ", " + $("#form_departement option:selected").text());
+                    requiredEntry();
+
+                    $('#form_city').prop('disabled', true);
+                    $('#form_departement').prop('disabled', true);
+                },
+                error: function () { console.log('Erreur géolocalisation inversée'); }
+            });
+        }
+        else {
+            $('#form_city').prop('disabled', false);
+            $('#form_departement').prop('disabled', false);
+        }
+    }
+
     x.on("change keyup", function() {
         $('.preview-geo').html("Latitude : " + $(this).val() + "°, longitude : " + $('#form_longitude').val() + "°");
+
+        setLocation();
+        rewrite();
     });
 
     x.keydown(function (e) {
@@ -120,6 +165,8 @@ $(document).ready(function(){
 
     y.on("change keyup", function() {
         $('.preview-geo').html("Latitude : " +$('#form_latitude').val() + "°, longitude : " + $(this).val() + "°");
+
+        setLocation();
     });
 
     y.keydown(function (e) {
@@ -143,29 +190,38 @@ $(document).ready(function(){
 
     $("#form_image").on('change', function() {
         //Get count of selected files
-        var countFiles = $(this)[0].files.length;
         var imgPath = $(this)[0].value;
         var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
         var image_holder = $(".image-holder");
         image_holder.empty();
         if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
             if (typeof(FileReader) != "undefined") {
-                //loop for each file selected for uploaded.
-                for (var i = 0; i < countFiles; i++)
-                {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $("<img />", {
-                            "src": e.target.result,
-                            "class": "thumb-image img-observation"
-                        }).appendTo(image_holder);
-                    };
-                    image_holder.show();
-                    reader.readAsDataURL($(this)[0].files[i]);
-                }
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $("<img />", {
+                        "src": e.target.result,
+                        "class": "thumb-image img-observation"
+                    }).appendTo(image_holder);
+                };
+                image_holder.show();
+                reader.readAsDataURL($(this)[0].files[0]);
             }
         } else {
             alert("Merci de sélectionner une image");
+        }
+    });
+
+    $('#bouton-validation').on('click', function() {
+        if(x.val() != "" && y.val() != "") {
+            $('#form_city').prop('disabled', false);
+            $('#form_departement').prop('disabled', false);
+        }
+    });
+
+    $('#bouton-annuler').on('click', function() {
+        if(x.val() != "" && y.val() != "") {
+            $('#form_city').prop('disabled', true);
+            $('#form_departement').prop('disabled', true);
         }
     });
 
@@ -174,6 +230,7 @@ $(document).ready(function(){
             navigator.geolocation.getCurrentPosition(function(position) {
                 x.val(position.coords.latitude);
                 y.val(position.coords.longitude);
+                setLocation();
             });
         }
     }

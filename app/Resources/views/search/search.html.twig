@@ -3,84 +3,111 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
-    <style type="text/css">
-        html, body { height: 100%; margin: 0; padding: 0; }
-    </style>
-
 {% endblock %}
 
 {% block content %}
-    <div id="map"></div>
-
-    <div id="search-content">
+    <div class="container-fluid">
         <div id="loading">
             <img id="loading-image" src="{{ asset('bundles/gsquadpiaf/image/loader.gif') }}" alt="Chargement..." />
         </div>
 
-        <p>Quelle espèce d'oiseau recherchez vous ?</p>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="map">
+                </div>
+            </div>
 
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
+            <div class="col-md-6">
+                <div id="search-content" class="col-md-12">
+                    <div class="row">
+                        <h4 class="text-center">Quelle espèce d'oiseau recherchez vous ?</h4>
 
-        {{ form_errors(form.nameVern) }}
-        {{ form_label(form.nameVern, "Terme recherché : ") }}
-        {{ form_widget(form.nameVern) }}
-        <div id="match"></div>
+                        {{ form_start(form) }}
+                        {{ form_errors(form) }}
 
-        {{ form_errors(form.espece) }}
-        {{ form_label(form.espece, "Espèce : ") }}
-        {{ form_widget(form.espece) }}
+                        <div class="col-md-12">
+                            {{ form_errors(form.nameVern) }}
+                            {{ form_label(form.nameVern, "Terme recherché : ") }}
+                            {{ form_widget(form.nameVern, {'attr': {'autocomplete': 'off', 'class': 'form-control'}}) }}
+                            <div id="match"></div>
+                            <br/>
+                        </div>
 
-        <br/>
+                        <div class="col-md-12">
+                            {{ form_errors(form.espece) }}
+                            {{ form_label(form.espece, "Espèce : ") }}
+                            {{ form_widget(form.espece, {'attr': {'class': 'form-control'}}) }}
+                            <br/>
+                        </div>
 
-        {{ form_errors(form.departement) }}
-        {{ form_label(form.departement, "Département : ") }}
-        {{ form_widget(form.departement) }}
+                        <div class="col-md-12">
+                            {{ form_errors(form.departement) }}
+                            {{ form_label(form.departement, "Département : ") }}
+                            {{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
+                            <br/>
+                        </div>
 
-        <br/>
+                        {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                            <div class="col-md-4">
+                                {{ form_errors(form.latitude) }}
+                                {{ form_label(form.latitude, "Latitude : ") }}
+                                {{ form_widget(form.latitude, {'attr': {'class': 'form-control'}}) }}
+                            </div>
 
-        {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-            {{ form_errors(form.latitude) }}
-            {{ form_label(form.latitude, "Latitude : ") }}
-            {{ form_widget(form.latitude) }}
+                            <div class="col-md-4">
+                                {{ form_errors(form.longitude) }}
+                                {{ form_label(form.longitude, "Longitude : ") }}
+                                {{ form_widget(form.longitude, {'attr': {'class': 'form-control'}}) }}
+                            </div>
 
-            {{ form_errors(form.longitude) }}
-            {{ form_label(form.longitude, "Longitude : ") }}
-            {{ form_widget(form.longitude) }}
+                            <div class="col-md-4">
+                                {{ form_errors(form.range) }}
+                                {{ form_label(form.range, "Écart possible (en degré) : ") }}
+                                {{ form_widget(form.range, {'attr': {'class': 'form-control'}}) }}
+                                <br/>
+                            </div>
+                        {% endif %}
 
-            {{ form_errors(form.range) }}
-            {{ form_label(form.range, "Écart possible (en degré) : ") }}
-            {{ form_widget(form.range) }}
-        {% endif %}
+                        <div class="col-md-12 text-center">
+                            {{ form_row(form.search, { 'label': 'Lancer la recherche', 'attr': {'class': 'form-control btn-primary'}}) }}
+                            <br/>
+                        </div>
 
-        {{ form_row(form.search, { 'label': 'Lancer la recherche' }) }}
-        {{ form_rest(form) }}
-        {{ form_end(form, {'render_rest': false}) }}
+                        {{ form_rest(form) }}
+                        {{ form_end(form, {'render_rest': false}) }}
+                    </div>
 
-        {% if list_piafs %}
-            <div id="liste-resultats">
-                {% for piaf in list_piafs %}
-                <a href="{{ path('observations', {'id': piaf.id} ) }}">
-                    <div>
-                        {% if piaf.nameVern %}
-                            <p>{{ piaf.nameVern }} ({{ piaf.lbNom }}), {{ piaf.nbObservations }} résultat(s)</p>
+                    <div class="row">
+                        {% if list_piafs %}
+                            <div id="liste-resultats">
+                                {% for piaf in list_piafs %}
+                                    <a href="{{ path('observations', {'id': piaf.id} ) }}">
+                                        <div>
+                                            {% if piaf.nameVern %}
+                                                <p>{{ piaf.nameVern }} ({{ piaf.lbNom }}), {{ piaf.nbObservations }} résultat(s)</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
-                </a>
-                {% endfor %}
+                </div>
             </div>
-        {% else %}
-            <p>Aucun résultat</p>
-        {% endif %}
+        </div>
 
+        <div class="row">
+            {% if list_piafs %}
+                <div id="data-container" class="col-md-12"></div>
+                <div id="pages">
+                    <div id="pagination-container"></div>
+                </div>
+            {% endif %}
+        </div>
 
-        {% if list_piafs %}
-            <div id="data-container"></div>
-            <div id="pages">
-                <div id="pagination-container"></div>
-            </div>
-        {% endif %}
-
+        <div class="row">
+            <div id="marge-bottom"></div>
+        </div>
     </div>
 
 {% endblock %}
@@ -96,6 +123,7 @@
         var longitudes = [];
         var i = 0;
         var link = '';
+        var circle = '{{ asset('bundles/gsquadpiaf/image/bluecircle.png') }}';
 
         {% if is_granted('ROLE_CHERCHEUR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
             scale = 'chercheur';
@@ -104,7 +132,7 @@
         {% endif %}
 
         {% for piaf in list_piafs %}
-            imgUrl = '';
+            imgUrl = '{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}';
             link = '{{ path('observations', {'id': piaf.id} ) }}';
 
             {% if piaf.photo %}
@@ -145,8 +173,68 @@
     <script src="{{ asset('bundles/gsquadpiaf/js/googlemap.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0JfVBSRphpGgPGTOXRInFyP1bT60i0DI&callback=initMap"
             async defer></script>
-
-    <script src="{{ asset('bundles/gsquadpiaf/js/autocomplete-species.js') }}"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/pagination.min.js') }}"></script>
     <script src="{{ asset('bundles/gsquadpiaf/js/paginate-result.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            var timer;
+
+            $("#form_nameVern").on('keyup', function() {
+                clearTimeout(timer);
+                timer = window.setTimeout(function() {
+                    var input = $("#form_nameVern").val();
+                    if ( input.length >= 2 ) {
+                        $("#navbar-search-button").show();
+                        $('#match').show();
+                        $('#match').html('<img src="' + window.loader + '" />');
+                        var data = {input: input};
+                        $.ajax({
+                            type: "POST",
+                            url: '{{ path('ajax_autocomplete') }}',
+                            data: data,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function(response){
+                                $('#match').css("border", "black 1px solid");
+                                $('#match').html(response.speciesList);
+                                $('#match-list li').on('click', function() {
+                                    $('#form_nameVern').val($(this).text());
+                                    $('#match').text('');
+                                    $('#match').css("border", "none");
+                                    $('#match').hide();
+                                });
+                                $(document).mouseup(function (e)
+                                {
+                                    var container = $("#match");
+
+                                    if (!container.is(e.target) // if the target of the click isn't the container...
+                                            && container.has(e.target).length === 0) // ... nor a descendant of the container
+                                    {
+                                        container.hide();
+                                    }
+                                });
+                            },
+                            error: function() {
+                                $('#match').text('Erreur');
+                            }
+                        });
+                    } else {
+                        $('#match').text('');
+                        $('#match').css("border", "none");
+                        $('#match').hide();
+                    }
+                }, 1000);
+            });
+
+            $("input[name='form[range]']").TouchSpin({
+                verticalupclass: 'glyphicon glyphicon-plus',
+                verticaldownclass: 'glyphicon glyphicon-minus',
+                min: 0,
+                max: 20,
+                step: 0.001,
+                decimals: 3
+            });
+        });
+    </script>
 {% endblock %}
