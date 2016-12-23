@@ -29,7 +29,7 @@ class AdminController extends Controller
         $formType = 'Gsquad\AdminBundle\Form\Type\MailingType';
         $form = $this->get('form.factory')->create($formType);
 
-        return $this->render('admin/mailing.html.twig', array(
+        return $this->render('admin/mailing/mailing.html.twig', array(
             'form' => $form->createView()
         ));
     }

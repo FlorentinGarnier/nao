@@ -6,6 +6,11 @@
     Admin | {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/gsquadadmin/css/admin.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <h1 class="text-center">Bienvenue, que souhaitez-vous faire aujourd'hui ?</h1>
