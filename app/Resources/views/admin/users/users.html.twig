@@ -24,26 +24,26 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        {% for role in user.roles %}
-                            {{ role }}
-                        {% endfor %}
                         <select name="role_blog">
-                            <option value="ROLE_MEMBRE">Membre</option>
-                            <option value="ROLE_CONTRIBUTEUR">Contributeur</option>
-                            <option value="ROLE_REDACTEUR">Rédacteur</option>
-                            <option value="ROLE_ADMIN">Administrateur</option>
-                            <option value="ROLE_SUPER_ADMIN">Super-admin</option>
+                            <option {% if "ROLE_UTILISATEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_UTILISATEUR">Utilisateur</option>
+                            <option {% if "ROLE_CONTRIBUTEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_CONTRIBUTEUR">Contributeur</option>
+                            <option {% if "ROLE_REDACTEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_REDACTEUR">Rédacteur</option>
+                            <option {% if "ROLE_ADMIN" in user.roles %}selected="selected"{% endif %} value="ROLE_ADMIN">Administrateur</option>
+                            <option {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="selected"{% endif %} value="ROLE_SUPER_ADMIN">Super-admin</option>
                         </select>
                     </td>
                     <td>
                         <select name="role_site">
-                            <option value="ROLE_UTILISATEUR">Utilisateur</option>
-                            <option value="ROLE_CHERCHEUR">Chercheur</option>
-                            <option value="ROLE_SUPER_ADMIN">Super-admin</option>
+                            <option {% if "ROLE_USER" in user.roles %}selected="selected"{% endif %} value="ROLE_USER">Invité</option>
+                            <option {% if "ROLE_MEMBRE" in user.roles %}selected="selected"{% endif %} value="ROLE_MEMBRE">Membre</option>
+                            <option {% if "ROLE_ADHERENT" in user.roles %}selected="selected"{% endif %} value="ROLE_ADHERENT">Adhérent</option>
+                            <option {% if "ROLE_CHERCHEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_CHERCHEUR">Chercheur</option>
+                            <option {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="selected"{% endif %} value="ROLE_SUPER_ADMIN">Super-admin</option>
                         </select>
+
                     </td>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <td><a href="#"><a data-toggle="tooltip" href="#" title="Editer"><span class="glyphicon glyphicon-pencil"></span></a></a></td>
+                        <td><a href="#"><a data-toggle="tooltip" href="#" title="Sauvegarder les modifications"><span class="glyphicon glyphicon-floppy-disk"></span></a></a></td>
                     {% endif %}
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <td class="btn-delete">
