@@ -1,0 +1,13 @@
+.btn-delete {
+    position: relative;
+}
+
+.btn-delete > form {
+    position: absolute;
+    top: 5px;
+    opacity: 0;
+}
+
+.admin-block {
+    margin-bottom: 10px;
+}
