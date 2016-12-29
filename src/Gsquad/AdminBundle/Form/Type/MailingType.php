@@ -12,6 +12,7 @@ namespace Gsquad\AdminBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,25 +26,11 @@ class MailingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('destinataires', ChoiceType::class, array(
-                'choices' => [
-                    'Statut adhérent' => 'ROLE_ADHERENT',
-                    'Statut chercheur' => 'ROLE_CHERCHEUR',
-                    'Statut administrateur' => 'ROLE_ADMIN'
-                ],
-                'expanded' => true,
-                'multiple' => true
-            ))
-            ->add('email', EmailType::class, array(
-                'label' => 'Email',
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(array("message" => "Merci de renseigner votre adresse email.")),
-                    new Email(array("message" => "Merci de renseigner une adresse email valide."))
-                ]
+            ->add('email', TextType::class, array(
+                'label' => 'Destinataire(s)',
             ))
             ->add('subject', TextType::class, array(
-                'label' => 'Sujet : ',
+                'label' => 'Sujet',
                 'required' => true,
                 'constraints' => [
                     new NotBlank(array("message" => "Merci d'indiquer l'objet de votre message.")),
@@ -68,7 +55,7 @@ class MailingType extends AbstractType
                     ))
                 ]
             ))
-        ;
+            ->add('envoyer', SubmitType::class);
     }
 
     public function setDefaultOptions(OptionsResolver $resolver)

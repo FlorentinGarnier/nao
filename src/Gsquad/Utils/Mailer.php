@@ -23,10 +23,14 @@ class Mailer
 
     public function sendMail($from, $to, $subject, $body)
     {
-        $mail = \Swift_Message::newInstance()
+        $mail = \Swift_Message::newInstance();
+
+        if($to['type'] === 'to') $mail->setTo($to['to']);
+        if($to['type'] === 'Bcc') $mail->setBcc($to['to']);
+
+        $mail
             ->setSubject($subject)
             ->setFrom($from)
-            ->setTo($to)
             ->setBody($body)
             ->setContentType('text/html');
 
@@ -39,10 +43,27 @@ class Mailer
 
         $from = $data['email'];
 
-        $to = 'admin@example.com';
+        $to = [
+            'to' => 'associationnosamislesoiseaux@gmail.com',
+            'type' => 'to'
+        ];
 
         $subject = '[NAO] Formulaire de contact';
 
+        $body = $this->templating->render($template, array('data' => $data));
+
+        $this->sendMail($from, $to, $subject, $body);
+    }
+
+    public function sendMailing($data, $emails)
+    {
+        $template = 'mails/mail.html.twig';
+        $from = 'associationnosamislesoiseaux@gmail.com';
+        $to = [
+            'to' => $emails,
+            'type' => 'Bcc'
+        ];
+        $subject = $data['subject'];
         $body = $this->templating->render($template, array('data' => $data));
 
         $this->sendMail($from, $to, $subject, $body);

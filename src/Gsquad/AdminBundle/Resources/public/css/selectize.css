@@ -322,3 +322,7 @@
   opacity: 0.5;
   background-color: #fafafa;
 }
+
+span.label {
+  color: #303030;
+}

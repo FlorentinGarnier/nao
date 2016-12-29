@@ -1,0 +1,14 @@
+{# app/Resources/views/mails/mail.html.twig #}
+
+{% extends 'mails/layout.html.twig' %}
+
+{% block body %}
+    <div>
+        <h1>Objet : {{ data.subject }}</h1>
+        <div>{{ data.message }}</div>
+    </div>
+    <div>
+        <hr>
+        <p>Vous recevez cet email car vous êtes inscrit sur le site de l'Association Nos Amis les Oiseaux.</p>
+    </div>
+{% endblock %}

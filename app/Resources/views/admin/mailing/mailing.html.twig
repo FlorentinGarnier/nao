@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadadmin/css/selectize.default.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/gsquadadmin/css/admin.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}
@@ -14,20 +15,26 @@
 {% block content %}
     <div class="container">
         <h1 class="text-center">Système de mailing</h1>
+        {% for flash_message in app.session.flashBag.get('info') %}
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+
         <section>
             {{ form_start(form) }}
-            {% form_theme form.email 'form/selectize.html.twig' %}
+            {% form_theme form.email 'Form/gsquad_fields.html.twig' %}
 
-             {{ form_row(form.destinataires) }}
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+            {{ form_row(form.subject) }}
 
-             {{ form_label(form.email) }}
-             {{ form_widget(form.email) }}
+            {{ form_row(form.message, {attr: {'rows': 10}}) }}
 
-             {{ form_row(form.subject) }}
-
-             {{ form_row(form.message, {attr: {'rows': 10}}) }}
             {{ form_end(form) }}
-            <input type="submit" value="Envoyer">
         </section>
     </div>
 {% endblock %}
@@ -39,6 +46,50 @@
         var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
             '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 
+        var email_adherents = [];
+        {% for adherent in adherents %}
+            email_adherents.push({{ adherent.email|json_encode|raw }});
+        {% endfor %}
+        var emails_adh = email_adherents.join(',');
+        var adherents = {
+            name: "Groupe adhérents",
+            email: emails_adh
+        };
+
+        var emails_chercheurs = [];
+        {% for chercheur in chercheurs %}
+            emails_chercheurs.push({{ chercheur.email|json_encode|raw }});
+        {% endfor %}
+        var emails_cherch = emails_chercheurs.join(',');
+        var chercheurs = {
+            name: "Groupe chercheurs",
+            email: emails_cherch
+        };
+
+        var email_admins = [];
+        {% for admin in admins %}
+        email_admins.push({{ admin.email|json_encode|raw }});
+        {% endfor %}
+        var emails_ad = email_admins.join(',');
+        var admins = {
+            name: "Groupe admins",
+            email: emails_ad
+        };
+
+        var options= [
+            adherents, chercheurs, admins
+        ];
+        var users = [];
+        users = {{ users|json_encode|raw }};
+
+        {% for user in users %}
+            var user = {
+                email: {{ user.email|json_encode|raw }},
+                name: {{ user.username|json_encode|raw }}
+            };
+            options.push(user);
+        {% endfor %}
+
         $('#mailing_email').selectize({
             persist: false,
             plugins: ['remove_button'],
@@ -46,15 +97,11 @@
             valueField: 'email',
             labelField: 'name',
             searchField: ['name', 'email'],
-            options: [
-                {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
-                {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
-                {email: 'someone@gmail.com'}
-            ],
+            options: options,
             render: {
                 item: function(item, escape) {
                     return '<div>' +
-                        (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+                        (item.name ? '<span class="name">' + escape(item.name) + '</span> ' : '') +
                         (item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
                         '</div>';
                 },
@@ -62,7 +109,7 @@
                     var label = item.name || item.email;
                     var caption = item.name ? item.email : null;
                     return '<div>' +
-                        '<span class="label">' + escape(label) + '</span>' +
+                        '<span class="label name">' + escape(label) + '</span>' +
                         (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
                         '</div>';
                 }
@@ -93,8 +140,30 @@
                         name  : $.trim(match[1])
                     };
                 }
-                alert('Invalid email address.');
+                alert('Adresse email invalide');
                 return false;
+            }
+        });
+
+        $('#mailing_destinataires_0').change(function(){
+            if(this.checked) {
+                $('.selectize-input').prepend( '<div id="adherents">Adhérents</div>');
+            } else {
+                $('#adherents').remove();
+            }
+        });
+        $('#mailing_destinataires_1').change(function(){
+            if(this.checked) {
+                $('.selectize-input').prepend( '<div id="chercheurs">Chercheurs</div>' );
+            } else {
+                $('#chercheurs').remove();
+            }
+        });
+        $('#mailing_destinataires_2').change(function(){
+            if(this.checked) {
+                $('.selectize-input').prepend( '<div id="admins">Admins</div>' );
+            } else {
+                $('#admins').remove();
             }
         });
     </script>
