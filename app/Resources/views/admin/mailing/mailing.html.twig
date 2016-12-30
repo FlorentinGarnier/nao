@@ -43,42 +43,49 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/gsquadadmin/js/standalone/selectize.min.js') }}"></script>
     <script type="text/javascript">
+        var options = [];
         var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
             '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 
-        var email_adherents = [];
-        {% for adherent in adherents %}
-            email_adherents.push({{ adherent.email|json_encode|raw }});
-        {% endfor %}
-        var emails_adh = email_adherents.join(',');
-        var adherents = {
-            name: "Groupe adhérents",
-            email: emails_adh
-        };
+        {% if adherents | length > 0 %}
+            var email_adherents = [];
+            {% for adherent in adherents %}
+                email_adherents.push({{ adherent.email|json_encode|raw }});
+            {% endfor %}
+            var emails_adh = email_adherents.join(',');
+            var adherents = {
+                name: "Groupe adhérents",
+                email: emails_adh
+            };
+            options.push(adherents);
+        {% endif %}
 
-        var emails_chercheurs = [];
-        {% for chercheur in chercheurs %}
-            emails_chercheurs.push({{ chercheur.email|json_encode|raw }});
-        {% endfor %}
-        var emails_cherch = emails_chercheurs.join(',');
-        var chercheurs = {
-            name: "Groupe chercheurs",
-            email: emails_cherch
-        };
+        {% if chercheurs | length > 0 %}
+            var emails_chercheurs = [];
+            {% for chercheur in chercheurs %}
+                emails_chercheurs.push({{ chercheur.email|json_encode|raw }});
+            {% endfor %}
+            var emails_cherch = emails_chercheurs.join(',');
+            var chercheurs = {
+                name: "Groupe chercheurs",
+                email: emails_cherch
+            };
+            options.push(chercheurs);
+        {% endif %}
 
-        var email_admins = [];
-        {% for admin in admins %}
-        email_admins.push({{ admin.email|json_encode|raw }});
-        {% endfor %}
-        var emails_ad = email_admins.join(',');
-        var admins = {
-            name: "Groupe admins",
-            email: emails_ad
-        };
+        {% if admins | length > 0 %}
+            var email_admins = [];
+            {% for admin in admins %}
+            email_admins.push({{ admin.email|json_encode|raw }});
+            {% endfor %}
+            var emails_ad = email_admins.join(',');
+            var admins = {
+                name: "Groupe admins",
+                email: emails_ad
+            };
+            options.push(admins);
+        {% endif %}
 
-        var options= [
-            adherents, chercheurs, admins
-        ];
         var users = [];
         users = {{ users|json_encode|raw }};
 

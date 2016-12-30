@@ -31,14 +31,15 @@ class AdminController extends Controller
         $adherents = $this->getDoctrine()->getRepository('GsquadUserBundle:User')->getUsersByRole('ROLE_ADHERENT');
         $chercheurs = $this->getDoctrine()->getRepository('GsquadUserBundle:User')->getUsersByRole('ROLE_CHERCHEUR');
         $admins = $this->getDoctrine()->getRepository('GsquadUserBundle:User')->getUsersByRole('ROLE_ADMIN');
-
+        dump($adherents, $chercheurs, $admins);
         $formType = 'Gsquad\AdminBundle\Form\Type\MailingType';
         $form = $this->get('form.factory')->create($formType);
 
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $data = $form->getData();
             $emails = explode(',', $data['email']);
-
+            dump($emails);
+            die();
             $this->get('gsquad.mailer')->sendMailing($data, $emails);
 
             $this->addFlash('info', 'Votre message a été envoyé.');

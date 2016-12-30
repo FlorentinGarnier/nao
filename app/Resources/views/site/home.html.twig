@@ -23,40 +23,43 @@
         </div>
 
     </div>
-    <div class="container">
-
-
-
-        <div class="row">
+    <div class="container-fluid">
+        <div class="row" id="bandeau-photos">
             <h2 class="text-center">Les dernières observations</h2>
-
-            {% for obs in lastObs %}
-                <div class="col-md-4">
-                    {% if obs.photo %}
-                        <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}" class="img-responsive">
-                    {% else %}
-                        <img src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="{{ obs.piaf.nameVern }}" class="img-responsive">
-                    {% endif %}
-                    <span>{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
-                </div>
-            {% endfor %}
+                {% for obs in lastObs %}
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        {% if obs.photo %}
+                            <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}"
+                                 class="img-responsive img-obs">
+                        {% else %}
+                            <img src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="{{ obs.piaf.nameVern }}"
+                                 class="img-responsive img-obs">
+                        {% endif %}
+                        <span class="img-infos">{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
+                    </div>
+                {% endfor %}
         </div>
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col-md-6 text-center">
                 <div class="content-block">
                     <img src="" alt="Logo" class="pull-right">
                     <h2>Nos Amis les Oiseaux</h2>
                     <p>
-                        Cras a arcu vitae dui consequat porta. Suspendisse neque felis, malesuada ut gravida vitae, mollis
+                        Cras a arcu vitae dui consequat porta. Suspendisse neque felis, malesuada ut gravida vitae,
+                        mollis
                         ut est. Morbi eu sagittis nisl. Vivamus a mi tempus, faucibus erat vel, rutrum sem. Ut interdum
-                        sapien vitae nibh vestibulum rutrum. Fusce malesuada lacus vel eros varius, sit amet fringilla quam
+                        sapien vitae nibh vestibulum rutrum. Fusce malesuada lacus vel eros varius, sit amet fringilla
+                        quam
                         suscipit. Suspendisse fringilla tellus vel maximus fermentum. Nunc ornare velit lacinia varius
                         efficitur.
                     </p>
                     <ul class="list-inline">
                         <li><a href="{{ path('about') }}" title="En savoir plus">En savoir plus</a></li>
                         <li>|</li>
-                        <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a></li>
+                        <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -64,11 +67,10 @@
                 <div class="content-block">
                     <h2>Ajoutez vos propres observations !</h2>
                     <p>
-                        Cras a arcu vitae dui consequat porta. Suspendisse neque felis, malesuada ut gravida vitae, mollis
-                        ut est. Morbi eu sagittis nisl. Vivamus a mi tempus, faucibus erat vel, rutrum sem. Ut interdum
-                        sapien vitae nibh vestibulum rutrum. Fusce malesuada lacus vel eros varius, sit amet fringilla quam
-                        suscipit. Suspendisse fringilla tellus vel maximus fermentum. Nunc ornare velit lacinia varius
-                        efficitur.
+                        Vous aussi, participez à un programme de recherche visant à étudier les effets du climat, de
+                        l'urbanisation et de l'agriculture sur la biodiversité.<br>
+                        Contribuez en ajoutant les observations effectuées pour aider les chercheurs à recenser les
+                        espèces d'oiseaux !
                     </p>
                     <a href="{{ path('ajout') }}" title="Ajouter une observation">Ajouter une observation</a>
                 </div>
@@ -82,13 +84,21 @@
                     </p>
                     <!-- Begin MailChimp Signup Form -->
                     <div id="mc_embed_signup">
-                        <form action="//herokuapp.us14.list-manage.com/subscribe/post?u=c4776a59776b20cf11e1082c0&amp;id=bd8defb087" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
+                        <form action="//herokuapp.us14.list-manage.com/subscribe/post?u=c4776a59776b20cf11e1082c0&amp;id=bd8defb087"
+                              method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                              class="validate form-inline" target="_blank" novalidate>
                             <div id="mc_embed_signup_scroll" class="form-group">
                                 <label for="EMAIL">Votre email</label>
-                                <input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL" placeholder="Votre adresse email" required>
+                                <input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL"
+                                       placeholder="Votre adresse email" required>
                                 <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c4776a59776b20cf11e1082c0_bd8defb087" tabindex="-1" value=""></div>
-                                <div class="clear"><input type="submit" value="Inscription" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
+                                                                                                          name="b_c4776a59776b20cf11e1082c0_bd8defb087"
+                                                                                                          tabindex="-1"
+                                                                                                          value="">
+                                </div>
+                                <div class="clear"><input type="submit" value="Inscription" name="subscribe"
+                                                          id="mc-embedded-subscribe" class="button"></div>
                             </div>
                         </form>
                     </div>
