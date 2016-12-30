@@ -5,6 +5,12 @@
 {% block content %}
     <div class="container">
         <h1>Gestion des utilisateurs</h1>
+        {% for flash_message in app.session.flashBag.get('info') %}
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flash_message }}
+            </div>
+        {% endfor %}
         <table class="table table-bordered table-hover text-center">
             <thead>
                 <tr>
@@ -24,7 +30,7 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <select name="role_blog">
+                        <select id="role_blog_user{{ user.id }}" name="role_blog">
                             <option {% if "ROLE_UTILISATEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_UTILISATEUR">Utilisateur</option>
                             <option {% if "ROLE_CONTRIBUTEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_CONTRIBUTEUR">Contributeur</option>
                             <option {% if "ROLE_REDACTEUR" in user.roles %}selected="selected"{% endif %} value="ROLE_REDACTEUR">Rédacteur</option>
@@ -33,7 +39,7 @@
                         </select>
                     </td>
                     <td>
-                        <select name="role_site">
+                        <select id="role_site_user{{ user.id }}" name="role_site">
                             <option {% if "ROLE_USER" in user.roles %}selected="selected"{% endif %} value="ROLE_USER">Invité</option>
                             <option {% if "ROLE_MEMBRE" in user.roles %}selected="selected"{% endif %} value="ROLE_MEMBRE">Membre</option>
                             <option {% if "ROLE_ADHERENT" in user.roles %}selected="selected"{% endif %} value="ROLE_ADHERENT">Adhérent</option>
@@ -43,13 +49,21 @@
 
                     </td>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <td><a href="#"><a data-toggle="tooltip" href="#" title="Sauvegarder les modifications"><span class="glyphicon glyphicon-floppy-disk"></span></a></a></td>
+                        <td class="btn-save"><a data-toggle="tooltip" href="#" title="Sauvegarder les modifications">
+                                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                            </a>
+                            <form action="{{ path('user_edit', {'id': user.id}) }}" method="post">
+                                <input type="hidden" id="input_role_site_user{{ user.id }}" name="new_role_site">
+                                <input type="hidden" id="input_role_blog_user{{ user.id }}" name="new_role_blog">
+                                <input type="submit">
+                            </form>
+                        </td>
                     {% endif %}
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <td class="btn-delete">
                             <a data-toggle="tooltip" href="#" title="Supprimer"><i
                                         class="glyphicon glyphicon-trash"></i></a>
-                            <form action="#" method="post">
+                            <form action="{{ path('user_delete', {'id': user.id}) }}" method="post">
                                 <input type="submit" value=""/>
                                 {{ form_rest(form) }}
                             </form>
@@ -60,4 +74,25 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        console.log($('select').length);
+        for(var i = 0; i < $('select').length; i++) {
+            var input = '#input_' + $('select')[i].id;
+            var optionSelected = 'select#' + $('select')[i].id + ' option:selected';
+            var role = $(optionSelected).val();
+            $(input).val(role);
+        }
+
+        //$('#roles_site_blog').val($( "select#role_blog option:selected").val());
+        $('select').on('change', function(){
+           var input = '#input_' + this.id;
+           var optionSelected = 'select#' + this.id + ' option:selected';
+           var newRole = $(optionSelected).val();
+           $(input).val(newRole);
+        });
+    </script>
 {% endblock %}

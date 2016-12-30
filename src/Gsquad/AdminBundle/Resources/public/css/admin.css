@@ -1,8 +1,8 @@
-.btn-delete {
+.btn-delete, .btn-save {
     position: relative;
 }
 
-.btn-delete > form {
+.btn-delete > form, .btn-save > form {
     position: absolute;
     top: 5px;
     opacity: 0;
