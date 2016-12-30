@@ -49,7 +49,8 @@
 
                     </td>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <td class="btn-save"><a data-toggle="tooltip" href="#" title="Sauvegarder les modifications">
+                        <td class="btn-save">
+                            <a data-toggle="tooltip" href="#" title="Sauvegarder les modifications">
                                     <i class="glyphicon glyphicon-floppy-disk"></i>
                             </a>
                             <form action="{{ path('user_edit', {'id': user.id}) }}" method="post">
