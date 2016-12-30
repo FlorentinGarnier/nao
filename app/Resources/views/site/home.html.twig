@@ -7,9 +7,29 @@
 {% endblock %}
 
 {% block content %}
+    <div class="gsquad-intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="gsquad-header-title">
+                        <h1 class="text-center">Nos amis les oiseaux</h1>
+                        <hr class="gsquad-small">
+                        <h2 class="text-center">Participez à une aventure pas comme les autres</h2>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
     <div class="container">
-        <h1 class="text-center">Titre de bienvenue</h1>
+
+
+
         <div class="row">
+            <h2 class="text-center">Les dernières observations</h2>
+
             {% for obs in lastObs %}
                 <div class="col-md-4">
                     {% if obs.photo %}
@@ -21,7 +41,7 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="row flex">
+        <div class="row">
             <div class="col-md-6 text-center">
                 <div class="content-block">
                     <img src="" alt="Logo" class="pull-right">
@@ -54,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="row flex">
+        <div class="row">
             <div class="col-md-5 text-center">
                 <div class="md-content-block">
                     <p>
