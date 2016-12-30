@@ -38,8 +38,7 @@ class AdminController extends Controller
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $data = $form->getData();
             $emails = explode(',', $data['email']);
-            dump($emails);
-            die();
+
             $this->get('gsquad.mailer')->sendMailing($data, $emails);
 
             $this->addFlash('info', 'Votre message a été envoyé.');
