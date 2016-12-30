@@ -31,7 +31,7 @@ class AdminController extends Controller
         $adherents = $this->getDoctrine()->getRepository('GsquadUserBundle:User')->getUsersByRole('ROLE_ADHERENT');
         $chercheurs = $this->getDoctrine()->getRepository('GsquadUserBundle:User')->getUsersByRole('ROLE_CHERCHEUR');
         $admins = $this->getDoctrine()->getRepository('GsquadUserBundle:User')->getUsersByRole('ROLE_ADMIN');
-        dump($adherents, $chercheurs, $admins);
+
         $formType = 'Gsquad\AdminBundle\Form\Type\MailingType';
         $form = $this->get('form.factory')->create($formType);
 
