@@ -74,7 +74,9 @@
         "facebook_id": "FACEBOOK_ID",
         "facebook_secret": "FACEBOOK_SECRET",
         "google_id": "GOOGLE_ID",
-        "google_secret": "GOOGLE_SECRET"
+        "google_secret": "GOOGLE_SECRET",
+        "mailer_user": "MAILER_USER",
+        "mailer_password": "MAILER_PASSWORD"
       }
     }
   }
