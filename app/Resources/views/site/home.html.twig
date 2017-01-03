@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="gsquad-intro-header">
+    <!--<div class="gsquad-intro-header">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1">
@@ -22,87 +22,91 @@
 
         </div>
 
-    </div>
+    </div>-->
     <div class="container-fluid">
         <div class="row" id="bandeau-photos">
             <h2 class="text-center">Les dernières observations</h2>
-                {% for obs in lastObs %}
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        {% if obs.photo %}
-                            <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}"
-                                 class="img-responsive img-obs">
-                        {% else %}
-                            <img src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="{{ obs.piaf.nameVern }}"
-                                 class="img-responsive img-obs">
-                        {% endif %}
-                        <span class="img-infos">{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
-                    </div>
-                {% endfor %}
+            {% for obs in lastObs %}
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    {% if obs.photo %}
+                        <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}"
+                             class="img-responsive img-obs">
+                    {% else %}
+                        <img src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="{{ obs.piaf.nameVern }}"
+                             class="img-responsive img-obs">
+                    {% endif %}
+                    <span class="img-infos">{{ obs.piaf.nameVern }}, {{ obs.departement }}</span>
+                </div>
+            {% endfor %}
         </div>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-md-6 text-center">
-                <div class="content-block">
-                    <img src="" alt="Logo" class="pull-right">
-                    <h2>Nos Amis les Oiseaux</h2>
-                    <p>
-                        Cras a arcu vitae dui consequat porta. Suspendisse neque felis, malesuada ut gravida vitae,
-                        mollis
-                        ut est. Morbi eu sagittis nisl. Vivamus a mi tempus, faucibus erat vel, rutrum sem. Ut interdum
-                        sapien vitae nibh vestibulum rutrum. Fusce malesuada lacus vel eros varius, sit amet fringilla
-                        quam
-                        suscipit. Suspendisse fringilla tellus vel maximus fermentum. Nunc ornare velit lacinia varius
-                        efficitur.
-                    </p>
-                    <ul class="list-inline">
-                        <li><a href="{{ path('about') }}" title="En savoir plus">En savoir plus</a></li>
-                        <li>|</li>
-                        <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a>
-                        </li>
-                    </ul>
+                <div class="content-block flex">
+                    <div class="center-block">
+                        <img src="{{ asset('assets/img/logo-img.png') }}" alt="Logo" class="pull-right small-logo">
+                        <h2 class="subtitle">Nos Amis les Oiseaux</h2>
+                        <p>
+                            Notre association existe depuis 2011. <br/>
+                            Elle a pour principales missions l'étude et la protection
+                            des oiseaux et de leur habitat.<br/>
+                            Nous menons également des actions de sensibilisation et d'information.
+                        </p>
+                        <ul class="list-inline">
+                            <li><a href="{{ path('about') }}" title="En savoir plus">En savoir plus</a></li>
+                            <li>|</li>
+                            <li><a href="{{ path('adhesion') }}" title="Adhérer à l'association">Adhérer à l'association</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 text-center">
-                <div class="content-block">
-                    <h2>Ajoutez vos propres observations !</h2>
-                    <p>
-                        Vous aussi, participez à un programme de recherche visant à étudier les effets du climat, de
-                        l'urbanisation et de l'agriculture sur la biodiversité.<br>
-                        Contribuez en ajoutant les observations effectuées pour aider les chercheurs à recenser les
-                        espèces d'oiseaux !
-                    </p>
-                    <a href="{{ path('ajout') }}" title="Ajouter une observation">Ajouter une observation</a>
+                <div class="content-block flex">
+                    <div class="center-block">
+                        <h2 class="subtitle">Ajoutez vos propres observations !</h2>
+                        <p>
+                            Vous aussi, participez à un programme de recherche visant à étudier les effets du climat, de
+                            l'urbanisation et de l'agriculture sur la biodiversité.<br>
+                            Contribuez en ajoutant les observations effectuées pour aider les chercheurs à recenser les
+                            espèces d'oiseaux !
+                        </p>
+                        <a href="{{ path('ajout') }}" title="Ajouter une observation" class="btn-a">Ajouter une observation</a>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-5 text-center">
-                <div class="md-content-block">
-                    <p>
-                        Inscrivez-vous à notre newsletter et recevez les dernières informations de l'association !
-                    </p>
-                    <!-- Begin MailChimp Signup Form -->
-                    <div id="mc_embed_signup">
-                        <form action="//herokuapp.us14.list-manage.com/subscribe/post?u=c4776a59776b20cf11e1082c0&amp;id=bd8defb087"
-                              method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                              class="validate form-inline" target="_blank" novalidate>
-                            <div id="mc_embed_signup_scroll" class="form-group">
-                                <label for="EMAIL">Votre email</label>
-                                <input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL"
-                                       placeholder="Votre adresse email" required>
-                                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
-                                                                                                          name="b_c4776a59776b20cf11e1082c0_bd8defb087"
-                                                                                                          tabindex="-1"
-                                                                                                          value="">
+                <div class="md-content-block flex">
+                    <div class="center-block">
+                        <p>
+                            Inscrivez-vous à notre newsletter et recevez les dernières informations de l'association !
+                        </p>
+                        <!-- Begin MailChimp Signup Form -->
+                        <div id="mc_embed_signup">
+                            <form action="//herokuapp.us14.list-manage.com/subscribe/post?u=c4776a59776b20cf11e1082c0&amp;id=bd8defb087"
+                                  method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                  class="validate form-inline" target="_blank" novalidate>
+                                <div id="mc_embed_signup_scroll" class="form-group">
+                                    <label for="EMAIL">Votre email</label>
+                                    <input type="email" value="" name="EMAIL" class="email form-control" id="mce-EMAIL"
+                                           placeholder="Votre adresse email" required>
+                                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text"
+                                                                                                              name="b_c4776a59776b20cf11e1082c0_bd8defb087"
+                                                                                                              tabindex="-1"
+                                                                                                              value="">
+                                    </div>
+                                    <div class="clear"><input type="submit" value="Inscription" name="subscribe"
+                                                              id="mc-embedded-subscribe" class="btn-a"></div>
                                 </div>
-                                <div class="clear"><input type="submit" value="Inscription" name="subscribe"
-                                                          id="mc-embedded-subscribe" class="button"></div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+                        <!--End mc_embed_signup-->
+
                     </div>
-                    <!--End mc_embed_signup-->
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -111,11 +115,13 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
-                <div class="md-content-block" id="blog">
-                    <p class="text-center">
-                        Rejoignez notre communauté, et échangez sur notre blog. <br>
-                        <a href="{{ path('blog') }}" title="Blog">Blog</a>
-                    </p>
+                <div class="md-content-block flex" id="blog">
+                    <div class="center-block text-center">
+                        <p>
+                            Rejoignez notre communauté, et échangez sur notre blog. <br>
+                        </p>
+                        <a href="{{ path('blog') }}" title="Blog" class="btn-a">Blog</a>
+                    </div>
                 </div>
             </div>
         </div>

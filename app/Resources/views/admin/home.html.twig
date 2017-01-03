@@ -17,31 +17,39 @@
         <section class="text-center">
             {% if is_granted("ROLE_SUPER_ADMIN") %}
                 <div class="col-sm-6">
-                    <div class="md-content-block">
-                        <h2>Administration des membres</h2>
-                        <a href="{{ path('admin_users') }}" title="Admistration des membres">Page membres</a>
+                    <div class="md-content-block flex">
+                        <div class="center-block">
+                            <h2>Administration des membres</h2>
+                            <a href="{{ path('admin_users') }}" title="Admistration des membres" class="btn-a">Page membres</a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="md-content-block">
-                        <h2>Mailing</h2>
-                        <a href="{{ path('mailing') }}" title="Page de mailing">Page de mailing</a>
+                    <div class="md-content-block flex">
+                        <div class="center-block">
+                            <h2>Mailing</h2>
+                            <a href="{{ path('mailing') }}" title="Page de mailing" class="btn-a">Page de mailing</a>
+                        </div>
                     </div>
                 </div>
             {% endif %}
             {% if is_granted("ROLE_CHERCHEUR") %}
                 <div class="col-sm-6">
-                    <div class="md-content-block">
-                        <h2>Administration des observations</h2>
-                        <a href="{{ path('admin_observations') }}" title="Admistration des observations">Page observations</a>
+                    <div class="md-content-block flex">
+                        <div class="center-block">
+                            <h2>Administration des observations</h2>
+                            <a href="{{ path('admin_observations') }}" title="Admistration des observations" class="btn-a">Page observations</a>
+                        </div>
                     </div>
                 </div>
             {% endif %}
             {% if is_granted("ROLE_REDACTEUR") %}
                 <div class="col-sm-6">
-                    <div class="md-content-block">
-                        <h2>Blog</h2>
-                        <a href="{{ path('admin_blog') }}" title="Admistration du blog">Page du blog</a>
+                    <div class="md-content-block flex">
+                        <div class="center-block">
+                            <h2>Blog</h2>
+                            <a href="{{ path('admin_blog') }}" title="Admistration du blog" class="btn-a">Page du blog</a>
+                        </div>
                     </div>
                 </div>
             {% endif %}

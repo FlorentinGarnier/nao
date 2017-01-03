@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="col-sm-3">
+        <div class="col-sm-3 bg-light-green">
             <ul>
                 <li><a href="{{ path('admin_blog_posts') }}" title="Administrer les articles">Articles</a></li>
                 <li><a href="{{ path('admin_blog_categories') }}" title="Administrer les catégories">Catégories</a></li>
@@ -16,7 +16,7 @@
         </div>
         <div class="col-sm-9">
             {% block adminBlogContent %}
-                <h1>Administration du blog</h1>
+                <h1 class="border-bottom-green">Administration du blog</h1>
                 <div>
                     <h2>Articles en attente de validation</h2>
                     <table class="table table-hover">

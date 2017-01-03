@@ -80,7 +80,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        console.log($('select').length);
         for(var i = 0; i < $('select').length; i++) {
             var input = '#input_' + $('select')[i].id;
             var optionSelected = 'select#' + $('select')[i].id + ' option:selected';

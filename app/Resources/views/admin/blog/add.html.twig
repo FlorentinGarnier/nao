@@ -3,7 +3,7 @@
 {% extends 'blog/index.html.twig' %}
 
 {% block section %}
-    <div class="container post-block">
+    <div class="container post-block bg-light-green">
         {{ form_start(form) }}
         <div class="row text-center">
             <div class="col-sm-6">
@@ -21,14 +21,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 {{ form_label(form.imageFile) }}
                 {{ form_widget(form.imageFile) }}
             </div>
-            <div class="col-xs-6 text-center">
-                {{ form_row(form.submit) }}
+            <div class="col-sm-6 text-center">
+                {{ form_row(form.submit, {attr: {'class': 'btn-a'}}) }}
                 {% if is_granted('ROLE_REDACTEUR') %}
-                {{ form_row(form.publish) }}
+                {{ form_row(form.publish, {attr: {'class': 'btn-a'}}) }}
                 {% endif %}
             </div>
         </div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary" id="addNewCategory">Ajouter</button>
+                    <button type="button" class="btn-a" id="addNewCategory">Ajouter</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

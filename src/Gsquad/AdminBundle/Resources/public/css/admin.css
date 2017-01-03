@@ -15,3 +15,27 @@
 .name {
     color: #303030;
 }
+
+#content > div > table > thead > tr > th {
+    text-align: center;
+}
+
+@media all and (max-device-width: 480px) {
+    table > thead {
+        display: none;
+    }
+
+    table > tbody > tr > td {
+        display: block;
+        width: 100%;
+        border: none !important;
+    }
+
+    table {
+        border: none;
+    }
+
+    table > tbody > tr:not(:first-of-type) {
+        border-top: 1px solid #ddd;
+    }
+}

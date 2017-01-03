@@ -12,7 +12,6 @@
 
 .post-block {
     padding: 15px;
-    background-color: #2e9ad0;
     margin-bottom: 10px;
 }
 
@@ -33,7 +32,7 @@
 .comments {
     padding: 10px 0px;
     margin-top: 10px;
-    margin-left: 5%;
+    margin-left: 20%;
 }
 .comment {
     padding: 5px;
@@ -67,4 +66,29 @@
 
 #tags .checkbox {
     display: inline;
+}
+
+#blog-search {
+    margin-bottom: 20px;
+}
+
+#category_name {
+    margin-left: 10px;
+}
+
+.btn-edit {
+    border: none;
+    background: none;
+}
+
+@media all and (max-device-width: 480px)
+{
+    .img-post {
+        float: none;
+        margin: auto;
+    }
+
+    .comments {
+        margin: auto;
+    }
 }
