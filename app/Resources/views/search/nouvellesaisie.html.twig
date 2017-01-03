@@ -3,7 +3,8 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('bundles/gsquadpiaf/css/style.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.css"/>
 
 {% endblock %}
 
@@ -29,7 +30,9 @@
                 </div>
 
                 <div class="erreur-content">
-                    <div id="erreur-depts" class="col-md-12">Merci d'entrer des coordonnées se situant sur le territoire français.</div>
+                    <div id="erreur-depts" class="col-md-12">Merci d'entrer des coordonnées se situant sur le territoire
+                        français.
+                    </div>
                 </div>
             </div>
 
@@ -82,7 +85,8 @@
             </div>
 
             <div class="col-md-6 text-center">
-                <button id="bouton-validation" type="button" class="btn btn-primary" data-toggle="modal" data-target="#fichesaisie">
+                <button id="bouton-validation" type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#fichesaisie">
                     Valider cette observation
                 </button>
             </div>
@@ -91,7 +95,8 @@
         <div class="col-md-6 text-center">
             <div class="row zone-preview">
                 <div class="image-holder col-md-6">
-                    <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="Pas d'image"/>
+                    <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}"
+                         alt="Pas d'image"/>
                 </div>
                 <div class="col-md-6">
                     <h3 class="preview-espece">Espece : non précisée</h3>
@@ -104,7 +109,10 @@
 
             <div class="row zone-consigne">
                 <h3>Règles à suivre pour une bonne observation</h3>
-                <p>Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum </p>
+                <p>
+                    Observer les oiseaux dans leur habitat naturel est synonyme de discrétion !<br>
+                    Ne vous approchez pas, ne perturbez pas la faune environnante.
+                </p>
             </div>
         </div>
     </div>
@@ -113,7 +121,8 @@
         <div id="space-bottom"></div>
     </div>
 
-    <div class="modal fade" id="fichesaisie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="fichesaisie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content container-fluid">
                 <div class="modal-header">
@@ -124,7 +133,8 @@
                 </div>
                 <div class="modal-body row">
                     <div class="image-holder col-md-6">
-                        <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="Pas d'image"/>
+                        <img class="img-observation" src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}"
+                             alt="Pas d'image"/>
                     </div>
                     <div class=" col-md-6">
                         <h4 class="preview-espece">Espece : non précisée</h4>
@@ -136,7 +146,8 @@
                 </div>
                 <div class="modal-footer row">
                     {{ form_widget(form.submit, {'attr': {'class': 'btn-primary'}}) }}
-                    <button id="bouton-annuler" type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button id="bouton-annuler" type="button" class="btn btn-secondary" data-dismiss="modal">Annuler
+                    </button>
                 </div>
             </div>
         </div>
@@ -149,10 +160,11 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.fr.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.js-datepicker').datepicker({
                 format: 'yyyy-mm-dd',
                 language: 'fr-FR',
@@ -160,7 +172,7 @@
                 autoclose: true
             });
 
-            $('#zone-form').on('keyup keypress', function(e) {
+            $('#zone-form').on('keyup keypress', function (e) {
                 var keyCode = e.keyCode || e.which;
                 if (keyCode === 13) {
                     e.preventDefault();
