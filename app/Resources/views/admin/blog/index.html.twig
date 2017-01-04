@@ -42,7 +42,7 @@
                                     </td>
                                     <td>{{ post.creationDate | date('d/m/Y') }}</td>
                                     {% if is_granted('ROLE_REDACTEUR') %}
-                                        <td><a href="{{ path('post_edit', {'id': post.id}) }}"><a data-toggle="tooltip" href="#" title="Editer"><span
+                                        <td><a data-toggle="tooltip" href="#" title="Editer"><a href="{{ path('post_edit', {'id': post.id}) }}"><span
                                                             class="glyphicon glyphicon-pencil"></span></a></a></td>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}

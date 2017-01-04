@@ -73,7 +73,6 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="Gsquad\BlogBundle\Entity\Category", cascade={"persist"}, inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
@@ -105,7 +104,7 @@ class Post
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      * @ORM\OrderBy({"creationDate" = "DESC"})
      */
     private $comments;
