@@ -47,25 +47,27 @@ class BlogController extends Controller
      */
     public function singleAction(Post $post, Request $request)
     {
-        $user = $this->getUser()->getUsername();
-
         $formType = 'Gsquad\BlogBundle\Form\Type\CommentType';
         $newComment = new Comment();
 
         $form = $this->get('form.factory')->create($formType, $newComment);
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $newComment->setAuthor($user);
-            $post->addComment($newComment);
+        if($this->getUser()){
+            $user = $this->getUser()->getUsername();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($newComment);
-            $em->flush();
+            if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+                $newComment->setAuthor($user);
+                $post->addComment($newComment);
 
-            $this->addFlash('info', 'Le commentaire a été ajouté !');
-            return $this->redirectToRoute('single_post', array(
-                'slug' => $post->getSlug()
-            ));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newComment);
+                $em->flush();
+
+                $this->addFlash('info', 'Le commentaire a été ajouté !');
+                return $this->redirectToRoute('single_post', array(
+                    'slug' => $post->getSlug()
+                ));
+            }
         }
 
         return $this->render('blog/single.html.twig', array(
