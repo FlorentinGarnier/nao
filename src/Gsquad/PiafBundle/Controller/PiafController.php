@@ -474,133 +474,147 @@ class PiafController extends Controller
      */
     public function ajoutObservationAction(Request $request)
     {
-        $service = $this->container->get('gsquad_piaf.get_departements');
-        $depts = $service->getDepartementsArray();
-        $choiceEspece = [];
+        if($this->getUser()) {
+            if(
+                in_array('ROLE_CHERCHEUR', $this->getUser()->getRoles()) ||
+                in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ||
+                in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles()) ||
+                in_array('ROLE_ADHERENT', $this->getUser()->getRoles()) ||
+                in_array('ROLE_MEMBRE', $this->getUser()->getRoles())
+            ){
+                $service = $this->container->get('gsquad_piaf.get_departements');
+                $depts = $service->getDepartementsArray();
+                $choiceEspece = [];
 
-        $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-        $listEspeces = $piafRepository->findAll();
+                $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+                $listEspeces = $piafRepository->findAll();
 
-        foreach($listEspeces as $espece) {
-            if($espece->getNameVern() != null && !array_key_exists($espece->getNameVern(), $choiceEspece)) {
-                $choiceEspece[$espece->getNameVern()] = $espece->getId();
+                foreach($listEspeces as $espece) {
+                    if($espece->getNameVern() != null && !array_key_exists($espece->getNameVern(), $choiceEspece)) {
+                        $choiceEspece[$espece->getNameVern()] = $espece->getId();
+                    }
+                }
+
+                function wd_remove_accents($str, $charset='utf-8')
+                {
+                    $str = htmlentities($str, ENT_NOQUOTES, $charset);
+
+                    $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+                    $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
+                    $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
+
+                    return $str;
+                }
+
+                uksort($choiceEspece, function($a, $b)
+                {
+                    return strcmp(strtolower(wd_remove_accents($a)), strtolower(wd_remove_accents($b)));
+                });
+                $firstItem = array('Autre' => false);
+                $choiceEspece = $firstItem + $choiceEspece;
+
+                $data = array();
+                $form = $this->createFormBuilder($data)
+                    ->add('image', FileType::class, array('required' => false))
+                    ->add('latitude', NumberType::class, array('required' => false))
+                    ->add('longitude', NumberType::class, array('required' => false))
+                    ->add('observateur', TextType::class, array('required' => false))
+                    ->add('city', TextType::class, array('label' => 'Commune associée à l\'observation :'))
+                    ->add('dateObservation', DateType::class, array(
+                        'widget' => 'single_text',
+                        'html5' => false,
+                        'attr' => ['class' => 'js-datepicker']
+                    ))
+                    ->add('departement', ChoiceType::class, array(
+                        'choices' => $depts
+                    ))
+                    ->add('espece', ChoiceType::class, array(
+                        'choices' => $choiceEspece
+                    ))
+                    ->add('especeautre', TextType::class, array('required' => false))
+                    ->add('submit',SubmitType::class, array('label' => 'Soumettre cette observation'))
+                    ->getForm();
+
+                if($form->handleRequest($request)->isValid())
+                {
+                    $obs = new Observation();
+
+                    if($form["latitude"]->getData() != null) {
+                        $obs->setLatitude($form["latitude"]->getData());
+                    }
+
+                    if($form["longitude"]->getData() != null) {
+                        $obs->setLongitude($form["longitude"]->getData());
+                    }
+
+                    if($form["observateur"]->getData() != null) {
+                        $obs->setObservateur($form["observateur"]->getData());
+                    }
+
+                    $obs->setCity($form["city"]->getData());
+                    $obs->setDateObservation($form["dateObservation"]->getData());
+                    $obs->setDepartement($form["departement"]->getData());
+
+                    $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
+
+                    $em = $this->getDoctrine()->getManager();
+
+                    if($form["espece"]->getData() == false) {
+                        $nouveauNom = $form["especeautre"]->getData();
+                        $piaf = new Piaf();
+                        $piaf->setClasse('inconnue');
+                        $piaf->setCdNom(0);
+                        $piaf->setCdTaxSup(0);
+                        $piaf->setOrdre('inconnu');
+                        $piaf->setFamily('inconnue');
+                        $piaf->setNameLatin('inconnu');
+                        $piaf->setNameVern($nouveauNom);
+                        $piaf->setNameVernEng('inconnu');
+                        $piaf->setHabitat('0');
+
+                        $em->persist($piaf);
+                        $em->flush();
+                    } else {
+                        $piaf = $piafRepository->find($form["espece"]->getData());
+                    }
+
+                    $obs->setPiaf($piaf);
+
+                    if($form["image"]->getData() != null) {
+                        /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+                        $file = $form["image"]->getData();
+
+                        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                        $file->move(
+                            $this->getParameter('images_directory'),
+                            $fileName
+                        );
+
+                        $image = new Photo();
+                        $image->setImgUrl($fileName);
+
+                        $em->persist($image);
+                        $em->flush();
+
+                        $obs->setPhoto($image);
+                    }
+
+                    $em->persist($obs);
+                    $em->flush();
+
+                    return $this->redirectToRoute('homepage');
+                }
+
+                return $this->render('search/nouvellesaisie.html.twig', [
+                    "form" => $form->createView(),
+                    "observation" => null
+                ]);
+            }else{
+                return $this->redirectToRoute('fos_user_security_login');
             }
+        }else{
+            return $this->redirectToRoute('fos_user_security_login');
         }
-
-        function wd_remove_accents($str, $charset='utf-8')
-        {
-            $str = htmlentities($str, ENT_NOQUOTES, $charset);
-
-            $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-            $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
-            $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
-
-            return $str;
-        }
-
-        uksort($choiceEspece, function($a, $b)
-        {
-            return strcmp(strtolower(wd_remove_accents($a)), strtolower(wd_remove_accents($b)));
-        });
-        $firstItem = array('Autre' => false);
-        $choiceEspece = $firstItem + $choiceEspece;
-
-        $data = array();
-        $form = $this->createFormBuilder($data)
-            ->add('image', FileType::class, array('required' => false))
-            ->add('latitude', NumberType::class, array('required' => false))
-            ->add('longitude', NumberType::class, array('required' => false))
-            ->add('observateur', TextType::class, array('required' => false))
-            ->add('city', TextType::class, array('label' => 'Commune associée à l\'observation :'))
-            ->add('dateObservation', DateType::class, array(
-                'widget' => 'single_text',
-                'html5' => false,
-                'attr' => ['class' => 'js-datepicker']
-            ))
-            ->add('departement', ChoiceType::class, array(
-                'choices' => $depts
-            ))
-            ->add('espece', ChoiceType::class, array(
-                'choices' => $choiceEspece
-            ))
-            ->add('especeautre', TextType::class, array('required' => false))
-            ->add('submit',SubmitType::class, array('label' => 'Soumettre cette observation'))
-            ->getForm();
-
-        if($form->handleRequest($request)->isValid())
-        {
-            $obs = new Observation();
-
-            if($form["latitude"]->getData() != null) {
-                $obs->setLatitude($form["latitude"]->getData());
-            }
-
-            if($form["longitude"]->getData() != null) {
-                $obs->setLongitude($form["longitude"]->getData());
-            }
-
-            if($form["observateur"]->getData() != null) {
-                $obs->setObservateur($form["observateur"]->getData());
-            }
-
-            $obs->setCity($form["city"]->getData());
-            $obs->setDateObservation($form["dateObservation"]->getData());
-            $obs->setDepartement($form["departement"]->getData());
-
-            $piafRepository = $this->getDoctrine()->getRepository('GsquadPiafBundle:Piaf');
-
-            $em = $this->getDoctrine()->getManager();
-
-            if($form["espece"]->getData() == false) {
-                $nouveauNom = $form["especeautre"]->getData();
-                $piaf = new Piaf();
-                $piaf->setClasse('inconnue');
-                $piaf->setCdNom(0);
-                $piaf->setCdTaxSup(0);
-                $piaf->setOrdre('inconnu');
-                $piaf->setFamily('inconnue');
-                $piaf->setNameLatin('inconnu');
-                $piaf->setNameVern($nouveauNom);
-                $piaf->setNameVernEng('inconnu');
-                $piaf->setHabitat('0');
-
-                $em->persist($piaf);
-                $em->flush();
-            } else {
-                $piaf = $piafRepository->find($form["espece"]->getData());
-            }
-
-            $obs->setPiaf($piaf);
-
-            if($form["image"]->getData() != null) {
-                /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-                $file = $form["image"]->getData();
-
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-                $file->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
-
-                $image = new Photo();
-                $image->setImgUrl($fileName);
-
-                $em->persist($image);
-                $em->flush();
-
-                $obs->setPhoto($image);
-            }
-
-            $em->persist($obs);
-            $em->flush();
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        return $this->render('search/nouvellesaisie.html.twig', [
-            "form" => $form->createView(),
-            "observation" => null
-        ]);
     }
 }
