@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="container-fluid">
-        {% if observations is defined %}
+        {% if observations is defined and observations|length > 0 %}
             {% for observation in observations %}
                 <div id="obs-{{ observation.id }}" class="col-sm-6 col-md-4">
                     {% if observation.photo %}
