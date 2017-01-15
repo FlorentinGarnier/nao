@@ -58,8 +58,17 @@
 
     {% endblock %}
 
-    <!-- Footer -->
     <!-- Modal -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.7&appId=218391171579717";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -75,8 +84,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="http://nosamislesoiseaux.herokuapp.com/register/" class="btn btn-default" target="_blank" data-dismiss="modal">Non merci.</a>
-                    <button type="button" class="btn btn-primary"><i class="fa fa-facebook" aria-hidden="true"></i> Bien sur!</button>
+                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default">Non merci.</a>
+                    <div class="btn btn-primary" data-href="http://nosamislesoiseaux.herokuapp.com/participez-etude-observation-oiseaux"
+                         data-layout="button" data-size="medium" data-mobile-iframe="true"><a
+                                class="fb-xfbml-parse-ignore" target="_blank"
+                                href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnosamislesoiseaux.herokuapp.com%2Fparticipez-etude-observation-oiseaux&amp;src=sdkpreparse"><i class="fa fa-facebook" aria-hidden="true"></i> Bien sur!</a>
+                    </div>
                 </div>
             </div>
         </div>
