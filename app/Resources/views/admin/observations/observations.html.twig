@@ -17,7 +17,8 @@
                         </div>
                     {% endif %}
                     <div class="dropdown">
-                        <div id="titre-{{ observation.id }}" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ observation.piaf.nameVern }}
+                        <div id="titre-{{ observation.id }}" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span id="piaf-{{ observation.id }}">{{ observation.piaf.nameVern }}</span>
                             <span class="caret"></span></div>
                         <ul class="dropdown-menu">
                             {% for espece in especes %}
@@ -93,18 +94,21 @@
         {% if observations is defined %}
             {% for observation in observations %}
             $("#button-{{ observation.id }}").on('click',function(){
+                console.log($("#piaf-{{ observation.id }}").text());
                 $.ajax({
                     type: "POST",
                     url: '{{ path('admin_post_validation') }}',
                     data: {
                         id: {{ observation.id }},
-                        espece: $("#espece-{{ observation.id }}").val()
+                        espece: $("#piaf-{{ observation.id }}").text()
                     },
                     dataType: 'json',
                     success:function(response){
+                        console.log('succes : ' + response);
                         $("#obs-{{ observation.id }}").hide();
                     },
                     error: function(e) {
+                        console.log(e);
                 }
                 });
                 return false;
@@ -127,9 +131,7 @@
             });
 
             $(".choix-{{ observation.id }}").on('click',function(){
-                $("#titre-{{ observation.id }}").text($(this).text());
-                $("#titre-{{ observation.id }}").append(' <span class="caret"></span></div>')
-                $("#espece-{{ observation.id }}").text($(this).text());
+                $("#piaf-{{ observation.id }}").text($(this).text());
             });
             {% endfor %}
         {% endif %}

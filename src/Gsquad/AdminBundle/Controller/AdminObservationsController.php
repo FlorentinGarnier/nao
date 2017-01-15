@@ -72,6 +72,8 @@ class AdminObservationsController extends Controller
         $piaf = $piafRepository->findOneBy(array(
             'nameVern' => $nameVern
         ));
+
+
         if($piaf == null) {
             $nameVern = $nameVern.' ';
             $piaf = $piafRepository->findOneBy(array(
@@ -86,8 +88,8 @@ class AdminObservationsController extends Controller
         $observation->setValid(true);
         $em->persist($observation);
 
-        if($observation->getPhoto != null) {
-            $piaf->setPhoto($observation->getPhoto);
+        if($observation->getPhoto() != null) {
+            $piaf->setPhoto($observation->getPhoto());
         }
 
         $em->persist($piaf);
