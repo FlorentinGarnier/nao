@@ -1,0 +1,87 @@
+/*!
+ * Start Bootstrap - The Big Picture (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	background: none;
+  font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    font-size: 3.5em;
+}
+
+.full {
+  background: url("background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.container {
+  color: #7A6755;
+}
+
+.bouton {
+  margin-top: 15px;
+}
+
+.paragraphe {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.btn-round-lg{
+border-radius: 22.5px;
+}
+
+.presentation {
+  margin-top: 10%;
+  margin-bottom: auto;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+h1 {
+  padding-top: 10%;
+}
+
+.navbar {
+  background: none;
+  border: none;
+  }
+
+  .navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    font-size: 1em;
+}
+.navbar-brand {
+  float:none;
+  color: #7A6755;
+  font-size: 14px !important;
+  padding-left: 4px;
+}
+
+
+
+

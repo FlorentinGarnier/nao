@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html class="full" lang="fr">
+<!-- Make sure the <html> tag is set to the .full CSS class. Change the background image in the full.css file. -->
 
 <head>
 
@@ -24,13 +25,13 @@
     <title>Participez à une grande étude ornithologique et environnementale!</title>
     <meta name="description" content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité." />
     <meta name="author" content="Association Nos Amis les Oiseaux">
-    <link rel="shortcut icon" type="image/x-icon"  href="img/logo_fav_icone.png">
+    <link rel="shortcut icon" type="image/x-icon"  href="{{ asset('bundles/gsquadcore/marketing/img/logo_fav_icone.png') }}">
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('bundles/gsquadcore/marketing/css/landing-page.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/gsquadcore/marketing/css/the-big-picture.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{{ asset('bundles/gsquadcore/marketing/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -45,21 +46,41 @@
 
 </head>
 <body>
-{% block content %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-invers navbar-fixed-bottom" role="navigation">
+        <div class="navbar-header">
+            <img class="text-center" src="{{ asset('bundles/gsquadcore/marketing/img/logo_fav_icone.png') }}" alt="Logo de l'association nos amis les oiseaux"> <a class="navbar-brand" href="#">Association Nos Amis les Oiseaux</a>
+        </div>
+    </nav>
+
+    {% block content %}
 
 
-{% endblock %}
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
+    {% endblock %}
 
-                <p class="copyright text-muted small text-center">Nos Amis les Oiseaux, tous droits réservés.</p>
+    <!-- Footer -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <img src="{{ asset('bundles/gsquadcore/marketing/img/bird_modal.jpg') }}" class="img-responsive" alt="Un oiseau dans une main humaine">
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <h4 class="text-center">Merci d'accepter d'aider l'environnement !</h4>
+                            <p>Nous sommes toujours à la recherche de personnes motivées pour prendre part à notre étude. Accepteriez-vous de parler de nous sur votre réseau social préféré?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="http://nosamislesoiseaux.herokuapp.com/register/" class="btn btn-default" target="_blank" data-dismiss="modal">Non merci.</a>
+                    <button type="button" class="btn btn-primary"><i class="fa fa-facebook" aria-hidden="true"></i> Bien sur!</button>
+                </div>
             </div>
         </div>
     </div>
-</footer>
 
 <!-- jQuery -->
 <script src="{{ asset('assets/jquery/dist/jquery.min.js') }}"></script>
