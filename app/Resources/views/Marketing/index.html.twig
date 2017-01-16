@@ -10,22 +10,26 @@
 
     <!-- markup for Google+ -->
     <meta itemprop="name" content="Participez à une grande étude ornithologique et environnementale!">
-    <meta itemprop="description" content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité.">
+    <meta itemprop="description"
+          content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité.">
     <meta itemprop="image" content="http://www.example.com/image.jpg">
 
     <!-- Open Graph data -->
-    <meta property="og:title" content="Participez à une grande étude ornithologique et environnementale!" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="http://nosamislesoiseaux.herokuapp.com/" />
-    <meta property="og:image" content="http://example.com/image.jpg" />
-    <meta property="og:description" content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité." />
-    <meta property="og:site_name" content="Nos Amis les Oiseaux" />
-    <meta property="fb:admins" content="218391171579717" />
+    <meta property="og:title" content="Participez à une grande étude ornithologique et environnementale!"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="http://nosamislesoiseaux.herokuapp.com/"/>
+    <meta property="og:image" content="http://example.com/image.jpg"/>
+    <meta property="og:description"
+          content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité."/>
+    <meta property="og:site_name" content="Nos Amis les Oiseaux"/>
+    <meta property="fb:admins" content="218391171579717"/>
 
     <title>Participez à une grande étude ornithologique et environnementale!</title>
-    <meta name="description" content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité." />
+    <meta name="description"
+          content="Observez les oiseaux et participez à un vaste programme de recherche ornithologique visant à étudier les effets du climat, de l’urbanisation et de l’agriculture sur la biodiversité."/>
     <meta name="author" content="Association Nos Amis les Oiseaux">
-    <link rel="shortcut icon" type="image/x-icon"  href="{{ asset('bundles/gsquadcore/marketing/img/logo_fav_icone.png') }}">
+    <link rel="shortcut icon" type="image/x-icon"
+          href="{{ asset('bundles/gsquadcore/marketing/img/logo_fav_icone.png') }}">
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -34,8 +38,10 @@
     <link href="{{ asset('bundles/gsquadcore/marketing/css/the-big-picture.css') }}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="{{ asset('bundles/gsquadcore/marketing/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/gsquadcore/marketing/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -46,54 +52,70 @@
 
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-invers navbar-fixed-bottom" role="navigation">
-        <div class="navbar-header">
-            <img class="text-center" src="{{ asset('bundles/gsquadcore/marketing/img/logo_fav_icone.png') }}" alt="Logo de l'association nos amis les oiseaux"> <a class="navbar-brand" href="#">Association Nos Amis les Oiseaux</a>
-        </div>
-    </nav>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '735825999913057',
+            xfbml: true,
+            version: 'v2.8'
+        });
+        FB.AppEvents.logPageView();
+    };
 
-    {% block content %}
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
 
-    {% endblock %}
+<!-- Navigation -->
+<nav class="navbar navbar-invers navbar-fixed-bottom" role="navigation">
+    <div class="navbar-header">
+        <img class="text-center" src="{{ asset('bundles/gsquadcore/marketing/img/logo_fav_icone.png') }}"
+             alt="Logo de l'association nos amis les oiseaux"> <a class="navbar-brand" href="#">Association Nos Amis les
+            Oiseaux</a>
+    </div>
+</nav>
 
-    <!-- Modal -->
-    <div id="fb-root"></div>
-    <script>(function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.7&appId=218391171579717";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+{% block content %}
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <img src="{{ asset('bundles/gsquadcore/marketing/img/bird_modal.jpg') }}" class="img-responsive" alt="Un oiseau dans une main humaine">
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <h4 class="text-center">Merci d'accepter d'aider l'environnement !</h4>
-                            <p>Nous sommes toujours à la recherche de personnes motivées pour prendre part à notre étude. Accepteriez-vous de parler de nous sur votre réseau social préféré?</p>
-                        </div>
+
+{% endblock %}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <img src="{{ asset('bundles/gsquadcore/marketing/img/bird_modal.jpg') }}" class="img-responsive"
+                             alt="Un oiseau dans une main humaine">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default">Non merci.</a>
-                    <div class="btn btn-primary" data-href="http://nosamislesoiseaux.herokuapp.com/participez-etude-observation-oiseaux"
-                         data-layout="button" data-size="medium" data-mobile-iframe="true"><a
-                                class="fb-xfbml-parse-ignore" target="_blank"
-                                href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnosamislesoiseaux.herokuapp.com%2Fparticipez-etude-observation-oiseaux&amp;src=sdkpreparse"><i class="fa fa-facebook" aria-hidden="true"></i> Bien sur!</a>
+                    <div class="col-lg-12 col-md-12">
+                        <h4 class="text-center">Merci d'accepter d'aider l'environnement !</h4>
+                        <p>Nous sommes toujours à la recherche de personnes motivées pour prendre part à notre étude.
+                            Accepteriez-vous de parler de nous sur votre réseau social préféré?</p>
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default">Non merci.</a>
+                <a href="https://www.facebook.com/dialog/share?app_id=735825999913057&display=popup&href=http%3A%2F%2Fnosamislesoiseaux.herokuapp.com%2F&redirect_uri=http%3A%2F%2Fnosamislesoiseaux.herokuapp.com%2Fregister"
+                   class="btn btn-primary">
+                    <i class="fa fa-facebook" aria-hidden="true"></i> Bien sur!
+                </a>
+            </div>
         </div>
     </div>
+</div>
 
 <!-- jQuery -->
 <script src="{{ asset('assets/jquery/dist/jquery.min.js') }}"></script>
