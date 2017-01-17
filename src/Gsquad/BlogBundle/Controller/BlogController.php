@@ -72,7 +72,7 @@ class BlogController extends Controller
 
         return $this->render('blog/single.html.twig', array(
             'post' => $post,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 
