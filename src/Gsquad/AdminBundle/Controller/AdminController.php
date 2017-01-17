@@ -11,11 +11,13 @@ namespace Gsquad\AdminBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
     /**
      * @Route("/", name="admin")
+     * @Security("has_role('ROLE_REDACTEUR') or has_role('ROLE_CHERCHEUR')")
      */
     public function homeAction()
     {
@@ -24,6 +26,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/mailing", name="mailing")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function mailingAction(Request $request)
     {

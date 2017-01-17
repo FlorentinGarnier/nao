@@ -51,7 +51,10 @@ security:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/admin/blog/, role: ROLE_CONTRIBUTEUR }
+        - { path: ^/admin/users, role: ROLE_ADMIN }
+        - { path: ^/admin/observations, role: ROLE_CHERCHEUR }
+        - { path: ^/admin/mailing, role: ROLE_SUPER_ADMIN }
 
 
 
