@@ -61,7 +61,7 @@ class AdminBlogController extends Controller
     public function addAction(Request $request)
     {
         $user = $this->getUser();
-        dump($user);
+
         $formType = 'Gsquad\BlogBundle\Form\Type\PostType';
         $newPost = new Post();
 
