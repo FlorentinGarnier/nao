@@ -55,7 +55,7 @@
             <div class="text-center">
                 <!--<div>Voir tous les commentaires</div>-->
                 {% endif %}
-                {% if app.user is not null %}
+                {% if is_granted("ROLE_UTILISATEUR") %}
                     <button id="addComment" class="btn-a">Ajouter un commentaire</button>
                 {% else %}
                     <p>Vous devez être connecté pour ajouter un commentaire.</p>

@@ -29,3 +29,9 @@ services:
     gsquad.password_generator:
         class: Gsquad\Utils\PasswordGenerator
 
+    gsquad.users.roles_set:
+        class: Gsquad\UserBundle\EventListener\NewUserRolesSet
+        arguments: ["@fos_user.user_manager", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_subscriber }
+
