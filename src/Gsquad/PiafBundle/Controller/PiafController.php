@@ -470,7 +470,7 @@ class PiafController extends Controller
     }
 
     /**
-     * @Route("/ajout", name="ajout")
+     * @Route("/ajout", name="ajout", schemes="https")
      */
     public function ajoutObservationAction(Request $request)
     {
