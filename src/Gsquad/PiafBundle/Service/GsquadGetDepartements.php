@@ -71,7 +71,7 @@ class GsquadGetDepartements
         $depts["Oise"] = "Oise";
         $depts["Orne"] = "Orne";
         $depts["Pas de Calais"] = "Pas de Calais";
-        $depts["Puy de Dôme"] = "Puy de Dôme";
+        $depts["Puy de Dôme"] = "Puy-de-Dôme";
         $depts["Pyrénées Atlantiques"] = "Pyrénées Atlantiques";
         $depts["Hautes Pyrénées"] = "Hautes Pyrénées";
         $depts["Pyrénées Orientales"] = "Pyrénées Orientales";

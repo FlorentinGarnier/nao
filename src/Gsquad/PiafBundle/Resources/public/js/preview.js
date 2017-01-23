@@ -111,7 +111,7 @@ $(document).ready(function(){
                 data: {},
                 success: function(data) {
                     $('#form_city').val(data['results'][1]['address_components'][0]['long_name']);
-                    $('#form_departement').val(data['results'][3]['address_components'][0]['long_name']);
+                    $('#form_departement').val(data['results'][1]['address_components'][1]['long_name']);
 
                     if($('#form_departement').val() == null) {
                         $('#form_departement option:eq(0)').prop('selected', true);
