@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-xs-12">
                 {% if post.imageName %}
-                    <img src="{{ asset(post.webPath) }}" alt="{{ post.imageName }}" width="250px"
+                    <img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="{{ post.imageName }}" width="250px"
                          class="pull-left img-post"/>
                 {% endif %}
                 <div class="post-content">{{ post.content|raw }}</div>

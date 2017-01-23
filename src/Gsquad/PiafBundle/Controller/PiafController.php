@@ -581,18 +581,20 @@ class PiafController extends Controller
                     $obs->setPiaf($piaf);
 
                     if($form["image"]->getData() != null) {
-                        /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-                        $file = $form["image"]->getData();
+                        $uploader = $this->get('gsquad_storage.photo_uploader');
+                        $url = $uploader->upload($form["image"]->getData());
+
+                        /*$file = $form["image"]->getData();
 
                         $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
                         $file->move(
                             $this->getParameter('images_directory'),
                             $fileName
-                        );
+                        );*/
 
                         $image = new Photo();
-                        $image->setImgUrl($fileName);
+                        $image->setImgUrl($url);
 
                         $em->persist($image);
                         $em->flush();

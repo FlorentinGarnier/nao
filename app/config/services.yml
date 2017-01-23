@@ -44,3 +44,7 @@ services:
                     secret: '%amazon_s3.secret%'
                 region: '%amazon_s3.region%'
                 version: 'latest'
+
+    gsquad_storage.photo_uploader:
+        class: Gsquad\CoreBundle\Service\PhotoUploader
+        arguments: ["@photo_storage_filesystem"]
