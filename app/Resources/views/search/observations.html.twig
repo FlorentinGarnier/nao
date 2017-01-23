@@ -16,7 +16,7 @@
                 </div>
                 {% if piaf.photo %}
                     <div class="col-sm-6">
-                        <img class="img-observation" src="{{ asset('uploads/images/' ~ piaf.getPhoto.imgUrl) }}" />
+                        <img class="img-observation" src="{{ aws_prefix ~ piaf.getPhoto.imgUrl }}" />
                     </div>
                 {% else %}
                     <div class="col-sm-6">
@@ -48,7 +48,7 @@
                     <div class="col-sm-6 col-md-4 text-center fiche">
                         {% if observation.photo %}
                             <div class="cover">
-                                <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                                <img class="img-observation" src="{{ aws_prefix ~ observation.getPhoto.imgUrl }}" />
                             </div>
                         {% else %}
                             <div class="cover">
@@ -91,7 +91,7 @@
                             <div class="col-md-6">
                                 {% if observation.getPhoto %}
                                     <div class="cover">
-                                        <img class="img-observation-modal" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                                        <img class="img-observation-modal" src="{{ aws_prefix ~ observation.getPhoto.imgUrl }}" />
                                     </div>
                                 {% else %}
                                     <div class="cover">

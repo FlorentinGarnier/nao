@@ -136,7 +136,7 @@
             link = '{{ path('observations', {'id': piaf.id} ) }}';
 
             {% if piaf.photo %}
-                imgUrl = '{{ piaf.getPhoto.imgUrl }}';
+                imgUrl = '{{ aws_prefix ~ piaf.getPhoto.imgUrl }}';
             {% endif %}
 
             datas[i] = [

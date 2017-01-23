@@ -15,10 +15,12 @@ class PhotoUploader
 {
     private static $allowedMimeTypes = array('image/jpeg', 'image/png', 'image/gif');
     private $filesystem;
+
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
     }
+
     public function upload(UploadedFile $file)
     {
         // Check if the file's mime type is in the list of allowed mime types.
@@ -32,6 +34,7 @@ class PhotoUploader
         $adapter->write($filename, file_get_contents($file->getPathname()));
         return $filename;
     }
+
     public function uploadFromUrl($url)
     {
         // Get file extension

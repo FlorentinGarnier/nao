@@ -13,7 +13,7 @@
                 <div id="obs-{{ observation.id }}" class="col-sm-6 col-md-4">
                     {% if observation.photo %}
                         <div class="cover">
-                            <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                            <img class="img-observation" src="{{aws_prefix ~ observation.getPhoto.imgUrl}}" />
                         </div>
                     {% endif %}
                     <div class="dropdown">
@@ -58,7 +58,7 @@
                                 <h4 class="modal-title" id="myModalLabel"><p id="espece-{{ observation.id }}">{{ observation.piaf.nameVern }}</p></h4>
                                 {% if observation.getPhoto %}
                                     <div class="cover">
-                                        <img class="img-observation" src="{{ asset('uploads/images/' ~ observation.getPhoto.imgUrl) }}" />
+                                        <img class="img-observation" src="{{aws_prefix ~ observation.getPhoto.imgUrl}}" />
                                     </div>
                                 {% endif %}
                                 <p>Lieu de l'observation : {{ observation.city }}, {{ observation.departement }}</p>

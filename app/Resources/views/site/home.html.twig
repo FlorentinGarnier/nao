@@ -29,7 +29,7 @@
             {% for obs in lastObs %}
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     {% if obs.photo %}
-                        <img src="{{ asset('uploads/images/' ~ obs.photo.imgUrl) }}" alt="{{ obs.piaf.nameVern }}"
+                        <img src="{{aws_prefix ~ obs.photo.imgUrl}}" alt="{{ obs.piaf.nameVern }}"
                              class="img-responsive img-obs">
                     {% else %}
                         <img src="{{ asset('bundles/gsquadpiaf/image/no_image.jpg') }}" alt="{{ obs.piaf.nameVern }}"

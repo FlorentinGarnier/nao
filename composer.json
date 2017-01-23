@@ -79,7 +79,11 @@
         "google_id": "GOOGLE_ID",
         "google_secret": "GOOGLE_SECRET",
         "mailer_user": "MAILER_USER",
-        "mailer_password": "MAILER_PASSWORD"
+        "mailer_password": "MAILER_PASSWORD",
+        "amazon_s3.key": "AMAZON_S3_KEY",
+        "amazon_s3.secret": "AMAZON_S3_SECRET",
+        "amazon_s3.region": "AMAZON_S3_REGION",
+        "aws_s3.bucket": "AMAZON_S3_BUCKET"
       }
     }
   }

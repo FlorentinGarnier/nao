@@ -41,6 +41,8 @@ twig:
     form_themes:
         - 'bootstrap_3_layout.html.twig'
         - 'VichUploaderBundle:Form:fields.html.twig'
+    globals:
+        aws_prefix: 'http://s3-%amazon_s3.region%.amazonaws.com/%aws_s3.bucket%/images/'
 
 # Doctrine Configuration
 doctrine:
