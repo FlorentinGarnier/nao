@@ -55,6 +55,7 @@ security:
         - { path: ^/admin/users, role: ROLE_ADMIN }
         - { path: ^/admin/observations, role: ROLE_CHERCHEUR }
         - { path: ^/admin/mailing, role: ROLE_SUPER_ADMIN }
+        - { path: ^/ajout, role: ROLE_UTILISATEUR, requires_channel: https }
 
 
 
