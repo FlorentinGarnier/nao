@@ -23,3 +23,9 @@ parameters:
     facebook_app_secret: $FACEBOOK_SECRET
     google_app_id: $GOOGLE_ID
     google_app_secret: $GOOGLE_SECRET
+
+    #AWS S3
+    amazon_s3.key: $AMAZON_S3_KEY
+    amazon_s3.secret: $AMAZON_S3_SECRET
+    amazon_s3.region: $AMAZON_S3_REGION
+    aws_s3.bucket: $AMAZON_S3_BUCKET
