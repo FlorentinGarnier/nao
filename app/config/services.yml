@@ -35,3 +35,12 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    gsquad.aws_s3.client:
+        class: Aws\S3\S3Client
+        arguments:
+            -
+                credentials:
+                    key: '%amazon_s3.key%'
+                    secret: '%amazon_s3.secret%'
+                region: '%amazon_s3.region%'
+                version: 'latest'

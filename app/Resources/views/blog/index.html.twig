@@ -29,7 +29,7 @@
                         <article class="col-xs-12 post-block bg-light-green">
                             <h2>{{ post.title }}</h2>
                             {% if post.imageName %}
-                                <img src="{{ asset(post.webPath) }}" alt="{{ post.imageName }}" width="200px" class="pull-left img-post"/>
+                                <img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="{{ post.imageName }}" width="200px" class="pull-left img-post"/>
                             {% endif %}
                             <p class="post-content">{{ (post.content|striptags|slice(0, 500) ~ '...' )|raw}}</p>
                             <span>Le {{ post.creationDate | date('d/m/Y') }} par {{ post.author }}</span>

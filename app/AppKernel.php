@@ -23,7 +23,8 @@ class AppKernel extends Kernel
             new \HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Gsquad\UserBundle\GsquadUserBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new \FOS\UserBundle\FOSUserBundle()
+            new \FOS\UserBundle\FOSUserBundle(),
+            new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

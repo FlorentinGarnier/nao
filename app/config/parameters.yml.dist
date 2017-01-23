@@ -27,3 +27,9 @@ parameters:
 
     #Heroku
     database_url: ~
+
+    #AWS S3
+    amazon_s3.key: ~
+    amazon_s3.secret: ~
+    amazon_s3.region: ~
+    aws_s3.bucket: ~

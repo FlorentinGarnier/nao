@@ -81,10 +81,12 @@ fos_user:
 
 vich_uploader:
     db_driver: orm
+    storage: gaufrette
     mappings:
         post_image:
-            uri_prefix:         /images
-            upload_destination: '%kernel.root_dir%/../web/images'
+            uri_prefix:         http://s3-%amazon_s3.region%.amazonaws.com/%aws_s3.bucket%/images
+            upload_destination: photo_storage
+            namer:              vich_uploader.namer_uniqid
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
@@ -114,3 +116,18 @@ hwi_oauth:
             client_id:           "%google_app_id%"
             client_secret:       "%google_app_secret%"
             scope:               "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+
+knp_gaufrette:
+    stream_wrapper: ~
+    adapters:
+        photo_storage:
+            aws_s3:
+                service_id: 'gsquad.aws_s3.client'
+                bucket_name: '%aws_s3.bucket%'
+                options:
+                    create: true
+                    directory: 'images'
+    filesystems:
+        photo_storage:
+            adapter: photo_storage
+            alias:   photo_storage_filesystem
